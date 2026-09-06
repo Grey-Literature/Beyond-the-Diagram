@@ -1,0 +1,66 @@
+/* Scoped to .quiz and its children only — see Drill.css for why. */
+
+.quiz {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  max-width: 34rem;
+  color: #e6e9ef;
+  line-height: 1.6;
+}
+
+.quiz .quiz-progress {
+  color: #97a1b3;
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.quiz .quiz-symptom {
+  background: #151a22;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  margin: 0 0 1rem;
+}
+
+.quiz .quiz-prompt {
+  color: #97a1b3;
+  margin: 0 0 0.75rem;
+}
+
+.quiz .quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quiz .quiz-options button {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #2a3140;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.quiz .quiz-options button:hover {
+  border-color: #6fd0a8;
+}
+
+.quiz .quiz-result span[data-tier="veteran"] {
+  color: #6fd0a8;
+  font-weight: 600;
+}
+
+.quiz .quiz-result span[data-tier="less-seasoned"] {
+  color: #6fd0a8;
+  font-weight: 600;
+}
+
+.quiz .quiz-explain {
+  color: #97a1b3;
+  font-size: 0.9rem;
+}
+
+.quiz button[type="button"] {
+  margin-top: 0.5rem;
+}

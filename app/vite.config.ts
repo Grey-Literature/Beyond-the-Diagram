@@ -26,6 +26,13 @@ const islands = {
   'drill-ldap-invalid-credentials': resolve(import.meta.dirname, 'src/islands/drill-ldap-invalid-credentials/main.tsx'),
   'case-vlan-loop': resolve(import.meta.dirname, 'src/islands/case-vlan-loop/main.tsx'),
   'drill-switch-no-alerts': resolve(import.meta.dirname, 'src/islands/drill-switch-no-alerts/main.tsx'),
+  'placement-quiz-email-auth': resolve(import.meta.dirname, 'src/islands/placement-quiz-email-auth/main.tsx'),
+  'placement-quiz-ad-gpo': resolve(import.meta.dirname, 'src/islands/placement-quiz-ad-gpo/main.tsx'),
+  'placement-quiz-cloud-identity': resolve(import.meta.dirname, 'src/islands/placement-quiz-cloud-identity/main.tsx'),
+  'placement-quiz-monitoring': resolve(import.meta.dirname, 'src/islands/placement-quiz-monitoring/main.tsx'),
+  'placement-quiz-authn-authz': resolve(import.meta.dirname, 'src/islands/placement-quiz-authn-authz/main.tsx'),
+  'placement-quiz-remote-access': resolve(import.meta.dirname, 'src/islands/placement-quiz-remote-access/main.tsx'),
+  'placement-quiz-prosumer-networking': resolve(import.meta.dirname, 'src/islands/placement-quiz-prosumer-networking/main.tsx'),
 }
 
 // https://vite.dev/config/
