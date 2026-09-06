@@ -2,12 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>app</title>
+    <title>Islands dev sandbox</title>
+    <link rel="stylesheet" href="/src/index.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!--
+      Dev-only sandbox for previewing islands with `npm run dev`. Not part
+      of the production build — vite.config.ts's build.rollupOptions.input
+      only includes island entry points, not this file — and never
+      deployed. Add a mount div + script tag here for each island as it's
+      built, matching the id the island's own main.tsx looks for.
+    -->
+    <div id="drill-http-401-403-root"></div>
+    <script type="module" src="/src/islands/drill-401-403/main.tsx"></script>
   </body>
 </html>

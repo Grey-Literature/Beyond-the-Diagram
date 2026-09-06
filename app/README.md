@@ -1,32 +1,38 @@
-# React + TypeScript + Vite
+# app/ — islands
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is not a single-page app. It's a build tool for **React islands**: small,
+independently-mounted bundles for the pieces of the platform that actually
+hold state (Cases, Classification Drills, the placement quiz). Everything
+else — Labs, concept pages, nav, the landing page — is plain static HTML/CSS
+elsewhere in the repo. See the root [`CLAUDE.md`](../CLAUDE.md) for the full
+rationale.
 
-Currently, two official plugins are available:
+## Adding a new island
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. `src/islands/<name>/` — a component plus a `main.tsx` that mounts it into
+   `document.getElementById('<name>-root')`. See `drill-401-403/` for the
+   pattern.
+2. Colocate scoped CSS with the component (`Component.css`, imported by the
+   component file) — never write element-level selectors (`body`, `button`,
+   ...) that could leak into whatever static page ends up embedding the
+   bundle.
+3. Register the entry in `vite.config.ts`'s `islands` object.
+4. Add a mount div + `<script type="module">` tag to `index.html` so you can
+   preview it locally with `npm run dev`. That file is a dev-only sandbox —
+   it's not part of the production build and never gets deployed.
+5. Use `src/lib/progress.ts` for any state that should survive a reload
+   (localStorage-backed, browser-scoped — no accounts, no backend).
 
-## React Compiler
+## Commands
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm run dev      # sandbox at index.html, all registered islands mounted
+npm run build     # builds each island to dist/islands/<name>.js
+npm run preview   # serves the dist/ build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Deploy — still open
+
+How `dist/islands/*.js` actually reaches the hand-authored static pages
+(committed alongside them vs. built by CI on push) isn't decided yet. See
+`ROADMAP.md` Phase 1.
