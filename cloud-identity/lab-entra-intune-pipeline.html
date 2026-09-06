@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Entra/Intune propagation pipeline — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p, li { line-height: 1.65; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { color: var(--text-dim); font-weight: 600; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/cloud-identity/">&larr; Cloud Identity</a>
+
+  <h1>Lab: the Entra ID / Intune propagation pipeline</h1>
+
+  <p>
+    "It's assigned, why doesn't the user have it" is one of the most common cloud-identity
+    tickets, and it's genuinely ambiguous — the change has to clear several independently-owned
+    stages before it's actually in effect anywhere. This is the same
+    <a href="/concepts/cross-cutting-concepts.html#eventual-consistency">Eventual Consistency</a>
+    pattern as on-prem AD replication, just with cloud-specific names and timings.
+  </p>
+
+  <h2>The five stages</h2>
+  <table>
+    <tr><th>Stage</th><th>What happens</th><th>Typical timing</th></tr>
+    <tr><td>Directory write</td><td>Group owner adds the user, or an admin changes an attribute</td><td>Immediate</td></tr>
+    <tr><td>Inter-node propagation</td><td>Entra Connect delta sync (hybrid only)</td><td>Default every 30 min</td></tr>
+    <tr><td>Membership re-evaluation</td><td>Dynamic group re-computes its member list</td><td><strong>No published SLA</strong></td></tr>
+    <tr><td>Policy delivery</td><td>Intune pushes the assignment via WNS</td><td>Usually minutes — but only for admin-initiated changes</td></tr>
+    <tr><td>Client application</td><td>Device checks in and applies what's new</td><td>Default 8 hrs; Config Refresh tunable to 30 min, default 90 min (deliberately mirroring GPO)</td></tr>
+  </table>
+
+  <div class="callout">
+    Forcing a device sync only ever helps the <em>last</em> stage. If the hold-up is dynamic group
+    re-evaluation — which has no published SLA at all — a forced sync just makes the device check
+    in early against a directory state that hasn't caught up yet. It'll report back cleanly and
+    show nothing new, which can look like "the sync didn't work" when really there was nothing yet
+    for it to find.
+  </div>
+
+  <h2>Session-level caching is a separate, sixth thing</h2>
+  <p>
+    Even once every stage above has finished, a live session can still be running on stale
+    authorization: a Primary Refresh Token (PRT) embeds group membership at the time it was
+    issued, similar to how a Kerberos TGT embeds group SIDs at logon on-prem. A user might need to
+    actually sign out and back in — not just wait — before a completed propagation shows up in
+    their live session.
+  </p>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/cloud-identity/case-entra-group-sync.html">Case: a user still doesn't have an app two hours after being added to the group</a>
+    <a href="/cloud-identity/drill-entra-pending.html">Drill: classify what an "Assignment status: Pending" actually means</a>
+  </div>
+</main>
+</body>
+</html>

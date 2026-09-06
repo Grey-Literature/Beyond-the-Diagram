@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Authentication vs. Authorization — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/authn-authz/">&larr; Authn / Authz</a>
+
+  <h1>Lab: authentication, authorization, and the third category nobody names</h1>
+
+  <p>
+    The core distinction is simple to state and easy to blur under pressure: <strong>authentication</strong>
+    asks "are you who you say you are," <strong>authorization</strong> asks "given that, are you
+    allowed to do this." Most real tickets that look like one are actually the other — or a third
+    thing entirely.
+  </p>
+
+  <h2>Windows has a third category: account state</h2>
+  <p>
+    Locked out, expired password — genuinely neither an authentication nor an authorization
+    failure, but almost always misread as "wrong password" anyway. That misreading has a sharp
+    cost with lockouts specifically: retrying doesn't test anything once an account is locked, it
+    just extends the lockout window further.
+  </p>
+
+  <h2>RADIUS: the client learns nothing</h2>
+  <p>
+    A flat "Access-Reject" is the sharpest real-world example of
+    <a href="/concepts/cross-cutting-concepts.html#trust-boundary-flattening">
+      trust-boundary flattening
+    </a>. The server-side log disambiguates what the client never sees:
+  </p>
+  <ul>
+    <li><strong>Event ID 6273, Reason Code 16</strong> — authentication failure (bad credentials)</li>
+    <li><strong>Event ID 6273, Reason Code 65</strong> — authorization failure (valid credentials, but policy denies network access)</li>
+  </ul>
+  <p>Same client-visible message, opposite root causes, opposite fixes.</p>
+
+  <h2>HTTP's numbers actively mislead you</h2>
+  <div class="callout">
+    <strong>401 "Unauthorized"</strong> actually means <em>not authenticated</em>.
+    <strong>403 "Forbidden"</strong> is the one that actually means authorization failure. Reading
+    the English word carefully isn't enough here — the number means something different from what
+    the word implies, and only knowing the convention resolves it.
+  </div>
+
+  <h2>File shares stack two authorization layers</h2>
+  <p>
+    NTFS permissions and share permissions are independently applied, and the more restrictive of
+    the two always wins. Checking only one and declaring victory is an easy, common mistake.
+  </p>
+
+  <h2>The real bottleneck: teaching a tech to read</h2>
+  <p>
+    Across all of the above, the actual failure mode is rarely ignorance of these definitions —
+    it's pattern-matching on a keyword like "denied" or "failed" and jumping straight to a
+    remembered fix instead of parsing the specific string in front of you. That's the whole reason
+    Classification Drills exist as their own exercise type here, separate from a full Case.
+  </p>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/authn-authz/case-radius-reason-code.html">Case: a VPN login denied, RADIUS says only "Access-Reject"</a>
+    <a href="/authn-authz/drill-http-401-403.html">Drill: classify what HTTP 401 actually means (built in Phase 1, reused here)</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Signal vs. Silence in monitoring — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/monitoring/">&larr; Monitoring</a>
+
+  <h1>Lab: Signal vs. Silence, applied</h1>
+
+  <p>
+    Monitoring is where <a href="/concepts/cross-cutting-concepts.html#signal-vs-silence">Signal
+    vs. Silence</a> shows up in its purest form — nearly every monitoring protocol has its own
+    three-bucket version of the same taxonomy, and confusing the buckets wastes real
+    investigation time.
+  </p>
+
+  <h2>SNMP's three buckets</h2>
+  <ol>
+    <li><strong>No response</strong> — error <code>-2003</code> or a plain timeout. Ambiguous: wrong credentials, wrong version, a blocked port, the service down or bound to localhost only, a restrictive ACL. Any of these look identical from here.</li>
+    <li><strong>"I don't have that"</strong> — <code>No Such Object</code> / <code>No Such Instance</code>. Usually a MIB/OID mismatch, often from a firmware upgrade that silently renumbered an OID. The device answered fine; it just doesn't have anything at that specific address anymore.</li>
+    <li><strong>A value that's genuinely bad</strong> — the only bucket where "go fix the underlying thing" is actually correct.</li>
+  </ol>
+
+  <h2>Ping's nuances are sharper than they look</h2>
+  <ul>
+    <li><strong>"Request timed out"</strong> — genuinely ambiguous, five-plus possible causes.</li>
+    <li><strong>"Destination host unreachable"</strong> — an explicit reply from an <em>intermediate router</em>, not the target. Points at routing, not the destination itself.</li>
+    <li><strong>"Destination port unreachable"</strong> on a UDP probe — counter-intuitively <em>proves the host is alive</em>. Only a live host generates that specific ICMP reply.</li>
+    <li><strong>"Could not find host"</strong> — never even left the resolver stage. The network layer was never touched.</li>
+  </ul>
+  <div class="callout">
+    Four different strings that all read as "ping failed" to someone skimming quickly — and each
+    one points at a completely different layer to check next.
+  </div>
+
+  <h2>The same taxonomy, other protocols</h2>
+  <p>
+    HTTP monitoring maps cleanly: connection refused / DNS failure (no signal) vs. a clean 404 or
+    a TLS handshake with the wrong cert (explicit rejection) vs. a slow-but-200 or a 500 (bad
+    value). Database and log-based monitoring generalize the same way — the buckets are the
+    pattern, not the protocol.
+  </p>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/monitoring/case-snmp-oid-mismatch.html">Case: an SNMP sensor goes red right after a firmware upgrade</a>
+    <a href="/monitoring/drill-ping-port-unreachable.html">Drill: classify what "destination port unreachable" actually proves</a>
+  </div>
+</main>
+</body>
+</html>

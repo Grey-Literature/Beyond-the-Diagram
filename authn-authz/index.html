@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authn / Authz — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .module-nav a {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .module-nav a:hover { border-color: var(--accent); }
+  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
+
+  <div class="status" style="margin-bottom: 1rem;">Seventh module</div>
+  <h1>Authentication vs. Authorization</h1>
+  <p class="lede">
+    Who you are vs. what you're allowed to do — plus a third category (account state) nobody
+    names, and a client-visible layer that's often designed to tell you nothing at all.
+  </p>
+
+  <nav class="module-nav">
+    <a href="/authn-authz/lab-authn-vs-authz.html">
+      <div class="kind">Lab</div>
+      Authn, authz, and the third category nobody names
+      <div class="desc">Account state as its own failure mode, RADIUS Reason Codes, HTTP's misleading numbers, and stacked file-share permissions.</div>
+    </a>
+    <a href="/authn-authz/case-radius-reason-code.html">
+      <div class="kind">Case</div>
+      A VPN login denied, RADIUS says only "Access-Reject"
+      <div class="desc">Symptom only. Gather evidence, then commit to a diagnosis — process and outcome are scored separately.</div>
+    </a>
+    <a href="/authn-authz/drill-http-401-403.html">
+      <div class="kind">Classification Drill</div>
+      HTTP 401 vs. 403
+      <div class="desc">Built in Phase 1 to prove the islands mechanism — this module is where it was always headed. A verbatim response, no other context.</div>
+    </a>
+  </nav>
+</main>
+</body>
+</html>

@@ -117,9 +117,15 @@
   <p class="seen-in">
     See these applied in <a href="/dhcp/">DHCP</a> (Signal vs. Silence — zero DHCPOFFERs; Fail-Open
     vs. Fail-Closed — Event ID 1059), <a href="/dns/">DNS</a> (Signal vs. Silence — NXDOMAIN as
-    real signal, not ambiguous silence), and <a href="/email-auth/">Email Authentication</a>
+    real signal, not ambiguous silence), <a href="/email-auth/">Email Authentication</a>
     (Fail-Open vs. Fail-Closed — SPF's <code>~all</code> vs. <code>-all</code>, the original example
-    this page used above).
+    this page used above), <a href="/cloud-identity/">Cloud Identity</a> (Eventual Consistency —
+    the Entra/Intune propagation pipeline), <a href="/monitoring/">Monitoring</a> (Signal vs.
+    Silence — "destination port unreachable" as proof of life, not failure), <a href="/authn-authz/">Authn/Authz</a>
+    and <a href="/remote-access/">Remote Access</a> (Trust-Boundary Flattening — RADIUS Reason
+    Codes and LDAP sub-error codes, two vendors making the same design choice independently), and
+    <a href="/prosumer-networking/">Abstracted Networking Gear</a> (Signal vs. Silence — a clean
+    dashboard that was never designed to catch the fault in question).
   </p>
 </main>
 </body>

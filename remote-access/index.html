@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remote Access / VPN — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .module-nav a {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .module-nav a:hover { border-color: var(--accent); }
+  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
+
+  <div class="status" style="margin-bottom: 1rem;">Eighth module</div>
+  <h1>Remote Access / VPN</h1>
+  <p class="lede">
+    LDAP-auth appliances instead of RADIUS — a different mechanism, but the same instinct to check
+    the source-of-truth log rather than trust what the client sees.
+  </p>
+
+  <nav class="module-nav">
+    <a href="/remote-access/lab-ldap-appliance-auth.html">
+      <div class="kind">Lab</div>
+      LDAP-auth VPN appliances
+      <div class="desc">Simple bind vs. search-then-bind, the "whole auth path is dead" failure class, the right diagnostic sequence, and a real vendor pattern (Barracuda) worth knowing by name.</div>
+    </a>
+    <a href="/remote-access/case-ldap-appliance-dead.html">
+      <div class="kind">Case</div>
+      Every VPN login fails at once, all "invalid credentials"
+      <div class="desc">Symptom only. Gather evidence, then commit to a diagnosis — process and outcome are scored separately.</div>
+    </a>
+    <a href="/remote-access/drill-ldap-invalid-credentials.html">
+      <div class="kind">Classification Drill</div>
+      LDAP error 49
+      <div class="desc">A verbatim bind failure, no other context. Classify what it could actually be hiding before reacting to it.</div>
+    </a>
+  </nav>
+</main>
+</body>
+</html>

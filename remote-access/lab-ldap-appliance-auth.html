@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: LDAP-auth VPN appliances — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/remote-access/">&larr; Remote Access / VPN</a>
+
+  <h1>Lab: LDAP-auth VPN appliances</h1>
+
+  <p>
+    Not every VPN appliance uses RADIUS. Plenty authenticate straight against AD over LDAP
+    instead — a genuinely different wrinkle, with its own severe failure class that individual
+    password troubleshooting can't touch at all.
+  </p>
+
+  <h2>Simple bind vs. search-then-bind</h2>
+  <p>
+    A simple bind authenticates directly with the user's own credentials. Search-then-bind first
+    logs in as a dedicated <em>service account</em> to search the directory for the user's DN,
+    then binds as that user — which means the appliance's own service account is now a second,
+    independent point of failure that has nothing to do with any end user's password.
+  </p>
+
+  <h2>The severe failure class: the whole auth path is dead</h2>
+  <p>This is categorically different from any individual user's credentials being wrong:</p>
+  <ul>
+    <li>The appliance can't reach a domain controller <em>at all</em></li>
+    <li>A DC's LDAPS certificate quietly expired — a silent, calendar-driven failure with zero connection to any user's password activity</li>
+    <li>In search-then-bind setups, the appliance's own service account is expired, disabled, or locked</li>
+  </ul>
+  <div class="callout">
+    The tell is scope: if <em>every</em> user fails at once, in the same way, testing individual
+    passwords is a waste of time before you've even started. That's the signature of the whole
+    path being down, not any one credential.
+  </div>
+
+  <h2>The diagnostic sequence that actually works</h2>
+  <ol>
+    <li>Substitute a known-good account through the identical path first — if it also fails, the problem is upstream of any individual credential, full stop.</li>
+    <li>Check the appliance's <strong>dedicated auth/debug log</strong>, not its connection/session log — the session log only knows a connection happened and ended, not why.</li>
+    <li>Run <code>ldapsearch</code> from a neutral host using the same service account, to test directory health independent of whatever the appliance chooses to report.</li>
+  </ol>
+
+  <h2>A real vendor pattern worth knowing by name</h2>
+  <p>
+    Barracuda firewalls have a documented failure mode: an MSAD reboot can cause the firewall's
+    own auth service to time out — and not self-recover. It needs a manual service restart even
+    after AD comes back healthy. The general shape: a service holding persistent state to an
+    upstream dependency that doesn't detect the bounce and reconnect gracefully on its own — the
+    same shape as <a href="/ad-gpo/">DCLocator caching a dead DC</a> from the AD/GPO module,
+    just on the appliance side of the fence instead of the client side.
+  </p>
+
+  <h2>A forward-looking note</h2>
+  <p>
+    Windows Server 2025 defaults LDAP server signing requirements to <strong>Require Signing</strong>
+    (2019/2022/2016 defaulted to negotiable). That specifically breaks appliances doing a simple,
+    unsigned bind over plain LDAP:389 — it doesn't force full LDAPS, just signed LDAP or LDAPS with
+    channel binding. Worth confirming vendor support before any DC upgrade.
+  </p>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/remote-access/case-ldap-appliance-dead.html">Case: every VPN login fails at once, all with a generic "invalid credentials"</a>
+    <a href="/remote-access/drill-ldap-invalid-credentials.html">Drill: classify what LDAP error 49 could actually be hiding</a>
+  </div>
+</main>
+</body>
+</html>

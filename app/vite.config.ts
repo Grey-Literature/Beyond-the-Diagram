@@ -17,6 +17,15 @@ const islands = {
   'case-spf-lookup-limit': resolve(import.meta.dirname, 'src/islands/case-spf-lookup-limit/main.tsx'),
   'drill-spf-softfail': resolve(import.meta.dirname, 'src/islands/drill-spf-softfail/main.tsx'),
   'drill-domain-not-available': resolve(import.meta.dirname, 'src/islands/drill-domain-not-available/main.tsx'),
+  'case-entra-group-sync': resolve(import.meta.dirname, 'src/islands/case-entra-group-sync/main.tsx'),
+  'drill-entra-pending': resolve(import.meta.dirname, 'src/islands/drill-entra-pending/main.tsx'),
+  'case-snmp-oid-mismatch': resolve(import.meta.dirname, 'src/islands/case-snmp-oid-mismatch/main.tsx'),
+  'drill-ping-port-unreachable': resolve(import.meta.dirname, 'src/islands/drill-ping-port-unreachable/main.tsx'),
+  'case-radius-reason-code': resolve(import.meta.dirname, 'src/islands/case-radius-reason-code/main.tsx'),
+  'case-ldap-appliance-dead': resolve(import.meta.dirname, 'src/islands/case-ldap-appliance-dead/main.tsx'),
+  'drill-ldap-invalid-credentials': resolve(import.meta.dirname, 'src/islands/drill-ldap-invalid-credentials/main.tsx'),
+  'case-vlan-loop': resolve(import.meta.dirname, 'src/islands/case-vlan-loop/main.tsx'),
+  'drill-switch-no-alerts': resolve(import.meta.dirname, 'src/islands/drill-switch-no-alerts/main.tsx'),
 }
 
 // https://vite.dev/config/
