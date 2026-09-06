@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { getLatestAttempt, recordAttempt } from '../../lib/progress'
 import styles from './Drill.css?raw'
 
-const CONTENT_ID = 'drill-http-401-403'
+const CONTENT_ID = 'drill-dns-nxdomain'
 
 const OPTIONS = [
-  { id: 'authn', label: 'Authentication failure' },
-  { id: 'authz', label: 'Authorization failure' },
-  { id: 'account-state', label: 'Account-state issue (locked, disabled, expired)' },
+  { id: 'no-answer', label: 'No answer at all — ambiguous, could be many things' },
+  { id: 'explicit-rejection', label: 'An explicit, authoritative answer: this name genuinely does not exist in this view' },
+  { id: 'bad-value', label: 'A successful answer that happens to be wrong' },
 ] as const
 
-const CORRECT_ID = 'authn'
+const CORRECT_ID = 'explicit-rejection'
 
 export function Drill() {
   const [choice, setChoice] = useState<string | null>(null)
@@ -34,7 +34,11 @@ export function Drill() {
     <div className="drill">
       <style>{styles}</style>
       <p className="drill-prompt">Classify this response — no other context given:</p>
-      <pre className="drill-string">HTTP/1.1 401 Unauthorized</pre>
+      <pre className="drill-string">
+{`$ nslookup app.internal.example.com 8.8.8.8
+Server:  8.8.8.8
+** server can't find app.internal.example.com: NXDOMAIN`}
+      </pre>
 
       {!revealed && (
         <div className="drill-options">
@@ -49,12 +53,14 @@ export function Drill() {
       {revealed && (
         <div className="drill-feedback" data-correct={choice === CORRECT_ID}>
           <p>
-            {choice === CORRECT_ID ? 'Correct.' : 'Not quite.'} This is an{' '}
-            <strong>authentication</strong> failure — despite the word
-            "Unauthorized," HTTP 401 actually means the request was never
-            authenticated in the first place. 403 Forbidden is the one that
-            actually means authorization failure. The label doesn't map to
-            the definition the way it reads — that's the trap.
+            {choice === CORRECT_ID ? 'Correct.' : 'Not quite.'} <code>NXDOMAIN</code> feels like
+            "nothing happened," but it's actually definitive signal — the resolver got a real,
+            authoritative answer: this name does not exist in whatever zone it asked. That's
+            bucket 2 of{' '}
+            <a href="/concepts/cross-cutting-concepts.html#signal-vs-silence">Signal vs. Silence</a>,
+            not bucket 1. A timeout with no response at all would be the true "no answer" case —
+            this is the opposite of that, even though both can look like "it didn't work" at a
+            glance.
           </p>
           <button type="button" onClick={tryAgain}>
             Try again

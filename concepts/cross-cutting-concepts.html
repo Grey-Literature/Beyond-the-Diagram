@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Cutting Concepts — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  h2 { font-size: 1.1rem; color: var(--accent); margin: 2.5rem 0 0.75rem; }
+  h2:first-of-type { margin-top: 0; }
+  h3 { font-size: 0.95rem; margin: 1.25rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  ol, ul { padding-left: 1.3rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { color: var(--text-dim); font-weight: 600; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .seen-in { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem; }
+  .seen-in a { color: var(--text-dim); }
+  .seen-in a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/concepts/">&larr; Concepts</a>
+
+  <h1>Cross-Cutting Concepts</h1>
+  <p class="lede">
+    Four patterns that show up across almost every protocol and system in this platform. Learn
+    them once here — every domain module links back to this page instead of re-explaining them
+    from scratch.
+  </p>
+
+  <h2 id="signal-vs-silence">Signal vs. Silence</h2>
+  <p>The single most repeated pattern across every domain here. Any failure indication falls into one of three buckets:</p>
+  <ol>
+    <li><strong>No answer at all</strong> — ambiguous, multi-causal, tells you nothing about the target's actual health yet. A ping timeout. An SNMP <code>-2003</code> "no response." A flat RADIUS "Access-Reject." An LDAP appliance whose entire auth path is dead.</li>
+    <li><strong>An explicit rejection or error</strong> — real signal, but not necessarily about health. ICMP "destination host unreachable" from an intermediate router. SNMP "No Such Object." HTTP 403.</li>
+    <li><strong>A successful answer that's simply bad</strong> — the only case where "go fix the underlying thing" is actually the correct next step. An SNMP value over threshold. HTTP 200 with a slow TTFB.</li>
+  </ol>
+  <p>
+    The trap is bucket 1 and bucket 2 both <em>feel</em> like "nothing happened," but they're not
+    the same thing — an explicit rejection is real information you can act on immediately, while
+    true silence means you haven't learned anything about the target yet and need a different
+    probe.
+  </p>
+  <div class="callout">
+    <strong>Why silence happens is itself worth diagnosing.</strong> Sometimes it means you're
+    looking at the wrong OSI layer or the wrong failure domain — the system genuinely believes
+    it's fine, or it's logging the event somewhere you haven't checked. Other times, especially on
+    consumer/prosumer-abstracted gear, silence just reflects how much the vendor decided you
+    needed to see — the device may have a real problem its alerting logic was never designed to
+    surface at all. When neither angle gets you anywhere, the only move left is direct behavioral
+    observation over time (see <a href="/concepts/diagnostic-methodology.html#behavioral-temporal">Diagnostic Methodology</a>).
+  </div>
+
+  <h2 id="eventual-consistency">Eventual Consistency</h2>
+  <p>
+    On-prem AD replication and cloud identity (Entra/Intune) are the <em>same construct</em>
+    wearing different vendor names — a change has to propagate through several independently-owned
+    stages before it's actually in effect everywhere:
+  </p>
+  <table>
+    <tr><th>Stage</th><th>On-prem AD</th><th>Cloud (hybrid)</th></tr>
+    <tr><td>Directory write</td><td>AD attribute change</td><td>Same, on-prem</td></tr>
+    <tr><td>Inter-node propagation</td><td>DC-to-DC replication (<code>repadmin</code>)</td><td>Entra Connect delta sync — default every 30 min</td></tr>
+    <tr><td>Policy delivery</td><td>SYSVOL (DFSR/FRS)</td><td>Intune push via WNS (usually minutes, admin-initiated changes only)</td></tr>
+    <tr><td>Client application</td><td><code>gpupdate</code>, ~90 min refresh + random offset</td><td>Device check-in — default 8 hrs, tunable to 30 min</td></tr>
+    <tr><td>Session-level caching</td><td>Kerberos TGT embeds group SIDs at logon</td><td>Primary Refresh Token can similarly outlive a directory change</td></tr>
+  </table>
+  <p>
+    The instinct to distrust "did it replicate/sync yet" before distrusting the policy logic
+    itself is the same skill regardless of which column you're in — "it's assigned, why doesn't
+    the user have it" can be failing at any one of four-plus independent stages, and forcing a
+    sync only helps if the earlier stages already finished.
+  </p>
+
+  <h2 id="fail-open-vs-fail-closed">Fail-Open vs. Fail-Closed</h2>
+  <p>
+    A design choice, not a bug — but one that produces genuinely confusing symptoms if you don't
+    know it's happening. A system that <strong>fails closed</strong> treats "I couldn't verify
+    this" the same as "this is not allowed," even when the proof might be sitting right there,
+    just not reachable yet.
+  </p>
+  <p>
+    Textbook example: a DHCP server running on a domain controller can't verify its own AD
+    authorization at boot, because AD DS itself isn't fully up yet — and it fails closed, refusing
+    to lease, even though the proof of authorization is sitting on the same disk. Same shape as
+    SPF's <code>-all</code> (hard fail) vs. <code>~all</code> (soft fail) policy choice: one design
+    treats uncertainty as rejection, the other doesn't.
+  </p>
+
+  <h2 id="trust-boundary-flattening">Trust-Boundary Flattening</h2>
+  <p>
+    The more intermediaries a request crosses, the less diagnostic detail survives to the client —
+    often <em>deliberately</em>, for security reasons. Collapsing "account locked" vs. "wrong
+    password" vs. "policy denied" into one generic "access denied" over VPN/RADIUS prevents an
+    attacker from enumerating valid accounts by watching which error comes back.
+  </p>
+  <p>
+    The lesson: when the client-visible symptom is uninformative, that's not a dead end — it's a
+    cue to go to the source-of-truth log on the server or appliance itself, where the real detail
+    was never actually thrown away, just not forwarded.
+  </p>
+
+  <p class="seen-in">
+    See these applied in <a href="/dhcp/">DHCP</a> (Signal vs. Silence — zero DHCPOFFERs; Fail-Open
+    vs. Fail-Closed — Event ID 1059) and <a href="/dns/">DNS</a> (Signal vs. Silence — NXDOMAIN as
+    real signal, not ambiguous silence).
+  </p>
+</main>
+</body>
+</html>

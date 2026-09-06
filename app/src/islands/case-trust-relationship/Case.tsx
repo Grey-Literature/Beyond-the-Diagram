@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { recordAttempt, getLatestAttempt } from '../../lib/progress'
-import './Case.css'
+import styles from './Case.css?raw'
 
 const CONTENT_ID = 'case-trust-relationship'
 
@@ -68,6 +68,7 @@ export function Case() {
 
   return (
     <div className="case">
+      <style>{styles}</style>
       <p className="case-symptom">
         A user calls in: <em>"It says something about a trust relationship, I can't log in."</em>
       </p>

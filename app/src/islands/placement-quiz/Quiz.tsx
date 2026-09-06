@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getPlacement, setPlacement, type Tier } from '../../lib/progress'
-import './Quiz.css'
+import styles from './Quiz.css?raw'
 
 // Per-module placement — this instance is for "Networking Fundamentals".
 // A different module (AD/GPO, cloud identity, ...) gets its own instance
@@ -73,6 +73,7 @@ export function Quiz() {
   if (result) {
     return (
       <div className="quiz">
+        <style>{styles}</style>
         <p className="quiz-result">
           Recommended tier for <strong>Networking Fundamentals</strong>:{' '}
           <span data-tier={result}>{result === 'veteran' ? 'Veteran' : 'Less-seasoned'}</span>
@@ -93,6 +94,7 @@ export function Quiz() {
 
   return (
     <div className="quiz">
+      <style>{styles}</style>
       <p className="quiz-progress">
         Question {index + 1} of {QUESTIONS.length}
       </p>

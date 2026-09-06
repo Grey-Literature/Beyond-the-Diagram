@@ -12,6 +12,8 @@ const islands = {
   'placement-quiz-networking': resolve(import.meta.dirname, 'src/islands/placement-quiz/main.tsx'),
   'case-dhcp-apipa': resolve(import.meta.dirname, 'src/islands/case-dhcp-apipa/main.tsx'),
   'drill-dhcp-1059': resolve(import.meta.dirname, 'src/islands/drill-dhcp-1059/main.tsx'),
+  'case-dns-split-horizon': resolve(import.meta.dirname, 'src/islands/case-dns-split-horizon/main.tsx'),
+  'drill-dns-nxdomain': resolve(import.meta.dirname, 'src/islands/drill-dns-nxdomain/main.tsx'),
 }
 
 // https://vite.dev/config/
@@ -25,11 +27,17 @@ export default defineConfig({
       output: {
         entryFileNames: 'islands/[name].js',
         chunkFileNames: 'islands/chunks/[name]-[hash].js',
-        // No hash on assets (deliberately) — a hand-written static page
-        // needs a stable filename to link a <link rel="stylesheet"> to.
-        // Tradeoff: no cache-busting on CSS changes; acceptable at this
-        // scale. Revisit if/when a real build+deploy pipeline templates
-        // the consuming pages instead of hand-authoring them.
+        // Islands inline their own CSS via a `<style>` tag (see any
+        // component's `import styles from './X.css?raw'`) rather than a
+        // separate linked stylesheet — a consuming static page only ever
+        // needs the one <script> tag. This isn't just simpler: with
+        // unhashed filenames (needed so a hand-written page can link a
+        // stable name), two islands whose CSS ends up byte-identical
+        // after edits get silently deduped into one file by Rollup,
+        // dropping the other's stylesheet entirely — hit this for real
+        // between the DHCP and DNS Drills. Inlining sidesteps the whole
+        // class of bug. Only non-CSS assets (fonts, images) would still
+        // land here if an island ever needs one.
         assetFileNames: 'islands/assets/[name][extname]',
       },
     },

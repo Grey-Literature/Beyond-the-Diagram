@@ -41,11 +41,14 @@ Prove the content model works end-to-end before scaling it across domains. DHCP 
 - [ ] Write the real scenario bank once more domain modules exist (Phase 4) — the 3 questions built so far are a proof, not the final placement content
 - [x] Tier state persists via localStorage, browser-scoped — decided in Phase 1
 
-## Phase 4 — Scale out content
+## Phase 4 — Scale out content (in progress)
 
-- [ ] Remaining domain modules from the concept doc: DNS, email auth (SPF/DKIM/DMARC), AD/GPO, cloud identity (Entra/Intune), monitoring, authn/authz, remote access/VPN, abstracted/prosumer networking gear
-- [ ] Cross-cutting concepts taught once, referenced everywhere (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening)
-- [ ] Named diagnostic methodology as its own reference material (half-splitting, substitution, top-down/bottom-up, "what changed," behavioral/temporal observation, classify-before-diagnose)
+- [x] Cross-cutting concepts taught once, referenced everywhere — `concepts/cross-cutting-concepts.html` (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening). Built *before* the next domain module on purpose, per the concept doc's own instruction that these should be taught early and linked from every module rather than re-derived per-protocol.
+- [x] Named diagnostic methodology as its own reference material — `concepts/diagnostic-methodology.html` (half-splitting, substitution, top-down/bottom-up, "what changed," symptom vs. root cause, behavioral/temporal observation, classify-before-diagnose)
+- [x] Retrofitted the **DHCP** module to actually link into the new concept pages (the Case's zero-DHCPOFFERs feedback now names Signal vs. Silence bucket 1; the Drill's Event 1059 feedback links Fail-Open vs. Fail-Closed) — confirms "referenced from every domain module" isn't just aspirational, it's something older content gets updated for too.
+- [x] **DNS** domain module (`dns/`) — one Lab (`lab-resolution-split-horizon.html`: resolution chain, TTL, split-horizon, registrar cutover), one Case (`case-split-horizon-intranet.html`, island `case-dns-split-horizon` — "works from the office, not from home"), one Drill (`drill-dns-nxdomain.html`, island `drill-dns-nxdomain` — classifying NXDOMAIN as real signal, not ambiguous silence, linking directly to Signal vs. Silence)
+- [ ] Remaining domain modules from the concept doc, not yet started: email auth (SPF/DKIM/DMARC), AD/GPO, cloud identity (Entra/Intune), monitoring, authn/authz, remote access/VPN, abstracted/prosumer networking gear
+- [x] Caught and fixed a second real bug from putting the pieces together, same root cause as Phase 2's deploy-workflow gap (unhashed filenames) but a different asset type: two islands' CSS ended up byte-identical after both got the same `.drill a` link-color rule, and Rollup silently deduped them into one file — `drill-dns-nxdomain.css` would have 404'd on the real page. Fixed properly rather than just renaming around the collision: every island now inlines its CSS via `import styles from './Component.css?raw'` + `<style>{styles}</style>` instead of a linked stylesheet, so no CSS asset is emitted at all and the class of bug can't recur. All seven islands converted, all consuming pages' now-unnecessary `<link rel="stylesheet" href="/islands/assets/...">` tags removed. Caught by the same local dry-run practice as before — assembled `_site/`, served it standalone, clicked through every page — before pushing, not after.
 
 ## Phase 5 — AI Fluency module
 

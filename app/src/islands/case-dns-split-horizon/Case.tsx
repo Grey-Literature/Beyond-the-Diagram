@@ -2,38 +2,38 @@ import { useState } from 'react'
 import { recordAttempt, getLatestAttempt } from '../../lib/progress'
 import styles from './Case.css?raw'
 
-const CONTENT_ID = 'case-dhcp-apipa'
+const CONTENT_ID = 'case-dns-split-horizon'
 
 type Step = 'investigate' | 'diagnose' | 'revealed'
 
 const MOVES = [
   {
-    id: 'pool-stats',
-    label: 'Check DHCP scope statistics for pool exhaustion (Get-DhcpServerv4ScopeStatistics)',
+    id: 'nslookup-internal',
+    label: 'nslookup the hostname against the internal DNS server',
     process: 'ok' as const,
-    evidence: 'The scope shows 340 of 512 addresses still free. Pool exhaustion is ruled out — there\'s no shortage of leases available.',
+    evidence: 'Resolves correctly to the private IP, from a machine on the internal network. Internal resolution is fine — this alone doesn\'t explain what home users see.',
   },
   {
-    id: 'pcap-discover',
-    label: "Packet capture a client's DHCPDISCOVER broadcast",
+    id: 'nslookup-public',
+    label: 'nslookup the hostname against a public resolver (8.8.8.8)',
     process: 'good' as const,
-    evidence: 'Zero DHCPOFFERs come back — not even a slow one. Nothing between the client and the DHCP server is completing the exchange at all.',
+    evidence: 'Public resolution returns a completely different answer than the internal one — an IP that isn\'t reachable from outside the corporate network at all.',
   },
   {
-    id: 'restart-service',
-    label: 'Restart the DHCP Server service and see if it starts leasing again',
+    id: 'hosts-file',
+    label: 'Tell affected users to add a hosts file entry as a workaround',
     process: 'risky' as const,
-    evidence: "The service restarts cleanly and reports healthy. Clients still fall back to APIPA — restarting fixed nothing, because the DHCP server was never actually the problem.",
+    evidence: "It works for the users who do it. It tells you nothing about why the DNS records disagree, and it's now something someone has to remember to remove later.",
   },
 ] as const
 
 const DIAGNOSES = [
-  { id: 'relay-misconfig', label: "The VLAN's switch/router lost its ip helper-address (relay) configuration" },
-  { id: 'server-down', label: 'The DHCP server itself is down or unauthorized in AD' },
-  { id: 'nic-driver', label: 'A bad NIC driver on the affected clients' },
+  { id: 'split-horizon-drift', label: 'Split-horizon DNS: the internal and external views of the zone disagree' },
+  { id: 'ssl-cert', label: "The intranet site's SSL certificate is misconfigured" },
+  { id: 'home-router-dns', label: "A DNS caching bug in users' home routers" },
 ] as const
 
-const CORRECT_DIAGNOSIS = 'relay-misconfig'
+const CORRECT_DIAGNOSIS = 'split-horizon-drift'
 
 export function Case() {
   const [step, setStep] = useState<Step>('investigate')
@@ -67,8 +67,8 @@ export function Case() {
     <div className="case">
       <style>{styles}</style>
       <p className="case-symptom">
-        Users on VLAN 20 report they can't get on the network this morning. Their machines show a{' '}
-        <code>169.254.x.x</code> address.
+        Employees can reach the intranet site by IP but not by name from home — though it works
+        fine, by name, from the office.
       </p>
 
       {step === 'investigate' && (
@@ -101,24 +101,19 @@ export function Case() {
       {step === 'revealed' && move && (
         <div className="case-feedback">
           <p data-correct={diagnosisId === CORRECT_DIAGNOSIS}>
-            {diagnosisId === CORRECT_DIAGNOSIS ? 'Correct outcome.' : 'Not the right outcome.'} A
-            169 address means the client never completed any part of the DHCP exchange — zero
-            offers came back. That's{' '}
-            <a href="/concepts/cross-cutting-concepts.html#signal-vs-silence">
-              bucket 1 of Signal vs. Silence
-            </a>{' '}
-            (true ambiguous silence, not an explicit rejection), and it points upstream of the
-            DHCP server entirely: the VLAN's relay (<code>ip helper-address</code>) configuration
-            is gone. Classic trap: an unrelated switch reboot reverted an unsaved config change,
-            and nothing about it looked like a "recent change" from the DHCP side.
+            {diagnosisId === CORRECT_DIAGNOSIS ? 'Correct outcome.' : 'Not the right outcome.'}{' '}
+            "Works from the office, not from home" is the classic split-horizon fingerprint — the
+            office uses the internal resolver, home uses a public one, and the two views of the
+            zone have drifted apart. This isn't automatically a bug — confirm split-horizon is
+            actually intended for this name before assuming the external view needs fixing.
           </p>
           <p data-process={move.process}>
             {move.process === 'good' &&
-              "Process: the packet capture is decisive — zero offers rules out the DHCP server itself immediately, before you touch anything."}
+              'Process: comparing the two resolvers directly is what actually reveals the split — you can\'t see it from one vantage point alone.'}
             {move.process === 'risky' &&
-              "Process: restarting a service that was never broken doesn't get you evidence, it just costs time and risks masking the real fix if it coincidentally seems to help later."}
+              "Process: the hosts-file workaround fixes the symptom for exactly the people who do it, and leaves the actual DNS drift undiagnosed and unfixed for everyone else."}
             {move.process === 'ok' &&
-              "Process: reasonable check, but it only rules out one cause (pool exhaustion) — it doesn't tell you whether any offer is coming back at all."}
+              "Process: confirms internal resolution works, but a single vantage point can't reveal a split — you need to compare it against another view."}
           </p>
           <button type="button" onClick={reset}>
             Try again

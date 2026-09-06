@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DHCP — Beyond the Diagram</title>
+<title>DNS — Beyond the Diagram</title>
 <link rel="stylesheet" href="/assets/site.css">
 <style>
   body { padding: 2rem 1.25rem; }
@@ -28,30 +28,29 @@
 <main>
   <a class="back-link" href="/">&larr; Beyond the Diagram</a>
 
-  <div class="status" style="margin-bottom: 1rem;">First module</div>
-  <h1>DHCP</h1>
+  <div class="status" style="margin-bottom: 1rem;">Second module</div>
+  <h1>DNS</h1>
   <p class="lede">
-    Start with the Lab if you want the mechanism first. Jump to the Case if you'd rather be
-    handed a symptom and work backwards — that's closer to how it actually shows up. Worth reading
-    <a href="/concepts/">Concepts</a> too — this module leans on Signal vs. Silence and Fail-Open
-    vs. Fail-Closed without re-explaining either.
+    Same shape as <a href="/dhcp/">DHCP</a>: a Lab for mechanism, a Case for methodology under a
+    withheld diagnosis, a Drill for reading a response correctly before reacting to it. The Drill
+    here leans directly on <a href="/concepts/">Signal vs. Silence</a>.
   </p>
 
   <nav class="module-nav">
-    <a href="/dhcp/lab-scope-lease-apipa.html">
+    <a href="/dns/lab-resolution-split-horizon.html">
       <div class="kind">Lab</div>
-      Scope, lease lifecycle, and APIPA fallback
-      <div class="desc">Configure a scope, watch a lease renew and expire, watch what happens when no offer comes back at all.</div>
+      Resolution, TTL, and split-horizon
+      <div class="desc">How the resolution chain actually walks, why stale answers persist, and what split-horizon DNS is (on purpose).</div>
     </a>
-    <a href="/dhcp/case-apipa-fallback.html">
+    <a href="/dns/case-split-horizon-intranet.html">
       <div class="kind">Case</div>
-      "Everyone on VLAN 20 has a 169 address"
+      "It works from the office, not from home"
       <div class="desc">Symptom only. Gather evidence, then commit to a diagnosis — process and outcome are scored separately.</div>
     </a>
-    <a href="/dhcp/drill-dhcp-1059.html">
+    <a href="/dns/drill-dns-nxdomain.html">
       <div class="kind">Classification Drill</div>
-      Event ID 1059
-      <div class="desc">A verbatim Event Viewer entry, no other context. Classify it before you get to see anything else.</div>
+      NXDOMAIN
+      <div class="desc">A verbatim nslookup response, no other context. Classify what it actually tells you.</div>
     </a>
   </nav>
 </main>

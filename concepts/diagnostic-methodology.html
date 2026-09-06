@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnostic Methodology — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.6rem; }
+  h2:first-of-type { margin-top: 0; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .seen-in { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem; }
+  .seen-in a { color: var(--text-dim); }
+  .seen-in a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/concepts/">&larr; Concepts</a>
+
+  <h1>Named Diagnostic Methodology</h1>
+  <p class="lede">
+    Not protocol knowledge — these are the moves that decide what you check next, regardless of
+    which protocol you're in. Every Case on this platform is really testing which of these you
+    reach for.
+  </p>
+
+  <h2>Half-splitting / binary search</h2>
+  <p>
+    Pick a midpoint in your hypothesis space, test it, discard whichever half it rules out.
+    Originates in electronics/radar fault isolation — voltage and continuity checks — and
+    transfers cleanly to computer systems with different test points: a command output or a log
+    line instead of a multimeter reading.
+  </p>
+
+  <h2>Substitution</h2>
+  <p>
+    Swap in a variable known to be good — a known-good account, a second machine, a different DC
+    or resolver — and see whether the failure follows the swap or stays put. Arguably the
+    most-used move in practice: it shows up independently across nearly every real field playbook,
+    from "test with an account that's signed into other systems today" to "try a second machine on
+    the same DC."
+  </p>
+
+  <h2>Top-down vs. bottom-up traversal</h2>
+  <p>
+    Work from the application layer down, or the physical layer up — whichever is cheaper to check
+    first given what you already know about the symptom.
+  </p>
+
+  <h2>"What changed"</h2>
+  <p>
+    Establish the last known-good state before touching anything; most real root causes are a
+    delta, not a mystery. <strong>Caveat:</strong> some failures — stale replication, a certificate
+    hitting its expiry date, a service race condition — have no proximate human "change" at all.
+    Treat this as the default first question, not a guaranteed answer.
+  </p>
+
+  <h2>Symptom vs. root cause</h2>
+  <p>
+    A reboot or a reimage can "fix" something without anyone ever learning why. That's not always
+    wrong under time pressure, but it means the same failure can — and often does — recur later,
+    with nobody any closer to the actual cause the second time either.
+  </p>
+
+  <h2 id="behavioral-temporal">Behavioral / temporal observation</h2>
+  <p>
+    When a tool gives no explicit signal at all — no alert, no log line, nothing to half-split
+    against — the only remaining move is watching state change over time and inferring the fault
+    from the pattern of that change. There's nothing to <em>read</em> here, only something to
+    <em>watch</em> — a genuinely different move from everything else on this list, and the one
+    most easily forgotten because it doesn't feel like "checking" anything.
+  </p>
+
+  <h2>Classify before you diagnose</h2>
+  <p>
+    Sort an error into a category — authentication vs. authorization vs. account-state; signal vs.
+    silence vs. bad-value — before acting on it. This is deliberately its own exercise type
+    (Classification Drills) on this platform, separate from a full Case: the failure mode it
+    targets is pattern-matching on a keyword and jumping to a remembered fix instead of actually
+    parsing what's printed on the screen.
+  </p>
+
+  <p class="seen-in">
+    See <a href="/concepts/cross-cutting-concepts.html">Cross-Cutting Concepts</a> for the
+    failure-mode patterns these techniques get applied to, and <a href="/dhcp/">DHCP</a> /
+    <a href="/dns/">DNS</a> for them in use.
+  </p>
+</main>
+</body>
+</html>

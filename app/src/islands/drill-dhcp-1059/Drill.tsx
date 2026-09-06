@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getLatestAttempt, recordAttempt } from '../../lib/progress'
-import './Drill.css'
+import styles from './Drill.css?raw'
 
 const CONTENT_ID = 'drill-dhcp-1059'
 
@@ -32,6 +32,7 @@ export function Drill() {
 
   return (
     <div className="drill">
+      <style>{styles}</style>
       <p className="drill-prompt">Classify this Event Viewer entry — no other context given:</p>
       <pre className="drill-string">
 {`Event ID: 1059
@@ -58,7 +59,8 @@ is not authorized to start. It has stopped executing.`}
             {choice === CORRECT_ID ? 'Correct.' : 'Not quite.'} This is the classic{' '}
             <strong>DHCP authorization race condition</strong>: on a box that's both a domain
             controller and a DHCP server, the DHCP Server service can start before NTDS is ready
-            to answer the AD authorization query — and the check <strong>fails closed</strong>,
+            to answer the AD authorization query — and the check{' '}
+            <a href="/concepts/cross-cutting-concepts.html#fail-open-vs-fail-closed">fails closed</a>,
             treating "couldn't verify yet" the same as "not authorized," even though the proof is
             sitting on the same disk. Fix: a <code>DependOnService = NTDS</code> registry value on
             the DHCPServer service (older OS versions used Delayed Start instead). It looks

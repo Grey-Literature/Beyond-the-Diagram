@@ -17,11 +17,6 @@
   h2 { font-size: 0.95rem; color: #97a1b3; }
   hr { border: none; border-top: 1px solid #2a3140; margin: 2.5rem 0; }
 </style>
-<link rel="stylesheet" href="/islands/assets/drill-http-401-403.css">
-<link rel="stylesheet" href="/islands/assets/case-trust-relationship.css">
-<link rel="stylesheet" href="/islands/assets/placement-quiz-networking.css">
-<link rel="stylesheet" href="/islands/assets/case-dhcp-apipa.css">
-<link rel="stylesheet" href="/islands/assets/drill-dhcp-1059.css">
 </head>
 <body>
   <h1>Islands demo — proves the built bundles work embedded in a plain static page, no dev server involved.</h1>
@@ -53,5 +48,17 @@
   <h2>Drill — DHCP Event 1059</h2>
   <div id="drill-dhcp-1059-root"></div>
   <script type="module" src="/islands/drill-dhcp-1059.js"></script>
+
+  <hr>
+
+  <h2>Case — DNS split-horizon</h2>
+  <div id="case-dns-split-horizon-root"></div>
+  <script type="module" src="/islands/case-dns-split-horizon.js"></script>
+
+  <hr>
+
+  <h2>Drill — DNS NXDOMAIN</h2>
+  <div id="drill-dns-nxdomain-root"></div>
+  <script type="module" src="/islands/drill-dns-nxdomain.js"></script>
 </body>
 </html>

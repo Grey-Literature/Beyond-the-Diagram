@@ -12,10 +12,26 @@ rationale.
 1. `src/islands/<name>/` — a component plus a `main.tsx` that mounts it into
    `document.getElementById('<name>-root')`. See `drill-401-403/` for the
    pattern.
-2. Colocate scoped CSS with the component (`Component.css`, imported by the
-   component file) — never write element-level selectors (`body`, `button`,
-   ...) that could leak into whatever static page ends up embedding the
-   bundle.
+2. Colocate scoped CSS with the component (`Component.css`), but **import it
+   as a raw string and render it inline** rather than a normal CSS import:
+   ```tsx
+   import styles from './Component.css?raw'
+   // ...
+   return (
+     <div className="my-island">
+       <style>{styles}</style>
+       {/* ... */}
+     </div>
+   )
+   ```
+   This isn't just style preference — with unhashed asset filenames (needed
+   so a hand-written page can link a stable name), two islands whose CSS
+   ends up byte-identical after edits get silently deduped into one file by
+   Rollup, dropping the other's stylesheet. Hit this for real between the
+   DHCP and DNS Drills. Inlining means a consuming page only ever needs the
+   `<script>` tag, never a matching `<link rel="stylesheet">` to remember
+   and keep in sync. Still: never write element-level selectors (`body`,
+   `button`, ...) in that CSS — it mounts into someone else's page.
 3. Register the entry in `vite.config.ts`'s `islands` object.
 4. Add a mount div + `<script type="module">` tag to `index.html` so you can
    preview it locally with `npm run dev`. That file is a dev-only sandbox —
