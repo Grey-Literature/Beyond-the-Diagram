@@ -9,17 +9,18 @@ A working backlog, not a spec. A lot of this is genuinely undecided per the conc
 - [x] Plain static "under construction" landing page (`index.html`), deployable as-is via the existing CNAME
 - [x] Vite + React + TypeScript scaffold in `app/` — exploratory, unwired from deployment
 
-## Phase 1 — Tech skeleton
+## Phase 1 — Tech skeleton (done)
 
 Resolve enough of the stack question to start building for real. Doesn't need to be the final answer, just enough to stop blocking content work.
 
 - [x] Decide: fully static site, fully React app, or hybrid — **hybrid**. Static for anything without state (Labs, concept pages, AI Fluency module — that one's a static prompt-comparison example, no live model call, no backend needed); React only for Cases/Drills/placement quiz, each its own independently-mounted island, not one SPA with a router. Full description in CLAUDE.md.
 - [x] Strip `app/`'s stock Vite+React template (counter demo, logos, docs/social links); reconfigure as a multi-entry build — one entry per island — instead of a single-page app
-- [x] Build the shared localStorage progress/state wrapper (`src/lib/progress.ts`, browser-scoped, no accounts) that islands import
-- [x] First island working end-to-end: **Classification Drill** (`src/islands/drill-401-403/`) — HTTP 401-vs-403 case, verified in-browser including localStorage persistence across reload
-- [ ] Second island: a **Case** (investigation path + score, process scored separately from outcome)
-- [ ] Third island: the **placement quiz** (behavioral tier inference)
-- [ ] Decide on hosting/deploy path now that `app/` produces real build output: still GitHub Pages with built JS committed alongside the hand-written HTML, or a GitHub Action that builds `app/` on push and drops output where the static pages reference it? (Currently on GitHub Pages fronted by Cloudflare proxy/DNS, not Cloudflare Pages.)
+- [x] Build the shared localStorage progress/state wrapper (`src/lib/progress.ts`, browser-scoped, no accounts) that islands import — extended with a `meta` field (for process-vs-outcome scoring) and per-module tier storage as the second and third islands needed them
+- [x] First island: **Classification Drill** (`src/islands/drill-401-403/`) — HTTP 401-vs-403 case
+- [x] Second island: a **Case** (`src/islands/case-trust-relationship/`) — "trust relationship" error, investigate-then-diagnose flow, process scored separately from outcome via `Attempt.meta.processGood`
+- [x] Third island: the **placement quiz** (`src/islands/placement-quiz/`) — 3 behavioral questions, tallies veteran-vs-less-seasoned signal, persists a per-module tier (`networking-fundamentals` is the only module wired up so far)
+- [x] Decide on hosting/deploy path — **GitHub Actions**, not committed build output. `.github/workflows/deploy.yml` builds `app/` on push to `main`, assembles a `_site/` from the root's hand-written `index.html` + `CNAME` plus `app/dist/islands/`, and deploys via `actions/deploy-pages`. Verified locally end-to-end: built the islands, served the repo root as plain static files (no Vite dev server) via `python -m http.server`, and confirmed `islands-demo.html` mounts all three correctly from `/islands/*.js` — proves the actual deploy shape, not just the dev sandbox. Asset filenames are unhashed (`islands/assets/<name>.css`) specifically so a hand-written page can link them by a stable name.
+- [ ] **Still needed, not done tonight:** enable GitHub Actions as the Pages source in the repo's own Settings → Pages (currently unset) — the workflow can't actually deploy until that's flipped on.
 
 ## Phase 2 — First vertical slice
 
@@ -34,8 +35,9 @@ Prove the content model works end-to-end before scaling it across domains. DHCP 
 
 ## Phase 3 — Placement & tiering
 
-- [ ] Design the behavioral placement quiz (show real symptoms/error strings, infer tier from what the learner reaches for — not self-report)
-- [ ] Per-module tiering (not global) — a learner can place as veteran in networking and beginner in AD/GPO
+- [x] Behavioral placement quiz mechanism built in Phase 1 (`src/islands/placement-quiz/`) — 3 symptom/first-move questions, infers tier from what's chosen, not self-report. Only the **Networking Fundamentals** module is wired up so far.
+- [ ] Per-module tiering is supported by the mechanism (`getPlacement`/`setPlacement` take a `moduleId`) but only proven for one module — still need a second module (e.g. AD/GPO) to confirm a learner can genuinely place differently across modules, not just in theory
+- [ ] Write the real scenario bank once more domain modules exist (Phase 4) — the 3 questions built so far are a proof, not the final placement content
 - [x] Tier state persists via localStorage, browser-scoped — decided in Phase 1
 
 ## Phase 4 — Scale out content
@@ -58,7 +60,7 @@ Prove the content model works end-to-end before scaling it across domains. DHCP 
 
 ## Open questions carried forward (from the concept doc)
 
-- **Tech stack** — resolved (hybrid: static + React islands; see CLAUDE.md). What's still open is the build/deploy mechanics — last bullet of Phase 1.
+- **Tech stack** — fully resolved: hybrid (static + React islands) and the build/deploy mechanics (GitHub Actions → GitHub Pages) both settled in Phase 1. Only remaining step is flipping on the Pages "GitHub Actions" source in repo settings.
 - **Scope** — internal tool for a specific team/org vs. broader public release. Affects tone, hosting, and whether the "Grey Literature" branding is public-facing.
 - **Version/vendor drift strategy** — teach mechanism as timeless with drift as a named side-topic (leaning direction per the concept doc), vs. pinning cases to specific versions. Decide once enough case content exists to see how often drift actually bites.
 - **Placement quiz content** — mechanism is decided (behavioral, not self-report); the actual scenario bank still needs writing (Phase 3).

@@ -8,6 +8,8 @@ import { defineConfig } from 'vite'
 // router — add a new entry here for each island as it's built.
 const islands = {
   'drill-http-401-403': resolve(import.meta.dirname, 'src/islands/drill-401-403/main.tsx'),
+  'case-trust-relationship': resolve(import.meta.dirname, 'src/islands/case-trust-relationship/main.tsx'),
+  'placement-quiz-networking': resolve(import.meta.dirname, 'src/islands/placement-quiz/main.tsx'),
 }
 
 // https://vite.dev/config/
@@ -21,7 +23,12 @@ export default defineConfig({
       output: {
         entryFileNames: 'islands/[name].js',
         chunkFileNames: 'islands/chunks/[name]-[hash].js',
-        assetFileNames: 'islands/assets/[name]-[hash][extname]',
+        // No hash on assets (deliberately) — a hand-written static page
+        // needs a stable filename to link a <link rel="stylesheet"> to.
+        // Tradeoff: no cache-busting on CSS changes; acceptable at this
+        // scale. Revisit if/when a real build+deploy pipeline templates
+        // the consuming pages instead of hand-authoring them.
+        assetFileNames: 'islands/assets/[name][extname]',
       },
     },
   },

@@ -6,16 +6,18 @@ This platform teaches both halves: the *mechanism* (how DHCP, DNS, AD, and the r
 
 ## Status
 
-🚧 **Early / under construction.** Repo scaffolding is in place; content and app haven't been built yet. See [ROADMAP.md](ROADMAP.md) for the working plan and [it-troubleshooting-platform-concept.md](it-troubleshooting-platform-concept.md) for the full design concept this is built from.
+🚧 **Early / under construction.** Repo scaffolding is in place, the tech stack and deploy pipeline are decided (Phase 1 of the roadmap), and three proof-of-concept islands exist (a Classification Drill, a Case, and the placement quiz). Real content — the actual domain modules — hasn't been built yet. See [ROADMAP.md](ROADMAP.md) for the working plan and [it-troubleshooting-platform-concept.md](it-troubleshooting-platform-concept.md) for the full design concept this is built from.
 
-Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaskeys.com) *(once GitHub Pages is enabled for this repo)*
+Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaskeys.com) *(once GitHub Pages' source is switched to "GitHub Actions" in this repo's settings)*
 
 ## Structure
 
 - [`it-troubleshooting-platform-concept.md`](it-troubleshooting-platform-concept.md) — the source design doc. Origin/vision, content architecture (Labs / Cases / Classification Drills), cross-cutting concepts, domain modules, and open design questions. This is the canonical reference; other docs here summarize or operationalize it rather than repeating it.
 - [`ROADMAP.md`](ROADMAP.md) — phased build plan derived from the concept doc.
 - `index.html` — plain static landing page (no build step), deployed as-is via GitHub Pages.
-- `app/` — Vite + React + TypeScript scaffold. Exploratory; not yet wired into the deployed site.
+- `islands-demo.html` — a QA page referencing the built island bundles directly; only meaningful once deployed (see `.github/workflows/deploy.yml`).
+- `app/` — Vite + React + TypeScript islands (see `app/README.md`). Built here, deployed alongside the static pages above by CI — see root `CLAUDE.md` for the full split.
+- `.github/workflows/deploy.yml` — builds `app/` and deploys the assembled site to GitHub Pages on every push to `main`.
 
 ## Local dev
 

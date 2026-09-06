@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Islands demo</title>
+<meta name="robots" content="noindex">
+<style>
+  body {
+    margin: 0;
+    padding: 2rem;
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    background: #0e1116;
+    color: #e6e9ef;
+  }
+  h1 { font-size: 1.1rem; color: #97a1b3; font-weight: normal; }
+  h2 { font-size: 0.95rem; color: #97a1b3; }
+  hr { border: none; border-top: 1px solid #2a3140; margin: 2.5rem 0; }
+</style>
+<link rel="stylesheet" href="/islands/assets/drill-http-401-403.css">
+<link rel="stylesheet" href="/islands/assets/case-trust-relationship.css">
+<link rel="stylesheet" href="/islands/assets/placement-quiz-networking.css">
+</head>
+<body>
+  <h1>Islands demo — proves the built bundles work embedded in a plain static page, no dev server involved.</h1>
+
+  <h2>Drill</h2>
+  <div id="drill-http-401-403-root"></div>
+  <script type="module" src="/islands/drill-http-401-403.js"></script>
+
+  <hr>
+
+  <h2>Case</h2>
+  <div id="case-trust-relationship-root"></div>
+  <script type="module" src="/islands/case-trust-relationship.js"></script>
+
+  <hr>
+
+  <h2>Placement quiz</h2>
+  <div id="placement-quiz-networking-root"></div>
+  <script type="module" src="/islands/placement-quiz-networking.js"></script>
+</body>
+</html>

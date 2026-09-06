@@ -31,8 +31,11 @@ npm run build     # builds each island to dist/islands/<name>.js
 npm run preview   # serves the dist/ build
 ```
 
-## Deploy — still open
+## Deploy
 
-How `dist/islands/*.js` actually reaches the hand-authored static pages
-(committed alongside them vs. built by CI on push) isn't decided yet. See
-`ROADMAP.md` Phase 1.
+`.github/workflows/deploy.yml` builds this on every push to `main` and
+assembles the deployed site from the repo root's hand-written pages plus
+`dist/islands/`. Nothing here gets committed to git — see root `CLAUDE.md`.
+`../islands-demo.html` references the built paths directly, so it's only
+meaningful once deployed (or against a local static simulation of the
+assembled site) — use `index.html` here for day-to-day dev instead.

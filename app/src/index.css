@@ -12,4 +12,17 @@ body {
   padding: 2rem;
   font-family: system-ui, sans-serif;
   background: #0e1116;
+  color: #e6e9ef;
+}
+
+h2 {
+  font-size: 1rem;
+  color: #97a1b3;
+  margin: 0 0 1rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #2a3140;
+  margin: 2.5rem 0;
 }
