@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: SPF, DKIM, DMARC — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p, li { line-height: 1.65; }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.9rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+  }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  pre code { background: none; padding: 0; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/email-auth/">&larr; Email Authentication</a>
+
+  <h1>Lab: SPF, DKIM, and DMARC</h1>
+
+  <p>
+    Three separate mechanisms that get lumped together because they usually get configured
+    together — but they check different things, and they break in different ways.
+  </p>
+
+  <h2>1. SPF: a hard ceiling nobody notices until it's crossed</h2>
+  <p>An SPF record is just a TXT record listing who's allowed to send as your domain:</p>
+  <pre><code>v=spf1 include:_spf.google.com include:sendgrid.net include:mailchimp.com ~all</code></pre>
+  <p>
+    Each <code>include:</code> is a DNS lookup — and each of <em>those</em> can trigger more
+    lookups if the included record itself has includes. RFC 7208 caps the total at
+    <strong>10 DNS lookups</strong>, full stop. Cross it, and the record doesn't just ignore the
+    overflow — the entire check returns <code>PermError</code>, which fails mail for
+    <strong>every sender on the domain</strong>, not just whichever integration happened to push
+    the count over ten.
+  </p>
+  <div class="callout">
+    This is a genuinely counterintuitive failure mode: the instinct is to blame whichever SaaS
+    tool was added most recently, but the record fails as a whole regardless of which entry tipped
+    it over. Removing the newest addition might drop the count back under ten and "fix" it — or it
+    might not, if an earlier entry was actually the one pushing the total past the ceiling.
+    Counting is the only way to know, not guessing from recency.
+  </div>
+
+  <h2>2. DKIM: breaks on migration, not on traffic</h2>
+  <p>
+    DKIM signs outgoing mail with a private key; the public half lives in a DNS TXT record at a
+    predictable name:
+  </p>
+  <pre><code>selector1._domainkey.example.com</code></pre>
+  <p>
+    Unlike SPF, DKIM rarely fails under normal operation — there's no lookup ceiling to cross.
+    It breaks almost exclusively at two moments: a DNS provider migration where the selector
+    record doesn't get recreated, or a routine key rotation on the sending provider's side that
+    the DNS side never picks up. Both are "nothing changed from where you're sitting" failures —
+    the mail server's configuration is identical, but the public key it's pointing to no longer
+    matches.
+  </p>
+
+  <h2>3. DMARC: usually an alignment problem, not a broken record</h2>
+  <p>
+    DMARC doesn't check anything new by itself — it checks whether SPF and/or DKIM
+    <strong>align</strong> with the domain in the visible <code>From:</code> header. A third-party
+    sender (a marketing platform, a support ticketing tool) can pass SPF and DKIM cleanly
+    <em>for its own domain</em> while the message's visible <code>From:</code> shows your domain —
+    that's a DMARC alignment failure, and it's the far more common real-world case than the DMARC
+    record itself being wrong.
+  </p>
+
+  <div class="callout">
+    <strong>Worth getting right, since it's easy to misquote:</strong> Google and Yahoo's 2024
+    bulk-sender authentication requirements (SPF + DKIM + DMARC, one-click unsubscribe) apply at
+    <strong>5,000 emails/day</strong>, not 500. A lower "500/day" figure, if you've heard it
+    somewhere, is more likely a specific ESP or relay's own internal tier — not the well-known
+    public rule everyone's actually citing.
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/email-auth/case-spf-lookup-limit.html">Case: marketing mail starts bouncing for everyone right after a new tool gets added</a>
+    <a href="/email-auth/drill-spf-softfail.html">Drill: classify what <code>~all</code> actually does when SPF fails</a>
+  </div>
+</main>
+</body>
+</html>

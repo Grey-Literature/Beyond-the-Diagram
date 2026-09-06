@@ -14,6 +14,8 @@ const islands = {
   'drill-dhcp-1059': resolve(import.meta.dirname, 'src/islands/drill-dhcp-1059/main.tsx'),
   'case-dns-split-horizon': resolve(import.meta.dirname, 'src/islands/case-dns-split-horizon/main.tsx'),
   'drill-dns-nxdomain': resolve(import.meta.dirname, 'src/islands/drill-dns-nxdomain/main.tsx'),
+  'case-spf-lookup-limit': resolve(import.meta.dirname, 'src/islands/case-spf-lookup-limit/main.tsx'),
+  'drill-spf-softfail': resolve(import.meta.dirname, 'src/islands/drill-spf-softfail/main.tsx'),
 }
 
 // https://vite.dev/config/

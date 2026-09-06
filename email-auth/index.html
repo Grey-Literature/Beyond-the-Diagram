@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Authentication — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .module-nav a {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .module-nav a:hover { border-color: var(--accent); }
+  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
+
+  <div class="status" style="margin-bottom: 1rem;">Third module</div>
+  <h1>Email Authentication (SPF / DKIM / DMARC)</h1>
+  <p class="lede">
+    Three mechanisms that get configured together and blamed on each other when something breaks
+    — but they fail in genuinely different shapes. The Drill here deepens
+    <a href="/concepts/">Fail-Open vs. Fail-Closed</a>, which the concept doc already uses SPF to
+    illustrate.
+  </p>
+
+  <nav class="module-nav">
+    <a href="/email-auth/lab-spf-dkim-dmarc.html">
+      <div class="kind">Lab</div>
+      SPF's lookup ceiling, DKIM's migration fragility, DMARC's alignment check
+      <div class="desc">What each mechanism actually verifies, and the specific way each one tends to break.</div>
+    </a>
+    <a href="/email-auth/case-spf-lookup-limit.html">
+      <div class="kind">Case</div>
+      "Mail started bouncing for everyone after we added a new tool"
+      <div class="desc">Symptom only. Gather evidence, then commit to a diagnosis — process and outcome are scored separately.</div>
+    </a>
+    <a href="/email-auth/drill-spf-softfail.html">
+      <div class="kind">Classification Drill</div>
+      <code>~all</code> vs. what it looks like it should mean
+      <div class="desc">A verbatim SPF record, no other context. Classify what it actually does before reacting to it.</div>
+    </a>
+  </nav>
+</main>
+</body>
+</html>
