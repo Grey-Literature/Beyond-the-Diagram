@@ -38,6 +38,19 @@ rationale.
    it's not part of the production build and never gets deployed.
 5. Use `src/lib/progress.ts` for any state that should survive a reload
    (localStorage-backed, browser-scoped — no accounts, no backend).
+6. **Watch the whitespace in prose-heavy JSX.** When a text line ends and
+   the next line starts with an inline element, JSX drops the newline
+   *without* substituting a space — so
+   ```tsx
+   ... A missing
+   <code>Access-Control-Allow-Origin</code> header ...
+   ```
+   renders as "A missingAccess-Control-Allow-Origin header". Write
+   `{' '}` at the end of the text line whenever the next line opens with
+   `<code>`, `<em>`, `<a>` or `<strong>`. Hit this for real in the CORS
+   Drill; it's invisible in the source and only shows up when you read
+   the rendered page text back, so do that rather than eyeballing the
+   component.
 
 ## Commands
 

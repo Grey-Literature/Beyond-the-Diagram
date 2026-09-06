@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Packet captures with AI help — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  .compare { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0; }
+  .compare div {
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .compare .bad { border-color: #d97a6c; }
+  .compare .good { border-color: var(--accent); }
+  .compare .tag { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.4rem; }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/ai-fluency/">&larr; AI Fluency</a>
+
+  <h1>Lab: Packet captures with AI help</h1>
+
+  <p>
+    There's a mechanical problem here before there's an interesting one, and it stops most people
+    on the first move.
+  </p>
+
+  <h2>The mechanical problem: it's a binary file</h2>
+  <p>
+    A <code>.pcap</code> / <code>.pcapng</code> is binary. Most AI tools can't parse one directly,
+    and the ones that claim to are generally converting it behind the scenes anyway. You have to
+    extract a text slice first — which means you need enough filter syntax to narrow the extract
+    to the conversation you actually care about:
+  </p>
+<pre>tshark -r capture.pcapng \
+  -Y "bootp || dns" \
+  -T fields -e frame.time -e ip.src -e ip.dst -e _ws.col.Info</pre>
+  <p>
+    That <code>-Y</code> display filter is the whole ballgame. A 400 MB capture off a busy VLAN is
+    not something you hand to anything, human or otherwise — you narrow it to a protocol, a host
+    pair, and a time window first.
+  </p>
+  <div class="callout">
+    Notice what that filtering step actually <em>is</em>:
+    <a href="/concepts/diagnostic-methodology.html">half-splitting</a>, one layer earlier than you'd
+    normally apply it. You're reducing the haystack before anything looks at it, not asking
+    something else to search the whole haystack for you. Same discipline, different target.
+  </div>
+
+  <h2>The real problem: an anomaly needs a baseline</h2>
+  <p>
+    Here's the part worth naming directly, because it's the part that doesn't get taught. An AI
+    staring at a reduced capture still can't tell you what's wrong with it — and neither can a
+    person — without knowing what was <em>supposed</em> to happen. Anomaly detection is a
+    comparison. If you don't supply the other side of it, there's nothing to compare against, and
+    what comes back is either a generic protocol tutorial or a confident invention.
+  </p>
+  <p>
+    Call this <strong>baseline articulation</strong>: being able to state, before you look, which
+    endpoint should be talking to which, over what protocol, in what order, and roughly how often.
+  </p>
+
+  <div class="compare">
+    <div class="bad">
+      <span class="tag">No baseline</span>
+      "Here's a packet capture from a machine that can't get an IP. What's wrong?"
+      <br><br>
+      Best case, you get a description of what DHCP is. Worst case, you get a confident
+      identification of an "anomaly" that's completely normal traffic, because nothing in the
+      prompt let it distinguish normal from abnormal.
+    </div>
+    <div class="good">
+      <span class="tag">Baseline stated</span>
+      "This client on VLAN 20 should broadcast a DHCPDISCOVER, and our relay should forward it to
+      the DHCP server at 10.0.4.5, which should return a DHCPOFFER within a couple of retries.
+      Here's a filtered extract of all bootp traffic from this client's MAC over 90 seconds. Tell
+      me which of those steps you can and can't see, and don't fill in anything you don't
+      actually observe in the data."
+    </div>
+  </div>
+
+  <p>
+    That second prompt does three things the first doesn't: it states the expected sequence, it
+    scopes the evidence, and it explicitly forbids filling gaps with plausible invention. The
+    answer it gets back is checkable — you can look at the extract and confirm or refute every
+    claim in it.
+  </p>
+
+  <h2>Where the baseline actually comes from</h2>
+  <p>
+    Directly from the domain modules. You cannot write "should get a DHCPOFFER back from 10.0.4.5
+    within a couple of retries" without already understanding
+    <a href="/dhcp/lab-scope-lease-apipa.html">the DHCP lease cycle</a> and knowing your own relay
+    topology. You cannot state the expected DNS resolution chain without
+    <a href="/dns/lab-resolution-split-horizon.html">knowing what the chain is</a>.
+  </p>
+  <p>
+    So this sub-skill isn't really a new AI trick. It's the AI-fluency module and the
+    protocol-mechanism modules meeting in the middle: <strong>you</strong> supply the expected
+    topology and protocol context, the AI helps comb the reduced extract for violations of it.
+    Take away your half and it has nothing to work with. That's not a limitation to work around —
+    it's the correct division of labor.
+  </p>
+
+  <h2>What to include when you hand over an extract</h2>
+  <ul>
+    <li><strong>The expected sequence</strong>, step by step, in the order it should occur.</li>
+    <li><strong>Named endpoints and their roles</strong> — which IP is the client, the relay, the server, the gateway.</li>
+    <li><strong>The capture point.</strong> A capture taken at the client sees a completely different world than one taken at the server or on a SPAN port mid-path — and "no DHCPOFFER visible" means something entirely different depending on where you were standing.</li>
+    <li><strong>The time window and the filter you applied</strong>, so absence can be interpreted. If you filtered to <code>bootp</code>, an absence of DNS traffic proves nothing.</li>
+    <li><strong>An instruction not to infer beyond the data.</strong> "Only tell me what you can actually see in these lines" is worth typing every time.</li>
+  </ul>
+  <div class="callout">
+    That fourth point is <a href="/concepts/cross-cutting-concepts.html#signal-vs-silence">Signal
+    vs. Silence</a> showing up again, in a form that's easy to miss: in a filtered capture, silence
+    is ambiguous by construction — you can't tell "it didn't happen" from "I filtered it out"
+    unless you say what you filtered.
+  </div>
+
+  <div class="exercise">
+    <h3>Try it</h3>
+    <p>
+      Take a capture of something working normally — not something broken. A single machine
+      renewing a DHCP lease, or resolving a name, is plenty.
+    </p>
+    <ol>
+      <li>Write the baseline <em>first</em>, before you look at the capture. Which endpoints, which protocol, what order, roughly what timing.</li>
+      <li>Filter and export a text slice with <code>tshark</code>, scoped to that conversation.</li>
+      <li>Hand both to an AI and ask it which steps of your stated baseline it can and can't observe.</li>
+      <li>Then check its answer against the extract yourself, line by line.</li>
+    </ol>
+    <p>
+      Doing this on known-good traffic is the point: you already know the answer, so you can catch
+      it inventing. Get comfortable spotting that on traffic you understand before you rely on it
+      for traffic you don't.
+    </p>
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/ai-fluency/lab-browser-console-literacy.html">Lab: reading a browser console — the other literacy gap ITOps rarely gets taught</a>
+    <a href="/ai-fluency/case-ai-near-miss.html">Case: what happens when you take a confident answer at face value</a>
+    <a href="/dhcp/lab-scope-lease-apipa.html">Lab: the DHCP lease cycle — where a real baseline for the example above comes from</a>
+  </div>
+</main>
+</body>
+</html>

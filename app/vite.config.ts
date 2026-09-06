@@ -33,6 +33,10 @@ const islands = {
   'placement-quiz-authn-authz': resolve(import.meta.dirname, 'src/islands/placement-quiz-authn-authz/main.tsx'),
   'placement-quiz-remote-access': resolve(import.meta.dirname, 'src/islands/placement-quiz-remote-access/main.tsx'),
   'placement-quiz-prosumer-networking': resolve(import.meta.dirname, 'src/islands/placement-quiz-prosumer-networking/main.tsx'),
+  'case-ai-near-miss': resolve(import.meta.dirname, 'src/islands/case-ai-near-miss/main.tsx'),
+  'drill-unpaired-question': resolve(import.meta.dirname, 'src/islands/drill-unpaired-question/main.tsx'),
+  'drill-console-cors': resolve(import.meta.dirname, 'src/islands/drill-console-cors/main.tsx'),
+  'placement-quiz-ai-fluency': resolve(import.meta.dirname, 'src/islands/placement-quiz-ai-fluency/main.tsx'),
 }
 
 // https://vite.dev/config/

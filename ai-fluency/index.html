@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Fluency — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 1.25rem; }
+  .note {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 0 0 2rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .module-nav a {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .module-nav a:hover { border-color: var(--accent); }
+  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
+
+  <div class="status" style="margin-bottom: 1rem;">Meta-skill module</div>
+  <h1>AI Fluency</h1>
+  <p class="lede">
+    Not a domain module — a meta-skill that sits on top of all of them. Every technique here is
+    gated on already knowing where the evidence lives, which is what the other nine modules are
+    for. This one is about getting an AI to help you find it instead of confidently pointing you
+    at the wrong thing.
+  </p>
+  <div class="note">
+    Nothing on these pages calls a model. The prompt comparisons are worked examples with the
+    responses written out; the exercise is to run them yourself, against whatever AI tool you
+    actually use, and compare what comes back.
+  </div>
+
+  <nav class="module-nav">
+    <a href="/ai-fluency/lab-pull-prompt.html">
+      <div class="kind">Lab</div>
+      The pull-prompt
+      <div class="desc">Ask the AI to interview you instead of answer you — and demand a verification method with every question it asks. Side-by-side weak and strong prompts, both responses written out.</div>
+    </a>
+    <a href="/ai-fluency/lab-packet-capture-with-ai.html">
+      <div class="kind">Lab</div>
+      Packet captures with AI help
+      <div class="desc">A .pcap is binary and most tools can't read it. Reducing it to a text slice is itself half-splitting — and the AI still can't spot an anomaly until you state the baseline.</div>
+    </a>
+    <a href="/ai-fluency/lab-browser-console-literacy.html">
+      <div class="kind">Lab</div>
+      Reading a browser console
+      <div class="desc">Four console errors worth recognizing on sight, and the three-bucket sort: yours to fix, the dev team's, or your infrastructure wearing a web-shaped disguise.</div>
+    </a>
+    <a href="/ai-fluency/case-ai-near-miss.html">
+      <div class="kind">Case</div>
+      The AI's answer is confident, well-written, and wrong
+      <div class="desc">Symptom only — plus a plausible AI diagnosis you didn't ask to be tested on. Process and outcome are scored separately.</div>
+    </a>
+    <a href="/ai-fluency/drill-unpaired-question.html">
+      <div class="kind">Classification Drill</div>
+      A narrowing question with no way to check it
+      <div class="desc">A verbatim AI reply. Classify it before you answer it.</div>
+    </a>
+    <a href="/ai-fluency/drill-console-cors.html">
+      <div class="kind">Classification Drill</div>
+      A CORS error in the console
+      <div class="desc">Whose problem is this? The reflex answer is right often enough to be dangerous.</div>
+    </a>
+    <a href="/ai-fluency/placement-quiz.html">
+      <div class="kind">Placement</div>
+      AI Fluency tier check
+      <div class="desc">Behavioral, not self-report. Skip this and start with the Lab if you'd rather not bother.</div>
+    </a>
+  </nav>
+</main>
+</body>
+</html>

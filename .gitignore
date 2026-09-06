@@ -5,6 +5,11 @@ node_modules/
 dist/
 dist-ssr/
 
+# Local dry-run of the deployed site (see .github/workflows/deploy.yml —
+# CI assembles this itself; a local copy is only ever for verifying the
+# real deploy shape before pushing).
+_site/
+
 # Env files
 .env
 .env.local

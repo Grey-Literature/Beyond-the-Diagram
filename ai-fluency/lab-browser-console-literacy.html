@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Reading a browser console — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .anchor {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+  }
+  .anchor h3 { margin: 0 0 0.5rem; color: var(--text); }
+  .anchor .bucket {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+  .anchor p { margin: 0.5rem 0 0; font-size: 0.92rem; }
+  .buckets { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+  .buckets div {
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/ai-fluency/">&larr; AI Fluency</a>
+
+  <h1>Lab: Reading a browser console</h1>
+
+  <p>
+    This is a genuinely distinct literacy gap for a lot of ITOps people, and it's not a character
+    flaw — most of us were never taught how a web page actually works. If you live in IP
+    addresses, DNS records, and directory objects, a console log looks like noise from someone
+    else's job.
+  </p>
+  <p>
+    The cost of that isn't just missed information. It's <em>misclassification in both
+    directions</em>: dismissing something as "an app problem, not mine" when it's your
+    infrastructure, or escalating "the network is broken" when it's application code. Both burn a
+    day and some credibility.
+  </p>
+
+  <h2>The 60-second model of what's happening</h2>
+  <p>
+    A page isn't one thing arriving. The browser fetches an HTML document, then reads it and
+    fetches everything it references — scripts, stylesheets, images, fonts — each as its own
+    separate request, potentially to entirely different hosts. Once running, the page's JavaScript
+    makes further requests of its own in the background to APIs.
+  </p>
+  <p>
+    Two consequences worth internalizing:
+  </p>
+  <ul>
+    <li>
+      <strong>"The page loaded" doesn't mean everything worked.</strong> The document can arrive
+      perfectly while a dozen sub-requests fail. That's why a page can look subtly broken with no
+      error message anywhere — the errors are in the console, and nowhere else.
+    </li>
+    <li>
+      <strong>One page can span several hosts and several trust boundaries.</strong> "The site is
+      down" from a user might mean one background API call to a different domain is failing while
+      everything else is fine.
+    </li>
+  </ul>
+  <p>
+    Open it with <code>F12</code> (or Ctrl+Shift+I / Cmd+Option+I) and look at two tabs:
+    <strong>Console</strong> for errors the page raised, <strong>Network</strong> for what was
+    actually requested and what came back. Network is usually the more useful of the two for
+    infrastructure work — it shows status codes, timing, and the real response headers.
+  </p>
+
+  <h2>Four errors worth recognizing on sight</h2>
+
+  <div class="anchor">
+    <span class="bucket">Could be yours</span>
+    <h3>CORS: "blocked by CORS policy"</h3>
+<pre>Access to fetch at 'https://api.internal.example.com/v1/status' from origin
+'https://portal.internal.example.com' has been blocked by CORS policy: No
+'Access-Control-Allow-Origin' header is present on the requested resource.</pre>
+    <p>
+      Usually a backend header misconfiguration — genuinely the dev team's. <strong>But</strong> an
+      SSL-inspecting corporate proxy that decrypts, rewrites, and re-signs responses can strip or
+      mangle that header on the way through. Then it's your infrastructure producing an error
+      that reads as application code. Recognizing "this might be my proxy, not their app" is the
+      valuable move, and the reason this one can't be reflexively forwarded.
+    </p>
+    <p>
+      Cheapest disambiguation: request the endpoint from inside the inspected path and from
+      outside it, and compare the raw response headers.
+    </p>
+  </div>
+
+  <div class="anchor">
+    <span class="bucket">Usually the dev team's</span>
+    <h3>Mixed content</h3>
+<pre>Mixed Content: The page at 'https://portal.example.com/' was loaded over HTTPS,
+but requested an insecure resource 'http://portal.example.com/js/legacy.js'.
+This request has been blocked; the content must be served over HTTPS.</pre>
+    <p>
+      An HTTP resource referenced from an HTTPS page. Almost always leftover from an incomplete
+      HTTPS migration — a hardcoded <code>http://</code> URL somebody missed. The browser blocks
+      it silently, so the page just looks subtly broken with no visible error unless the console
+      is open. Worth knowing precisely because there's nothing to see from the outside.
+    </p>
+  </div>
+
+  <div class="anchor">
+    <span class="bucket">Squarely yours</span>
+    <h3>net::ERR_CONNECTION_REFUSED / "Failed to fetch"</h3>
+<pre>GET https://api.internal.example.com/v1/status
+net::ERR_CONNECTION_REFUSED</pre>
+    <p>
+      This is an actual connectivity failure — nothing answered, or something actively refused.
+      DNS, routing, firewall, or a service that isn't listening. This is the one entry on this
+      list that reliably means "go network-troubleshoot," where the others mostly don't.
+    </p>
+    <p>
+      It's also the useful contrast for the CORS error above: a CORS message proves the response
+      <em>arrived</em> — the browser read it and objected to a header. If nothing had arrived,
+      you'd be looking at this error instead.
+    </p>
+  </div>
+
+  <div class="anchor">
+    <span class="bucket">Could be yours</span>
+    <h3>Certificate warnings</h3>
+<pre>GET https://intranet.example.com/
+net::ERR_CERT_AUTHORITY_INVALID</pre>
+    <p>
+      Expired cert, incomplete chain, hostname mismatch — or an inspecting device re-signing the
+      connection with a CA the client doesn't trust. The error text alone doesn't distinguish
+      them, and the most common cause is not always the actual one. Read the certificate the
+      <em>affected client</em> actually received, not the one you see from your own desk. The
+      <a href="/ai-fluency/case-ai-near-miss.html">Case in this module</a> is built entirely
+      around that distinction.
+    </p>
+  </div>
+
+  <h2>Classify before you diagnose</h2>
+  <p>
+    Same move as the <a href="/authn-authz/">authn/authz</a> module, applied to a domain ITOps
+    traditionally never gets taught at all. Before reacting to console output, sort it:
+  </p>
+  <div class="buckets">
+    <div><strong>1. Mine to fix.</strong> Connectivity, DNS, certificates, proxy behavior, firewall.</div>
+    <div><strong>2. Escalate to the dev team.</strong> Application logic, backend headers, an incomplete migration in their code.</div>
+    <div><strong>3. My infrastructure wearing a web-shaped disguise.</strong> The dangerous bucket — it reads as bucket 2 and belongs in bucket 1. Inspecting proxies are the usual culprit.</div>
+  </div>
+  <p>
+    Bucket 3 is why this is a <a href="/concepts/diagnostic-methodology.html">classification
+    exercise</a> and not a lookup table. The reflex — "console error, therefore app team" — is
+    right often enough to feel reliable, which is exactly what makes it expensive the times it
+    isn't.
+  </p>
+
+  <div class="callout">
+    <strong>Where AI helps here, and where it doesn't.</strong> Pasting a verbatim console error
+    and asking what it's asserting is a legitimately good use — it's a translation task, and
+    they're good at translation. Asking "whose problem is this?" is not, because that answer
+    depends on your topology: whether you run an SSL-inspecting proxy, whether that user is behind
+    it, what your migration state is. Supply that context or expect the statistically-common
+    answer, which is bucket 2 every time.
+  </div>
+
+  <div class="exercise">
+    <h3>Try it</h3>
+    <p>
+      Open the console on an internal web app you support — one that works fine — and just read
+      what's already there. Most production sites have several errors and warnings sitting in the
+      console at all times.
+    </p>
+    <ol>
+      <li>Sort each one into the three buckets above.</li>
+      <li>For each, write one sentence on how you'd confirm your classification rather than assume it.</li>
+      <li>Paste one you can't classify, verbatim, into an AI — and ask what the error is asserting, not who's at fault.</li>
+    </ol>
+    <p>
+      Doing this on a working app is deliberate: you learn what normal console noise looks like,
+      which is the only way to recognize abnormal later.
+    </p>
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/ai-fluency/drill-console-cors.html">Drill: classify a CORS error before deciding whose problem it is</a>
+    <a href="/ai-fluency/case-ai-near-miss.html">Case: a certificate warning, a confident AI answer, and a re-signing proxy</a>
+    <a href="/concepts/diagnostic-methodology.html">Reference: classify before you diagnose</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: The pull-prompt — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .exchange {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    margin: 1rem 0 1.5rem;
+    overflow: hidden;
+  }
+  .exchange .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+  }
+  .exchange .you, .exchange .ai { padding: 0.9rem 1rem; }
+  .exchange .you {
+    border-bottom: 1px dashed var(--border);
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .exchange .ai { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); }
+  .exchange .ai p:first-child { margin-top: 0; }
+  .exchange .ai p:last-child { margin-bottom: 0; }
+  .exchange .ai ol, .exchange .ai ul { margin: 0.5rem 0; padding-left: 1.2rem; }
+  .exchange[data-verdict="weak"] { border-color: #d97a6c; }
+  .exchange[data-verdict="strong"] { border-color: var(--accent); }
+  .verdict { font-size: 0.88rem; margin: -0.75rem 0 1.5rem; line-height: 1.6; }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/ai-fluency/">&larr; AI Fluency</a>
+
+  <h1>Lab: The pull-prompt</h1>
+
+  <p>
+    The failure mode this fixes is specific. A tech in a high-uncertainty state — vague symptom,
+    no idea where to start — pastes the symptom into an AI and gets back one of two things: a
+    single confident-sounding guess they implement without testing, or a generic list of
+    possibilities with no way to check any of them.
+  </p>
+  <p>
+    Both waste time. The second one is arguably worse, because it <em>looks</em> helpful. A
+    well-organized list of five plausible causes feels like progress right up until you realize
+    you're no closer to knowing which one it is than before you asked.
+  </p>
+
+  <h2>The same problem, asked two ways</h2>
+  <p>
+    Here's a real-shaped scenario: <strong>Monday morning, users at one branch office can't reach
+    the file server. It worked Friday. Nobody reports changing anything.</strong>
+  </p>
+
+  <h3>The push prompt — asking for an answer</h3>
+
+  <div class="exchange" data-verdict="weak">
+    <div class="label">You</div>
+    <div class="you">users at our branch office can't access the file server this morning, worked fine friday, what's wrong?</div>
+    <div class="label">AI</div>
+    <div class="ai">
+      <p>
+        This is most commonly a DNS resolution issue — after a weekend of DHCP lease renewals,
+        clients often pick up a stale or incorrect DNS server and can no longer resolve the file
+        server's hostname. Here's what to look at:
+      </p>
+      <ol>
+        <li><strong>DNS resolution</strong> — verify clients can resolve the file server's FQDN.</li>
+        <li><strong>SMB service state</strong> — confirm the Server service is running and listening on 445.</li>
+        <li><strong>Firewall rules</strong> — check whether anything is blocking SMB between the branch subnet and the server.</li>
+        <li><strong>Share and NTFS permissions</strong> — confirm the affected users still have access rights.</li>
+        <li><strong>Network path</strong> — verify routing between the branch and the site hosting the file server.</li>
+        <li><strong>Authentication</strong> — check for expired passwords or a broken secure channel on the clients.</li>
+      </ol>
+      <p>Start with DNS, as that's the most likely culprit given the symptoms.</p>
+    </div>
+  </div>
+
+  <p class="verdict">
+    Be honest about this answer: it isn't stupid. Every item on that list is a real thing that
+    really causes this. It's well-organized, it's fast, and it sounds like it was written by
+    someone who's done this before. That's exactly the problem — it's confident enough to steer
+    you. An unsure tech reads "start with DNS" and spends the next twenty minutes on DNS. And
+    notice what the list <em>doesn't</em> contain: a single instruction for how to check any of
+    the six items, or any way to tell which one you're actually looking at. It narrowed nothing.
+    It restated the search space and put a confident guess on top.
+  </p>
+
+  <h3>The pull-prompt — asking to be interviewed</h3>
+
+  <div class="exchange" data-verdict="strong">
+    <div class="label">You</div>
+    <div class="you">I'm troubleshooting an IT issue and I want you to interview me, not answer me.
+
+Symptom: users at one branch office can't reach a file server this morning. It worked Friday. No known changes.
+
+My scope: I'm a tier-2 tech with domain admin, RMM agents on all endpoints and servers, read access to the firewall, and remote console to the switches. There is nobody physically on site today.
+
+Don't propose a fix yet. Ask me ONE diagnostic question at a time, chosen to eliminate as much of the possibility space as it can. For each question, tell me exactly how to check the answer — the specific command, log, or tool — because I may not already know how to test it. Also tell me what each possible answer would rule out.</div>
+    <div class="label">AI</div>
+    <div class="ai">
+      <p><strong>Question 1:</strong> Is this affecting every user at that branch, or only some of them?</p>
+      <p>
+        <strong>How to check:</strong> Don't poll users — that's slow and their reports are
+        unreliable. Use your RMM to run <code>Test-NetConnection &lt;fileserver&gt; -Port 445</code>
+        on three or four endpoints at that site, including at least one machine nobody has
+        reported a problem on. If you can, run the same test from a machine at a
+        <em>different</em> site as a control.
+      </p>
+      <p>
+        <strong>What the answers rule out:</strong> If every branch endpoint fails and the control
+        site succeeds, this is site-scoped — network path, routing, or firewall — and we can drop
+        per-user permissions, passwords, and anything client-specific entirely. If only some
+        branch machines fail, it's not the path, and we look at what those machines have in common.
+        If the control site fails too, the branch is a red herring and the server itself is the
+        problem.
+      </p>
+      <p>Tell me what you get and I'll pick the next split from there.</p>
+    </div>
+  </div>
+
+  <p class="verdict">
+    Same model, same scenario, roughly the same amount of typing. The difference isn't the AI's
+    intelligence — it's what you asked it to do. One question, chosen to cut the space roughly in
+    half, with a concrete way to answer it and a stated consequence for each outcome. That's
+    <a href="/concepts/diagnostic-methodology.html">half-splitting</a>, applied to a conversation
+    instead of a wire.
+  </p>
+
+  <h2>The part techs actually get wrong</h2>
+  <p>
+    It isn't enough for the AI to ask a good narrowing question. "Is this one user or everyone?"
+    is a genuinely good split — and completely useless to someone who doesn't know
+    <em>how</em> to establish that. Faced with an unpaired question, a tech under pressure will
+    do one of three things: guess, answer from impression ("I think it's everyone?"), or go ask
+    users and take their word for it. All three feed bad data into the next split, and every
+    question after that inherits the error.
+  </p>
+  <div class="callout">
+    <strong>The actual skill</strong> is noticing when a question arrives without a check attached,
+    and asking for the pairing out loud rather than answering anyway. One sentence does it:
+    <em>"How would I check that? I have RMM, firewall read access, and no one on site."</em>
+    <br><br>
+    The knowledge of where that evidence lives is what the rest of this platform's
+    <a href="/">domain modules</a> are for. That's why AI fluency can't be a standalone
+    module — it's the thing that makes the other modules usable in the moment you need them.
+  </div>
+
+  <h2>The rest of the pattern</h2>
+  <ul>
+    <li>
+      <strong>Feed it evidence incrementally.</strong> The loop only works if you report back what
+      you actually found after each check. Otherwise it keeps reasoning from your increasingly
+      stale opening description instead of from real data.
+    </li>
+    <li>
+      <strong>State scope and capability up front</strong> — your role, your access level, your
+      tooling (RMM, packet capture, admin rights, remote-hands-only). Skip this and it burns turns
+      suggesting things you can't do, or worse, assumes an access level you don't have and hands
+      you a plan that dead-ends three steps in.
+    </li>
+    <li>
+      <strong>Paste verbatim, never paraphrase.</strong> "It says something about a trust issue" is
+      already lossy — you've thrown away the distinction between
+      <a href="/ad-gpo/">"the trust relationship failed" and "the domain is not available"</a>
+      before the AI ever saw it. Same "learn to read what's actually printed" discipline that
+      applies to reading an error yourself, applied to what you feed in.
+    </li>
+    <li>
+      <strong>Treat its hypothesis like a search result, never a verdict.</strong> An AI can produce
+      a confident, well-written, wrong answer with exactly the shape of a forum post that matches
+      your symptom but not your cause. Verify against the live system before you act on it —
+      that's the entire point of the <a href="/ai-fluency/case-ai-near-miss.html">Case</a> in this
+      module.
+    </li>
+    <li>
+      <strong>Know when the loop isn't worth it.</strong> Production is down, you need hands on
+      keyboard now, and you have two strong candidates — just check them. A multi-turn interview
+      costs more than it saves under acute pressure. This pattern earns its keep in the "lots of
+      unknowns, no idea where to start" state it was designed for, and nowhere else.
+    </li>
+  </ul>
+
+  <div class="exercise">
+    <h3>Now run both yourself</h3>
+    <p>
+      Reading a comparison isn't the exercise. The responses above are worked examples — yours
+      will differ, and the differences are the interesting part. Take a symptom you're
+      <em>currently</em> stuck on, or the last one that took you too long, and run it twice
+      through whatever AI tool you actually use.
+    </p>
+    <p><strong>First, the push version.</strong> Type the symptom the way you'd normally type it:</p>
+<pre>&lt;your symptom, one or two sentences, the way you'd normally ask&gt;</pre>
+    <p><strong>Then, in a fresh conversation, the pull version:</strong></p>
+<pre>I'm troubleshooting an IT issue and I want you to interview me, not answer me.
+
+Symptom: &lt;symptom, verbatim error text if you have one&gt;
+
+My scope: &lt;your role, access level, and available tooling — RMM, packet
+capture, admin rights, remote hands, whatever you actually have&gt;
+
+Don't propose a fix yet. Ask me ONE diagnostic question at a time, chosen
+to eliminate as much of the possibility space as it can. For each question,
+tell me exactly how to check the answer — the specific command, log, or
+tool — because I may not already know how to test it. Also tell me what
+each possible answer would rule out.</pre>
+    <p>Then compare, and specifically check these:</p>
+    <ul>
+      <li>Did the push version lead with a confident single cause? Would you have chased it?</li>
+      <li>Did the pull version's first question actually split the space, or just ask for detail?</li>
+      <li>
+        Did every question come with a real check attached — a command, a log path, a tool — or
+        did any arrive unpaired? When one does, demand the pairing and note what you get back.
+      </li>
+      <li>
+        Run the pull loop for three or four turns, feeding back real results. Did it narrow, or
+        did it start recycling the same suggestions? Recycling usually means you stopped giving
+        it new evidence.
+      </li>
+    </ul>
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/ai-fluency/case-ai-near-miss.html">Case: the AI's answer is confident, well-written, and wrong</a>
+    <a href="/ai-fluency/drill-unpaired-question.html">Drill: classify a narrowing question that has no check attached</a>
+    <a href="/ai-fluency/lab-packet-capture-with-ai.html">Lab: packet captures with AI help — where the same discipline meets binary evidence</a>
+  </div>
+</main>
+</body>
+</html>
