@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: DHCP scope, lease lifecycle, and APIPA — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 38rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  p { line-height: 1.65; }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.9rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+  }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  pre code { background: none; padding: 0; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/dhcp/">&larr; DHCP</a>
+
+  <h1>Lab: DHCP scope, lease lifecycle, and APIPA fallback</h1>
+
+  <p>
+    Three things to actually watch happen, in order: configuring a scope, a lease going through
+    its full renewal cycle, and what a client does when no offer comes back at all. The goal
+    isn't memorizing the commands — it's building the mental model that makes the Case and Drill
+    for this module make sense.
+  </p>
+
+  <h2>1. Configure a scope</h2>
+  <p>A scope is just a range the server is allowed to hand out, plus the options that go with it:</p>
+  <pre><code>Add-DhcpServerv4Scope `
+  -Name "VLAN20-Clients" `
+  -StartRange 10.20.0.100 -EndRange 10.20.0.200 `
+  -SubnetMask 255.255.255.0 -State Active</code></pre>
+  <p>
+    Default lease duration is 8 days unless you set it otherwise. That number matters more than
+    it looks like it should — it's the clock everything in the next section runs on.
+  </p>
+
+  <h2>2. Watch a lease actually happen, then expire</h2>
+  <p>A successful lease is a four-message exchange, always in this order:</p>
+  <pre><code>DHCPDISCOVER  (client, broadcast)  &rarr;
+DHCPOFFER     (server, unicast)    &rarr;
+DHCPREQUEST   (client, broadcast — yes, still broadcast, even though it now knows the server)  &rarr;
+DHCPACK       (server, unicast)</code></pre>
+  <p>Once a client has a lease, check it from the server side:</p>
+  <pre><code>Get-DhcpServerv4Lease -ScopeId 10.20.0.0</code></pre>
+  <p>
+    The lease doesn't just sit there until it dies — the client tries to renew it twice, on a
+    schedule set by the lease duration:
+  </p>
+  <ul>
+    <li><strong>T1 (50% of the lease)</strong> — client sends a unicast <code>DHCPREQUEST</code> straight back to the server that issued the lease. Quiet, one-to-one, usually invisible unless you're capturing traffic.</li>
+    <li><strong>T2 (87.5% of the lease)</strong> — if T1 got no answer, the client gives up on that specific server and broadcasts instead, asking <em>any</em> DHCP server to renew it (rebinding).</li>
+    <li><strong>Lease expiry</strong> — if T2 also gets nothing, the client drops the address entirely. It doesn't fall back to the old one "just in case."</li>
+  </ul>
+  <div class="callout">
+    This is why a saturated pool can look completely healthy for days: renewal traffic is
+    unicast and low-volume, so a pool that's technically full can keep serving existing clients
+    right up until something needs a brand-new lease and there's nothing left to give it.
+    <code>Get-DhcpServerv4ScopeStatistics</code> is how you'd actually catch that before it bites.
+  </div>
+
+  <h2>3. Watch APIPA kick in when nothing comes back</h2>
+  <p>
+    If a client's <code>DHCPDISCOVER</code> gets zero offers — server down, relay broken upstream,
+    pool exhausted, doesn't matter which — Windows clients self-assign a
+    <code>169.254.x.x</code> address after a short timeout, rather than sitting with no address at
+    all. That's Automatic Private IP Addressing (APIPA).
+  </p>
+  <p>
+    The important part: a 169 address doesn't tell you <em>why</em> nothing came back, only that
+    <em>nothing did</em>. The client never got past step one of the exchange above. That's
+    genuinely useful information — it rules out anything that would require the exchange to have
+    completed — but it's the start of an investigation, not the end of one.
+  </p>
+  <p>
+    The only way to see this directly is on the wire: filter a capture on <code>bootp || dhcp</code>
+    and look for a <code>DHCPDISCOVER</code> with no reply at all within the retry window.
+  </p>
+
+  <h2>What this sets up</h2>
+  <p>Same scenario, two different angles:</p>
+  <div class="next-links">
+    <a href="/dhcp/case-apipa-fallback.html">Case: you're handed the 169-address symptom cold — no lab context, just the ticket</a>
+    <a href="/dhcp/drill-dhcp-1059.html">Drill: a related but different DHCP failure mode — an authorization check that fails closed</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/* Shared base for hand-written static pages (index.html, dhcp/*, islands-demo.html).
+   Color tokens + reset + small reusable bits. Page-specific layout stays
+   in each page's own <style> block. */
+
+:root {
+  --bg: #0e1116;
+  --panel: #151a22;
+  --border: #2a3140;
+  --text: #e6e9ef;
+  --text-dim: #97a1b3;
+  --accent: #6fd0a8;
+  --accent-dim: #3d7a5f;
+  font-size: 16px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --border: #dde1e8;
+    --text: #1a1e26;
+    --text-dim: #565f70;
+    --accent: #1f8a5e;
+    --accent-dim: #bfe8d6;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace;
+}
+
+a {
+  color: var(--accent);
+}
+
+pre, code {
+  font-family: inherit;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+
+.status::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}

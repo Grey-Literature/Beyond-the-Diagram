@@ -1,0 +1,91 @@
+/* Scoped to .case and its children only — see Drill.css for why. */
+
+.case {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  max-width: 34rem;
+  color: #e6e9ef;
+  line-height: 1.6;
+}
+
+.case code {
+  background: #0e1116;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+}
+
+.case .case-symptom {
+  background: #151a22;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  margin: 0 0 1rem;
+}
+
+.case .case-prompt {
+  color: #97a1b3;
+  margin: 0 0 0.75rem;
+}
+
+.case .case-evidence {
+  padding: 0.75rem 1rem;
+  border-left: 3px solid #6fd0a8;
+  background: rgba(111, 208, 168, 0.08);
+  margin: 0 0 1rem;
+}
+
+.case .case-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.case .case-options button {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #2a3140;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.case .case-options button:hover {
+  border-color: #6fd0a8;
+}
+
+.case .case-feedback {
+  padding: 0.9rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid #2a3140;
+}
+
+.case .case-feedback p[data-correct="true"] {
+  color: #6fd0a8;
+}
+
+.case .case-feedback p[data-correct="false"] {
+  color: #d97a6c;
+}
+
+.case .case-feedback p[data-process] {
+  font-size: 0.9rem;
+  color: #97a1b3;
+}
+
+.case .case-feedback button {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #2a3140;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.case .case-history {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}

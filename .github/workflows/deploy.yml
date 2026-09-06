@@ -36,12 +36,19 @@ jobs:
       # Assemble the deployed site from hand-written static files at the
       # repo root plus the built island bundles — these are two separately
       # authored halves (see root CLAUDE.md), combined only here at deploy
-      # time. Nothing under app/src, docs, or repo-management files ships.
+      # time. Copies everything except repo-management stuff, rather than
+      # an explicit allowlist — a new content folder (dns/, ad-gpo/, ...)
+      # ships automatically instead of silently being left out until
+      # someone notices (see log.md: this bit the first version of the
+      # workflow, caught only by a local dry run before it ever shipped).
       - name: Assemble site
         run: |
           mkdir -p _site
-          cp index.html _site/
-          cp CNAME _site/
+          rsync -a \
+            --exclude='.git' --exclude='.github' --exclude='.claude' \
+            --exclude='app' --exclude='_site' --exclude='node_modules' \
+            --exclude='*.md' --exclude='LICENSE' --exclude='.gitignore' \
+            ./ _site/
           cp -r app/dist/islands _site/islands
 
       - uses: actions/upload-pages-artifact@v3

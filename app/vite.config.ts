@@ -10,6 +10,8 @@ const islands = {
   'drill-http-401-403': resolve(import.meta.dirname, 'src/islands/drill-401-403/main.tsx'),
   'case-trust-relationship': resolve(import.meta.dirname, 'src/islands/case-trust-relationship/main.tsx'),
   'placement-quiz-networking': resolve(import.meta.dirname, 'src/islands/placement-quiz/main.tsx'),
+  'case-dhcp-apipa': resolve(import.meta.dirname, 'src/islands/case-dhcp-apipa/main.tsx'),
+  'drill-dhcp-1059': resolve(import.meta.dirname, 'src/islands/drill-dhcp-1059/main.tsx'),
 }
 
 // https://vite.dev/config/

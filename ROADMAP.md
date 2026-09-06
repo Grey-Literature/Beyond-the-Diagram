@@ -22,16 +22,17 @@ Resolve enough of the stack question to start building for real. Doesn't need to
 - [x] Decide on hosting/deploy path — **GitHub Actions**, not committed build output. `.github/workflows/deploy.yml` builds `app/` on push to `main`, assembles a `_site/` from the root's hand-written `index.html` + `CNAME` plus `app/dist/islands/`, and deploys via `actions/deploy-pages`. Verified locally end-to-end: built the islands, served the repo root as plain static files (no Vite dev server) via `python -m http.server`, and confirmed `islands-demo.html` mounts all three correctly from `/islands/*.js` — proves the actual deploy shape, not just the dev sandbox. Asset filenames are unhashed (`islands/assets/<name>.css`) specifically so a hand-written page can link them by a stable name.
 - [ ] **Still needed, not done tonight:** enable GitHub Actions as the Pages source in the repo's own Settings → Pages (currently unset) — the workflow can't actually deploy until that's flipped on.
 
-## Phase 2 — First vertical slice
+## Phase 2 — First vertical slice (done)
 
 Prove the content model works end-to-end before scaling it across domains. DHCP is the most fully fleshed-out domain in the concept doc — good first candidate.
 
-> Note: Phase 1's Classification Drill (HTTP 401 vs. 403) was built to prove the islands mechanism itself, not as this phase's DHCP content — it's from the authn/authz domain, not DHCP. This phase still needs its own DHCP-domain Drill.
-
-- [ ] One **Lab** (e.g. configure a DHCP scope, watch a lease expire, watch APIPA fallback)
-- [ ] One **Case** (e.g. not-leasing → APIPA fallback, withheld diagnosis, symptom-only)
-- [ ] One DHCP-domain **Classification Drill** (e.g. a verbatim error string classification exercise)
-- [ ] Confirm the three content types actually fit a single reusable component/data shape, or diverge enough to need separate ones
+- [x] One **Lab** (`dhcp/lab-scope-lease-apipa.html`) — configuring a scope, the full lease renewal cycle (T1/T2), and what APIPA fallback actually means when nothing comes back. Plain static prose + code blocks, no component needed at all.
+- [x] One **Case** (`dhcp/case-apipa-fallback.html`, island: `case-dhcp-apipa`) — "everyone on VLAN 20 has a 169 address," symptom-only, investigate-then-diagnose, process scored separately from outcome. Correct root cause is an upstream relay/`ip helper-address` misconfiguration, not the DHCP server itself.
+- [x] One DHCP-domain **Classification Drill** (`dhcp/drill-dhcp-1059.html`, island: `drill-dhcp-1059`) — verbatim Event ID 1059 text, classify it as a fail-closed authorization race (correct) vs. a genuine deauthorization vs. an unrelated crash.
+- [x] Confirm the three content types actually fit a single reusable component/data shape, or diverge — **they fit**: the DHCP Case and Drill are structurally identical to their Phase 1 proofs (same component shape, different content data — see `case-trust-relationship`/`case-dhcp-apipa` and `drill-401-403`/`drill-dhcp-1059`), while Labs need no component at all, confirming the Phase 1 hybrid split generalizes rather than being a one-off.
+- [x] `dhcp/` established as the per-domain-folder convention (module landing page + one page per content item) — Phase 4's other domains should follow the same shape (`dns/`, `ad-gpo/`, ...)
+- [x] Landing page (`index.html`) updated to link to the first real module instead of saying "nothing to click yet"
+- [x] Caught and fixed a real gap in the Phase 1 deploy workflow: it only copied `index.html`/`CNAME`/built islands, so `assets/`, `dhcp/`, and `islands-demo.html` would have silently 404'd once deployed. Switched the assemble step from an explicit copy-list to an exclude-based `rsync` (skip `.git`, `.github`, `app/`, docs, etc., ship everything else) so a future new content folder ships automatically instead of needing the workflow edited every time. Verified both the exclude logic and the full page-to-page flow (landing → module → Lab → Case → Drill) against a local static-file simulation, not just the dev sandbox.
 
 ## Phase 3 — Placement & tiering
 

@@ -5,40 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beyond the Diagram</title>
 <meta name="description" content="An IT fundamentals & troubleshooting platform — teaching mechanism and methodology, not just the portal UI.">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-  :root {
-    --bg: #0e1116;
-    --panel: #151a22;
-    --border: #2a3140;
-    --text: #e6e9ef;
-    --text-dim: #97a1b3;
-    --accent: #6fd0a8;
-    --accent-dim: #3d7a5f;
-    font-size: 16px;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f5f6f8;
-      --panel: #ffffff;
-      --border: #dde1e8;
-      --text: #1a1e26;
-      --text-dim: #565f70;
-      --accent: #1f8a5e;
-      --accent-dim: #bfe8d6;
-    }
-  }
-
-  * { box-sizing: border-box; }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace;
-  }
-
   body {
     min-height: 100vh;
     display: flex;
@@ -52,34 +20,7 @@
     width: 100%;
   }
 
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent-dim);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
-    margin-bottom: 1.5rem;
-  }
-
-  .status::before {
-    content: "";
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2.2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
+  .status { margin-bottom: 1.5rem; }
 
   h1 {
     font-size: clamp(1.75rem, 4vw, 2.5rem);
@@ -101,10 +42,6 @@
   }
 
   .prompt {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 1rem 1.25rem;
     font-size: 0.88rem;
     line-height: 1.7;
     color: var(--text-dim);
@@ -112,6 +49,7 @@
 
   .prompt .line { display: flex; gap: 0.6rem; }
   .prompt .prefix { color: var(--accent); flex-shrink: 0; }
+  .prompt a { color: var(--accent); }
 
   footer {
     margin-top: 2rem;
@@ -137,10 +75,10 @@
     that tell you what's really going on, to a verified root cause.
   </p>
 
-  <div class="prompt">
-    <div class="line"><span class="prefix">&gt;</span><span>status: scaffolding in progress</span></div>
-    <div class="line"><span class="prefix">&gt;</span><span>next: first domain module (DHCP)</span></div>
-    <div class="line"><span class="prefix">&gt;</span><span>nothing to click yet — check back soon</span></div>
+  <div class="prompt panel">
+    <div class="line"><span class="prefix">&gt;</span><span>status: first domain module in progress</span></div>
+    <div class="line"><span class="prefix">&gt;</span><span>first module: <a href="/dhcp/">DHCP</a> — a Lab, a Case, and a Classification Drill</span></div>
+    <div class="line"><span class="prefix">&gt;</span><span>most of the platform is still unbuilt — this is a first slice, not a preview</span></div>
   </div>
 
   <footer>
