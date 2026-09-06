@@ -8,7 +8,7 @@ This platform teaches both halves: the *mechanism* (how DHCP, DNS, AD, and the r
 
 🚧 **Early / under construction.** Repo scaffolding is in place; content and app haven't been built yet. See [ROADMAP.md](ROADMAP.md) for the working plan and [it-troubleshooting-platform-concept.md](it-troubleshooting-platform-concept.md) for the full design concept this is built from.
 
-Live at: *(domain pending — see `CNAME`)*
+Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaskeys.com) *(once GitHub Pages is enabled for this repo)*
 
 ## Structure
 
