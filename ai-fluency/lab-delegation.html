@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Delegation — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .d-tag { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .specimen {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .specimen .tag { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .specimen p:last-child { margin-bottom: 0; }
+  .tiers { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  .tiers th, .tiers td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .tiers th { color: var(--text-dim); font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/ai-fluency/">&larr; AI Fluency</a>
+
+  <div class="d-tag">Delegation</div>
+  <h1>Lab: Deciding whether to involve an AI at all</h1>
+
+  <p>
+    Delegation comes before prompting, and it's the leg people skip. It's three questions asked
+    before you type anything: do you understand the problem well enough to hand any part of it
+    off, is this the right tool for this shape of work, and which parts are yours to keep
+    regardless.
+  </p>
+
+  <h2>Problem Awareness — and the state that looks like not having it</h2>
+  <p>
+    Sometimes the problem is defined. You can say what good looks like before you start, and the
+    work is execution.
+  </p>
+  <p>
+    More often — and this is the honest version of most tickets — you get thrown at something with
+    no clear problem statement at all. <em>"No idea, let's poke and find out."</em>
+  </p>
+  <div class="callout">
+    That is not a failure of Problem Awareness. It's a more advanced form of it. Recognizing that
+    you don't yet have enough information to <em>define</em> the problem, and knowing how to run a
+    discovery phase deliberately instead of thrashing, is its own skill. The poke-and-find-out
+    mode <strong>is</strong> the problem-definition phase.
+  </div>
+  <p>
+    This matters for delegation because the two states want different things from an assistant. A
+    defined problem wants execution help — draft this, format that, check this syntax. An
+    undefined one wants a thinking partner that narrows, which is exactly what
+    <a href="/ai-fluency/lab-pull-prompt.html">the pull-prompt</a> is for. Handing an undefined
+    problem to a model in execution mode is how you get six confident suggestions and no progress.
+  </p>
+  <p>
+    It's also the state every <a href="/">Case on this platform</a> deliberately drops you into.
+    That's not incidental — the hard part of real troubleshooting is almost never executing a known
+    fix, it's the stretch before anyone knows what the problem is.
+  </p>
+
+  <h2>Platform Awareness — matching the tool to the shape of the work</h2>
+  <p>
+    Not capability in the abstract. Which tool handles which task shape, at what context depth,
+    with what failure modes. A few axes that actually decide it:
+  </p>
+  <ul>
+    <li>
+      <strong>Does the thread have to survive across sessions?</strong> A multi-stage engagement
+      where research informs design informs documentation needs something that can hold the plot
+      at step four. A one-shot ticket update does not. Context-dependency picks the tool more often
+      than the subject matter does.
+    </li>
+    <li>
+      <strong>How many exchanges before this resolves?</strong> Worth having a personal threshold —
+      "if I expect this to take more than about four turns, it goes to the assistant I trust with
+      long threads." Crude, but it's a real heuristic built from watching where things degrade.
+    </li>
+    <li>
+      <strong>Does it need current information?</strong> Recency and retrieval are a different
+      capability from reasoning. Knowing which of your tools is actually good at each, rather than
+      assuming one is good at both, saves a lot of confidently outdated answers.
+    </li>
+    <li>
+      <strong>Should you be feeding it documentation instead of trusting recall?</strong> A model
+      doesn't need to have been trained on your appliance vendor's guide if you hand it the guide.
+      Treating it as a reasoning layer over data you supply — rather than a recall engine — makes
+      the knowledge cutoff mostly stop mattering.
+    </li>
+    <li>
+      <strong>Is it the right tool at all?</strong> The most-missed one. If your monitoring already
+      has the answer, going to an assistant is a slower way to not read your monitoring.
+    </li>
+  </ul>
+  <div class="callout">
+    That last point has a non-AI twin worth recognizing, because the behavior is identical:
+    the tech who keeps asking people about a machine's problem while the uptime graph sitting in
+    front of them says 90 days. Collecting more opinions is not the same as gathering evidence.
+    An assistant is just one more source of opinion if you reach for it in that mode.
+    See <a href="/monitoring/">Monitoring</a> for the evidence that was already there.
+  </div>
+
+  <div class="specimen">
+    <span class="tag">Specimen — a delegation instinct that was wrong</span>
+    <p>
+      Mid-project, a problem came up inside a large vendor's own ecosystem, so the obvious move was
+      to reach for that vendor's own assistant. Home-field advantage.
+    </p>
+    <p>
+      There wasn't any. The assistant looped, and rather than admitting it was stuck, it fabricated
+      an error in the input — pointing at a typo that wasn't there — to justify the loop. A plain
+      web search resolved it, because the actual problem was a licensing ambiguity, not a reasoning
+      problem.
+    </p>
+    <p>
+      The lesson isn't "that assistant is bad." It's that <strong>model selection has to match the
+      problem type, not the vendor logo</strong>. Home-field advantage is a hypothesis like any
+      other, and it needs the same treatment: cheap to test, not to be assumed.
+    </p>
+  </div>
+
+  <h2>Task Delegation — the line that doesn't move</h2>
+  <p>
+    Everything is negotiable depending on the task, the tool, and how much brain you have left at
+    that hour — except these:
+  </p>
+  <ul>
+    <li><strong>The final call.</strong> Somebody decides. It isn't the model.</li>
+    <li><strong>The blast-radius assessment.</strong> What breaks if this is wrong, and who notices.</li>
+    <li><strong>Environment-specific context.</strong> The thing about <em>this</em> site, <em>this</em> client, <em>this</em> box that isn't written down anywhere and won't be inferred.</li>
+    <li><strong>Professional accountability.</strong> Your name is on what ships. Covered properly in <a href="/ai-fluency/lab-diligence-agentic-boundary.html">Diligence</a>.</li>
+  </ul>
+
+  <h2>Your tool stack is infrastructure — treat it that way</h2>
+  <p>
+    This is the part that gets skipped everywhere, and it's the most ITOps-shaped idea in the whole
+    module: <strong>dependency on a single assistant is a single point of failure.</strong> Provider
+    has a bad day, your workflow degrades. And if you haven't touched your backup option in three
+    months, the muscle memory for working with it is gone — you have an untested backup, which is
+    to say you have none.
+  </p>
+  <div class="table-scroll">
+  <table class="tiers">
+    <tr><th>Tier</th><th>What it's for</th></tr>
+    <tr><td>Primary</td><td>Project-class work, complex reasoning, threads that must stay coherent across sessions</td></tr>
+    <tr><td>Secondary</td><td>Quick dispatch, current information, one-shot formatting, offloading mental overhead</td></tr>
+    <tr><td>Tertiary</td><td>Creative and lateral work. Know what you're getting — this tier tends to wildcard under pressure</td></tr>
+    <tr><td>Emergency</td><td>Warm enough to actually use on a bad day. Both primary and secondary being degraded at once is a real scenario, not a theoretical one</td></tr>
+  </table>
+  </div>
+  <p>
+    Keeping it warm is active work, not a note in a document. Periodically ask what's new and worth
+    trying; test new options <em>before</em> you need them, not during an outage. And where a model
+    runs — what jurisdiction and whose infrastructure — is part of evaluating the platform, not a
+    footnote to it.
+  </p>
+
+  <div class="exercise">
+    <h3>Try it — the failover drill</h3>
+    <p>
+      Go 24 hours without your primary assistant. Not as a purity exercise — as a failover test,
+      the same way you'd test a backup restore rather than assuming the backup works.
+    </p>
+    <p>Two things to watch for, and the second is the valuable one:</p>
+    <ul>
+      <li>
+        <strong>Can you actually still work in your secondary?</strong> If the answer is "eventually,
+        after fighting it for an hour," that's a cold standby, and you found out on a day it didn't
+        matter.
+      </li>
+      <li>
+        <strong>Where does the itch actually show up?</strong> It won't be routine tasks and it
+        won't be quick dispatch. It'll be the "something weird just broke and I need something that
+        holds the thread while I think" moments. That's your real dependency, and knowing precisely
+        where it is beats a vague sense that you use it a lot.
+      </li>
+    </ul>
+    <p>
+      There's a side effect worth naming: without a model to hand a half-formed thought to, you have
+      to finish forming it yourself first. That pre-thinking is exactly what separates a pull-prompt
+      from a vending-machine request — which means the drill sharpens the skill it's testing.
+    </p>
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/ai-fluency/lab-pull-prompt.html">Lab: Description — how to describe the work once you've decided to delegate it</a>
+    <a href="/ai-fluency/lab-discernment.html">Lab: Discernment — judging what comes back</a>
+    <a href="/ai-fluency/lab-diligence-agentic-boundary.html">Lab: Diligence — owning what you do with it</a>
+  </div>
+</main>
+</body>
+</html>

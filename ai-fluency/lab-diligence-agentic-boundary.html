@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Diligence and the agentic boundary — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .d-tag { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .principle {
+    border: 1px solid var(--accent-dim);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .modes { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  .modes th, .modes td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .modes th { color: var(--text-dim); font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+  .ladder { list-style: none; padding: 0; margin: 1rem 0; }
+  .ladder li {
+    border-left: 3px solid var(--border);
+    padding: 0.55rem 0 0.55rem 0.9rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.93rem;
+  }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/ai-fluency/">&larr; AI Fluency</a>
+
+  <div class="d-tag">Diligence</div>
+  <h1>Lab: Diligence and the agentic boundary</h1>
+
+  <div class="principle">
+    <strong>"The AI did it" is not an excuse.</strong> You allowed it. You instructed it. You
+    deployed the output. A tool doesn't carry accountability — your name is on it.
+  </div>
+
+  <p>
+    This is the leg with actual professional consequences attached, and it splits into what you
+    feed in, what you disclose, and what you vouch for on the way out.
+  </p>
+
+  <h2>Creation Diligence — what goes in is a decision</h2>
+  <ul>
+    <li>
+      <strong>Credentials never.</strong> Pre-shared keys, passwords, API tokens, private keys.
+      There is no prompt worth it and no session so urgent it changes.
+    </li>
+    <li>
+      <strong>Environment detail is a judgment call, not a default.</strong> Topology, hostnames,
+      IP schemes, who your client is and what they run. Sometimes necessary to get a useful answer;
+      always a decision you should be making consciously rather than pasting past.
+    </li>
+    <li>
+      <strong>Where the model runs is part of evaluating it.</strong> Whose infrastructure, under
+      what jurisdiction, with what retention. That's a platform-selection criterion alongside
+      capability, not a footnote after it.
+    </li>
+    <li>
+      <strong>A hosted connector is one more trust boundary.</strong> Every integration that
+      reaches into your systems is a thing that has access. Prefer running it yourself where you
+      can.
+    </li>
+  </ul>
+
+  <h2>Transparency Diligence — the level depends on audience and stakes</h2>
+  <ul>
+    <li><strong>Internal, formatting help:</strong> low ceremony. Implied, not announced.</li>
+    <li><strong>Client-facing incident summary:</strong> the content must be accurate and defensible regardless of how it was drafted. The bar is the content, not the disclosure.</li>
+    <li><strong>Published or shared work:</strong> acknowledge the collaboration.</li>
+    <li><strong>AI tooling in a client engagement:</strong> relationship-level awareness is the minimum bar. Not every prompt — but they should know it's in the workflow.</li>
+  </ul>
+  <p>
+    Perception shouldn't drive this. Some people will read disclosure as a red flag and some as
+    professionalism, and neither reaction changes what the right level was. The stakes and the
+    relationship decide it.
+  </p>
+
+  <h2>Deployment Diligence — you vouch for it</h2>
+  <p>
+    Before it goes anywhere with your name on it: is every claim in here something you can point to
+    evidence for? The failure mode isn't a typo. It's output that goes out describing work you
+    didn't do, claiming verification you didn't perform, asserting conclusions you didn't reach —
+    and it goes out looking better than what actually happened, which is exactly why it survives a
+    quick read. That's <a href="/ai-fluency/case-narrativized-ticket.html">the Case</a> in this
+    module.
+  </p>
+
+  <h2>The three modes, and why the distinction is operational</h2>
+  <p>
+    Interactions come in three shapes. The difference isn't how conversational it felt — it's
+    <strong>who acted</strong>.
+  </p>
+  <div class="table-scroll">
+  <table class="modes">
+    <tr><th>Mode</th><th>What happens</th><th>Blast radius</th></tr>
+    <tr>
+      <td><strong>Automation</strong></td>
+      <td>It executes a task you specified, the way you specified it</td>
+      <td>Whatever you pointed it at, on purpose</td>
+    </tr>
+    <tr>
+      <td><strong>Augmentation</strong></td>
+      <td>It advises, analyzes, drafts. You review, decide, and execute</td>
+      <td>Contained to your own workflow — the model touches your context, not the system</td>
+    </tr>
+    <tr>
+      <td><strong>Agency</strong></td>
+      <td>It acts on a system directly. The action is taken, not suggested</td>
+      <td>The system. And the change is already in</td>
+    </tr>
+  </table>
+  </div>
+  <div class="callout">
+    <strong>A wrong firewall rule pushed by an agent doesn't get walked back with "well, the AI
+    suggested it."</strong> The rule is in. The outage is real. Augmentation and Agency can feel
+    identical from the keyboard — same chat window, same amount of typing — and they are not the
+    same category of risk. Classifying which one you're in, before you act, is
+    <a href="/ai-fluency/drill-interaction-mode.html">its own drill</a>.
+  </div>
+
+  <h2>Disclosure follows blast radius</h2>
+  <ul class="ladder">
+    <li><strong>Your own systems.</strong> Your call, your risk, your lesson.</li>
+    <li><strong>Client systems you manage, AI advising you.</strong> Relationship-level awareness that AI tooling is part of how you work.</li>
+    <li><strong>AI touching client systems directly.</strong> Explicit consent before the session starts — not disclosed afterward.</li>
+  </ul>
+
+  <h2>The personal-account boundary</h2>
+  <p>
+    Running agentic AI against client systems through your own personal subscription is a liability,
+    and it's one the organization should be carrying rather than an individual absorbing quietly.
+  </p>
+  <ul>
+    <li>
+      <strong>Read-only missions</strong> — pulling logs, reading configs, analyzing output — are
+      manageable on personal tooling.
+    </li>
+    <li>
+      <strong>Write, push, execute, deploy</strong> requires the professional accountability layer
+      to be explicitly in place, funded, and disclosed by the organization.
+    </li>
+  </ul>
+  <p>
+    An employer doesn't get the benefit of an individual's personal AI investment while hedging on
+    paying for the accountability that comes with it. If that loop isn't closed where you work,
+    read-only is the honest boundary until it is.
+  </p>
+
+  <div class="exercise">
+    <h3>Try it</h3>
+    <p>Take the last three things you shipped with AI assistance and answer for each:</p>
+    <ol>
+      <li>
+        <strong>Which mode was it?</strong> Automation, Augmentation, or Agency. Be strict — if
+        the state of a system changed and no human executed the change, that's Agency regardless of
+        how much you talked about it first.
+      </li>
+      <li>
+        <strong>What went in that shouldn't have?</strong> Not a guilt exercise. Check whether
+        environment detail went in because it was needed or because it was in the buffer.
+      </li>
+      <li>
+        <strong>Could you defend every claim in the output?</strong> Line by line, against evidence
+        you could actually produce if someone asked six months from now.
+      </li>
+    </ol>
+    <p>
+      Then pick the one with the largest blast radius and ask whether the disclosure level actually
+      matched it — before you shipped, not in hindsight.
+    </p>
+  </div>
+
+  <h2>Where to practice this safely</h2>
+  <p>
+    Every habit on this page is cheaper to build somewhere mistakes don't cost anyone anything.
+    Breaking your own network carries a completely different risk profile than breaking a client's
+    production environment, and that gap is worth using deliberately rather than working around.
+    A home lab is where you find out what an agent does when it's wrong, before you find out on
+    somebody's live infrastructure.
+  </p>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/ai-fluency/drill-interaction-mode.html">Drill: classify Automation vs. Augmentation vs. Agency</a>
+    <a href="/ai-fluency/case-narrativized-ticket.html">Case: the ticket that describes work you didn't do</a>
+    <a href="/ai-fluency/lab-discernment.html">Lab: Discernment — the checking that has to happen before any of this</a>
+  </div>
+</main>
+</body>
+</html>

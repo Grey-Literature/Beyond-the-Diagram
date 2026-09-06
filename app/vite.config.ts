@@ -37,6 +37,9 @@ const islands = {
   'drill-unpaired-question': resolve(import.meta.dirname, 'src/islands/drill-unpaired-question/main.tsx'),
   'drill-console-cors': resolve(import.meta.dirname, 'src/islands/drill-console-cors/main.tsx'),
   'placement-quiz-ai-fluency': resolve(import.meta.dirname, 'src/islands/placement-quiz-ai-fluency/main.tsx'),
+  'case-narrativized-ticket': resolve(import.meta.dirname, 'src/islands/case-narrativized-ticket/main.tsx'),
+  'case-stack-sync': resolve(import.meta.dirname, 'src/islands/case-stack-sync/main.tsx'),
+  'drill-interaction-mode': resolve(import.meta.dirname, 'src/islands/drill-interaction-mode/main.tsx'),
 }
 
 // https://vite.dev/config/

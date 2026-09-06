@@ -6,7 +6,7 @@
 <title>AI Fluency — Beyond the Diagram</title>
 <link rel="stylesheet" href="/assets/site.css">
 <style>
-  body { padding: 2rem 1.25rem; }
+  body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 40rem; margin: 0 auto; }
   h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
   .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 1.25rem; }
@@ -18,10 +18,34 @@
     font-size: 0.9rem;
     line-height: 1.6;
   }
-  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .framework {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 0 0 2rem;
+    background: var(--panel);
+    font-size: 0.9rem;
+  }
+  .framework h2 { font-size: 0.95rem; margin: 0 0 0.75rem; color: var(--text); }
+  .framework dl { margin: 0; }
+  .framework dt { color: var(--accent); font-weight: 600; margin-top: 0.6rem; }
+  .framework dt:first-child { margin-top: 0; }
+  .framework dd { margin: 0.15rem 0 0; color: var(--text-dim); line-height: 1.55; }
+  .framework .modes { margin: 1rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--border); color: var(--text-dim); line-height: 1.6; }
+  .framework .modes strong { color: var(--text); }
+  .framework .attrib { margin: 0.85rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
+  h2.group {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent);
+    margin: 2rem 0 0.4rem;
+  }
+  .group-note { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 0.9rem; line-height: 1.55; }
+  .module-nav { display: flex; flex-direction: column; gap: 0.6rem; }
   .module-nav a {
     display: block;
-    padding: 0.9rem 1.1rem;
+    padding: 0.85rem 1.1rem;
     border: 1px solid var(--border);
     border-radius: 0.5rem;
     text-decoration: none;
@@ -50,12 +74,105 @@
     actually use, and compare what comes back.
   </div>
 
+  <div class="framework">
+    <h2>The four competencies this module is organized around</h2>
+    <dl>
+      <dt>Delegation</dt>
+      <dd>Deciding whether, when, and how to involve an AI at all.</dd>
+      <dt>Description</dt>
+      <dd>Describing the work well enough to get useful behavior back.</dd>
+      <dt>Discernment</dt>
+      <dd>Judging the output, the reasoning behind it, and the model's behavior in the session.</dd>
+      <dt>Diligence</dt>
+      <dd>Owning what you do with it — what goes in, what you disclose, what you vouch for.</dd>
+    </dl>
+    <p class="modes">
+      They apply across three modes of interaction, and the mode changes what you owe in
+      verification: <strong>Automation</strong> (it executes a task you defined),
+      <strong>Augmentation</strong> (it advises, you decide and execute), and
+      <strong>Agency</strong> (it acts on a system directly).
+    </p>
+    <p class="attrib">
+      The four competencies and the three modes come from Anthropic's AI Fluency framework. What
+      follows is that framework applied to infrastructure troubleshooting, which is not where its
+      examples usually live.
+    </p>
+  </div>
+
+  <h2 class="group">Delegation</h2>
+  <p class="group-note">The leg people skip, because it happens before any typing.</p>
+  <nav class="module-nav">
+    <a href="/ai-fluency/lab-delegation.html">
+      <div class="kind">Lab</div>
+      Deciding whether to involve an AI at all
+      <div class="desc">Problem Awareness when you can't yet state the problem, matching the tool to the shape of the work, the judgment line that doesn't move — and treating your tool stack as infrastructure with a failover chain.</div>
+    </a>
+  </nav>
+
+  <h2 class="group">Description</h2>
+  <p class="group-note">Getting useful behavior back once you've decided to delegate.</p>
   <nav class="module-nav">
     <a href="/ai-fluency/lab-pull-prompt.html">
       <div class="kind">Lab</div>
       The pull-prompt
       <div class="desc">Ask the AI to interview you instead of answer you — and demand a verification method with every question it asks. Side-by-side weak and strong prompts, both responses written out.</div>
     </a>
+    <a href="/ai-fluency/drill-unpaired-question.html">
+      <div class="kind">Classification Drill</div>
+      A narrowing question with no way to check it
+      <div class="desc">A verbatim AI reply. Classify it before you answer it.</div>
+    </a>
+  </nav>
+
+  <h2 class="group">Discernment</h2>
+  <p class="group-note">
+    Three things that fail independently — the output, the reasoning, and the session. Conflating
+    them is why "check the AI's work" is useless advice.
+  </p>
+  <nav class="module-nav">
+    <a href="/ai-fluency/lab-discernment.html">
+      <div class="kind">Lab</div>
+      Judging what comes back
+      <div class="desc">Product, process and performance discernment; why the second is hardest; and the eight signals worth reacting to.</div>
+    </a>
+    <a href="/ai-fluency/case-ai-near-miss.html">
+      <div class="kind">Case</div>
+      The AI's answer is confident, well-written, and wrong
+      <div class="desc">Symptom only — plus a plausible AI diagnosis you didn't ask to be tested on.</div>
+    </a>
+    <a href="/ai-fluency/case-narrativized-ticket.html">
+      <div class="kind">Case</div>
+      The ticket that describes work you didn't do
+      <div class="desc">Nothing is broken and the draft reads well. That's the problem — and a ticket is a record.</div>
+    </a>
+    <a href="/ai-fluency/case-stack-sync.html">
+      <div class="kind">Case</div>
+      Correct advice, wrong sequence
+      <div class="desc">The suggestion isn't wrong information. It's wrongly ordered — and the check it sends you to can't tell your hypotheses apart.</div>
+    </a>
+  </nav>
+
+  <h2 class="group">Diligence</h2>
+  <p class="group-note">The leg with actual professional consequences attached.</p>
+  <nav class="module-nav">
+    <a href="/ai-fluency/lab-diligence-agentic-boundary.html">
+      <div class="kind">Lab</div>
+      Diligence and the agentic boundary
+      <div class="desc">What goes in, what you disclose, what you vouch for — plus where Augmentation ends and Agency begins, why disclosure follows blast radius, and the personal-account boundary.</div>
+    </a>
+    <a href="/ai-fluency/drill-interaction-mode.html">
+      <div class="kind">Classification Drill</div>
+      Automation, Augmentation, or Agency
+      <div class="desc">Same chat window, same amount of typing, completely different accountability. One question settles it.</div>
+    </a>
+  </nav>
+
+  <h2 class="group">Underlying literacies</h2>
+  <p class="group-note">
+    Two places where the gap isn't AI skill at all — it's not being able to read the evidence
+    you'd be handing over. Worth doing independently of any assistant.
+  </p>
+  <nav class="module-nav">
     <a href="/ai-fluency/lab-packet-capture-with-ai.html">
       <div class="kind">Lab</div>
       Packet captures with AI help
@@ -66,25 +183,19 @@
       Reading a browser console
       <div class="desc">Four console errors worth recognizing on sight, and the three-bucket sort: yours to fix, the dev team's, or your infrastructure wearing a web-shaped disguise.</div>
     </a>
-    <a href="/ai-fluency/case-ai-near-miss.html">
-      <div class="kind">Case</div>
-      The AI's answer is confident, well-written, and wrong
-      <div class="desc">Symptom only — plus a plausible AI diagnosis you didn't ask to be tested on. Process and outcome are scored separately.</div>
-    </a>
-    <a href="/ai-fluency/drill-unpaired-question.html">
-      <div class="kind">Classification Drill</div>
-      A narrowing question with no way to check it
-      <div class="desc">A verbatim AI reply. Classify it before you answer it.</div>
-    </a>
     <a href="/ai-fluency/drill-console-cors.html">
       <div class="kind">Classification Drill</div>
       A CORS error in the console
       <div class="desc">Whose problem is this? The reflex answer is right often enough to be dangerous.</div>
     </a>
+  </nav>
+
+  <h2 class="group">Placement</h2>
+  <nav class="module-nav">
     <a href="/ai-fluency/placement-quiz.html">
       <div class="kind">Placement</div>
       AI Fluency tier check
-      <div class="desc">Behavioral, not self-report. Skip this and start with the Lab if you'd rather not bother.</div>
+      <div class="desc">Behavioral, not self-report. Skip this and start with Delegation if you'd rather not bother.</div>
     </a>
   </nav>
 </main>
