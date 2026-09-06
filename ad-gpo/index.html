@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD / GPO — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 2rem; }
+  .module-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .module-nav a {
+    display: block;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .module-nav a:hover { border-color: var(--accent); }
+  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
+
+  <div class="status" style="margin-bottom: 1rem;">Fourth module</div>
+  <h1>Active Directory / Group Policy</h1>
+  <p class="lede">
+    Two Windows error messages that sound like the same complaint but point in opposite
+    directions, one root cause that produces two different-looking tickets, and a GPO that's
+    secretly two independently-replicating things.
+  </p>
+
+  <nav class="module-nav">
+    <a href="/ad-gpo/lab-secure-channel-and-gpo-replication.html">
+      <div class="kind">Lab</div>
+      Secure channel, cached credentials, and GPO replication
+      <div class="desc">What "trust relationship" vs. "domain not available" actually mean, why cached credentials split one outage into two symptoms, and why a GPO's policy object and policy files replicate on separate schedules.</div>
+    </a>
+    <a href="/ad-gpo/case-trust-relationship.html">
+      <div class="kind">Case</div>
+      "It says something about a trust relationship"
+      <div class="desc">Symptom only. Gather evidence, then commit to a diagnosis — process and outcome are scored separately.</div>
+    </a>
+    <a href="/ad-gpo/drill-domain-not-available.html">
+      <div class="kind">Classification Drill</div>
+      "The domain is not available"
+      <div class="desc">A verbatim error message, no other context. Classify what it actually tells you before reacting to it.</div>
+    </a>
+  </nav>
+</main>
+</body>
+</html>

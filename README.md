@@ -6,7 +6,7 @@ This platform teaches both halves: the *mechanism* (how DHCP, DNS, AD, and the r
 
 ## Status
 
-🚧 **Early / under construction, but three real modules now, plus the shared reference material they all lean on.** Tech stack and deploy pipeline are decided (Phase 1); DHCP (Phase 2), DNS, and Email Authentication (both Phase 4) are each a full Lab + Case + Classification Drill, browsable at `/dhcp/`, `/dns/`, and `/email-auth/`; `/concepts/` holds the cross-cutting patterns (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening) and named diagnostic methodology that every module links into instead of re-explaining. Five more domains from the concept doc are still unbuilt. See [ROADMAP.md](ROADMAP.md) for the working plan and [it-troubleshooting-platform-concept.md](it-troubleshooting-platform-concept.md) for the full design concept this is built from.
+🚧 **Early / under construction, but four real modules now, plus the shared reference material they all lean on.** Tech stack and deploy pipeline are decided (Phase 1); DHCP (Phase 2), DNS, Email Authentication, and AD/GPO (all Phase 4) are each a full Lab + Case + Classification Drill, browsable at `/dhcp/`, `/dns/`, `/email-auth/`, and `/ad-gpo/`; `/concepts/` holds the cross-cutting patterns (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening) and named diagnostic methodology that every module links into instead of re-explaining. Four more domains from the concept doc are still unbuilt. See [ROADMAP.md](ROADMAP.md) for the working plan and [it-troubleshooting-platform-concept.md](it-troubleshooting-platform-concept.md) for the full design concept this is built from.
 
 Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaskeys.com) *(once GitHub Pages' source is switched to "GitHub Actions" in this repo's settings)*
 
@@ -16,7 +16,7 @@ Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaske
 - [`ROADMAP.md`](ROADMAP.md) — phased build plan derived from the concept doc.
 - `index.html` — plain static landing page (no build step), deployed as-is via GitHub Pages.
 - `assets/site.css` — shared tokens/reset for the hand-written static pages (landing, domain modules, Labs).
-- `dhcp/`, `dns/`, `email-auth/` — domain modules: `index.html` (module landing) plus one page per content item (Lab, Case, Drill). The pattern the rest of Phase 4's domains will follow.
+- `dhcp/`, `dns/`, `email-auth/`, `ad-gpo/` — domain modules: `index.html` (module landing) plus one page per content item (Lab, Case, Drill). The pattern the rest of Phase 4's domains will follow.
 - `concepts/` — cross-cutting reference material every domain module links into (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening, named diagnostic methodology) rather than each module re-explaining these from scratch.
 - `islands-demo.html` — a QA page referencing every built island bundle directly; only meaningful once deployed (see `.github/workflows/deploy.yml`).
 - `app/` — Vite + React + TypeScript islands (see `app/README.md`). Built here, deployed alongside the static pages above by CI — see root `CLAUDE.md` for the full split.

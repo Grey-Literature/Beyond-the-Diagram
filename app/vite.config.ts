@@ -16,6 +16,7 @@ const islands = {
   'drill-dns-nxdomain': resolve(import.meta.dirname, 'src/islands/drill-dns-nxdomain/main.tsx'),
   'case-spf-lookup-limit': resolve(import.meta.dirname, 'src/islands/case-spf-lookup-limit/main.tsx'),
   'drill-spf-softfail': resolve(import.meta.dirname, 'src/islands/drill-spf-softfail/main.tsx'),
+  'drill-domain-not-available': resolve(import.meta.dirname, 'src/islands/drill-domain-not-available/main.tsx'),
 }
 
 // https://vite.dev/config/
