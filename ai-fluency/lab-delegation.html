@@ -30,6 +30,26 @@
   }
   .specimen .tag { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
   .specimen p:last-child { margin-bottom: 0; }
+  .method { list-style: none; counter-reset: step; padding: 0; margin: 1.25rem 0; }
+  .method li {
+    counter-increment: step;
+    border-left: 3px solid var(--border);
+    padding: 0.1rem 0 0.7rem 1rem;
+    margin-bottom: 0.9rem;
+    position: relative;
+  }
+  .method li:hover { border-left-color: var(--accent); }
+  .method .step {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+  .method .step::before { content: counter(step) " — "; color: var(--accent); }
+  .method .name { font-weight: 600; }
+  .method p { margin: 0.35rem 0 0; font-size: 0.93rem; }
   .tiers { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
   .tiers th, .tiers td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .tiers th { color: var(--text-dim); font-weight: 600; }
@@ -61,73 +81,165 @@
   <h1>Lab: Deciding whether to involve an AI at all</h1>
 
   <p>
-    Delegation comes before prompting, and it's the leg people skip. It's three questions asked
-    before you type anything: do you understand the problem well enough to hand any part of it
-    off, is this the right tool for this shape of work, and which parts are yours to keep
-    regardless.
-  </p>
-
-  <h2>Problem Awareness — and the state that looks like not having it</h2>
-  <p>
-    Sometimes the problem is defined. You can say what good looks like before you start, and the
-    work is execution.
-  </p>
-  <p>
-    More often — and this is the honest version of most tickets — you get thrown at something with
-    no clear problem statement at all. <em>"No idea, let's poke and find out."</em>
+    Delegation happens before prompting, and it's the leg that looks like it isn't there. It gets
+    settled in about the time it takes to pick left or right at a junction you've driven a hundred
+    times — which is not the same as not deciding. The decision ran. It just didn't announce
+    itself.
   </p>
   <div class="callout">
-    That is not a failure of Problem Awareness. It's a more advanced form of it. Recognizing that
-    you don't yet have enough information to <em>define</em> the problem, and knowing how to run a
-    discovery phase deliberately instead of thrashing, is its own skill. The poke-and-find-out
-    mode <strong>is</strong> the problem-definition phase.
+    That distinction matters, because "I don't really make that call, I just open a chat" is almost
+    never true. You picked a tool. You picked which parts of the problem to hand over. You had a
+    rough sense of what you'd accept back. All of it happened below the level where it felt like
+    deliberation — and all of it is still a decision that can be examined, and occasionally is
+    worth examining, when the stakes or the unfamiliarity justify slowing it down.
   </div>
+
+  <h2>Problem Awareness — you usually don't have it, and that's the job</h2>
   <p>
-    This matters for delegation because the two states want different things from an assistant. A
-    defined problem wants execution help — draft this, format that, check this syntax. An
-    undefined one wants a thinking partner that narrows, which is exactly what
-    <a href="/ai-fluency/lab-pull-prompt.html">the pull-prompt</a> is for. Handing an undefined
-    problem to a model in execution mode is how you get six confident suggestions and no progress.
+    In IT the full problem generally <em>isn't</em> understood at the point an assistant gets
+    involved. That's not a failure state; it's the reason a tech was called at all. Sometimes you
+    know how to go find the problem definition. Sometimes you don't, and finding out how is the
+    first real task.
   </p>
   <p>
-    It's also the state every <a href="/">Case on this platform</a> deliberately drops you into.
-    That's not incidental — the hard part of real troubleshooting is almost never executing a known
-    fix, it's the stretch before anyone knows what the problem is.
+    The useful frame here isn't a checklist, it's one you already know. Troubleshooting is the
+    scientific method with worse lighting, and mapping the two makes it obvious where an assistant
+    helps and where it can't.
   </p>
 
-  <h2>Platform Awareness — matching the tool to the shape of the work</h2>
+  <ol class="method">
+    <li>
+      <span class="step"><span class="name">Ask a question</span></span>
+      <p>
+        In a lab this is the hard, creative part. In ITOps it's handed to you free: the end user
+        already asked it, in the form of a complaint. <em>"Email is slow." "I can't get to the
+        share."</em> That's your question. What you don't get free is any assurance it's the
+        <em>right</em> question — a complaint describes a symptom, and the symptom is not
+        necessarily the problem.
+      </p>
+    </li>
+    <li>
+      <span class="step"><span class="name">Research</span></span>
+      <p>
+        Where an assistant does most of its actual work in ITOps, and where the choice between
+        <a href="/ai-fluency/lab-pull-prompt.html">push, pull and discovery prompts</a> lives. The
+        signal worth watching: <strong>a push prompt that gets no traction is telling you about
+        your prompt, not about the model.</strong> It means there wasn't enough context in it.
+        Re-rolling the same push prompt with different wording won't fix that; switching modes
+        will.
+      </p>
+    </li>
+    <li>
+      <span class="step"><span class="name">Form a hypothesis</span></span>
+      <p>
+        When a model hands you five plausible causes, those aren't answers — they're hypotheses,
+        and a list of them is a legitimate deliverable. A good session goes one step further: it
+        picks a favourite, says <em>why</em>, and says how you'd prove it. A list with no way to
+        test any item on it is a search result with better grammar.
+      </p>
+    </li>
+    <li>
+      <span class="step"><span class="name">Run an experiment</span></span>
+      <p>
+        "How would I check that" <em>is</em> the experiment — the same pairing the pull-prompt
+        demands of every question it asks you. A hypothesis you can't test isn't one yet, it's a
+        guess wearing better clothes.
+      </p>
+    </li>
+    <li>
+      <span class="step"><span class="name">Analyze the data</span></span>
+      <p>
+        What actually came back, read verbatim rather than summarized. This is the step where you
+        feed the result into the session so the next round narrows from evidence instead of from
+        your increasingly stale opening description.
+      </p>
+    </li>
+    <li>
+      <span class="step"><span class="name">Conclusion</span></span>
+      <p>
+        Did the data support the hypothesis? Note that <em>"the fix worked"</em> is not
+        automatically a yes — see
+        <a href="/concepts/diagnostic-methodology.html">symptom vs. root cause</a>. And a
+        disproven hypothesis is a successful experiment: it eliminated a branch, which is the
+        entire point of half-splitting.
+      </p>
+    </li>
+  </ol>
+
+  <div class="callout">
+    It's a loop, not a line. A failed conclusion sends you back to step 3 if you still have
+    hypotheses, and back to step 2 if you're out of them. <strong>The common mistake is treating
+    step 3 as the starting line</strong> — arriving with a hypothesis already chosen, then using
+    the assistant to build a case for it rather than to test it. That's not research, it's
+    advocacy, and a cooperative model will happily help you do it.
+  </div>
   <p>
-    Not capability in the abstract. Which tool handles which task shape, at what context depth,
-    with what failure modes. A few axes that actually decide it:
+    This is also the shape every <a href="/">Case on this platform</a> puts you in on purpose. The
+    hard part of real troubleshooting is almost never executing a known fix — it's steps 1 through
+    3, before anyone knows what the problem actually is.
   </p>
+
+  <h2>Platform Awareness — which one, and at what tier</h2>
+  <p>
+    If you keep more than one model on deck, this is where the real decision sits, and it's the
+    part that runs fastest. Most of the time it resolves on <strong>familiarity and proven
+    consistency</strong>: you know how this one fails, you know what its output looks like when
+    it's drifting, you know what it does with a vague prompt at 4pm on a Friday. That accumulated
+    calibration is a legitimate criterion, not laziness — it's worth more in practice than a
+    benchmark score, because it's the thing that lets you catch a bad answer quickly.
+  </p>
+  <p>Things that should override familiarity, and should do it consciously:</p>
   <ul>
     <li>
-      <strong>Does the thread have to survive across sessions?</strong> A multi-stage engagement
-      where research informs design informs documentation needs something that can hold the plot
-      at step four. A one-shot ticket update does not. Context-dependency picks the tool more often
-      than the subject matter does.
+      <strong>The shape and size of the data.</strong> A three-thousand-row export is a different
+      job from a two-paragraph error message, and the dataset alone is enough to push the choice
+      up a tier regardless of which model you're comfortable in.
     </li>
     <li>
-      <strong>How many exchanges before this resolves?</strong> Worth having a personal threshold —
-      "if I expect this to take more than about four turns, it goes to the assistant I trust with
-      long threads." Crude, but it's a real heuristic built from watching where things degrade.
+      <strong>Whether the thread has to survive across sessions.</strong> A multi-stage engagement
+      where research informs design informs documentation needs something that can still hold the
+      plot at step four. A one-shot ticket update does not. Context-dependency picks the tool more
+      often than the subject matter does.
     </li>
     <li>
-      <strong>Does it need current information?</strong> Recency and retrieval are a different
-      capability from reasoning. Knowing which of your tools is actually good at each, rather than
-      assuming one is good at both, saves a lot of confidently outdated answers.
+      <strong>How many exchanges you expect.</strong> Worth having a personal threshold — "past
+      about four turns this goes to the one I trust with long threads." Crude, and built from
+      watching where things actually degrade, which is the only place that number can come from.
     </li>
     <li>
-      <strong>Should you be feeding it documentation instead of trusting recall?</strong> A model
-      doesn't need to have been trained on your appliance vendor's guide if you hand it the guide.
-      Treating it as a reasoning layer over data you supply — rather than a recall engine — makes
-      the knowledge cutoff mostly stop mattering.
+      <strong>Whether it needs current information.</strong> Recency and retrieval are a different
+      capability from reasoning. Assuming one tool is good at both is how you get confidently
+      outdated answers.
     </li>
     <li>
-      <strong>Is it the right tool at all?</strong> The most-missed one. If your monitoring already
-      has the answer, going to an assistant is a slower way to not read your monitoring.
+      <strong>Whether you should be feeding it documentation instead of trusting recall.</strong>
+      A model doesn't need to have been trained on your appliance vendor's guide if you hand it the
+      guide. Treated as a reasoning layer over data you supply rather than a recall engine, the
+      knowledge cutoff mostly stops mattering.
+    </li>
+    <li>
+      <strong>Whether it's the right tool at all.</strong> The most-missed one. If your monitoring
+      already has the answer, going to an assistant is a slower way of not reading your monitoring.
     </li>
   </ul>
+
+  <div class="callout">
+    <strong>You do not need the largest model available for most of this.</strong> If you're
+    deliberate — a real description, evidence fed back each round, hypotheses tested instead of
+    assumed — a mid-range daily-driver model covers the overwhelming majority of ITOps work.
+    Discipline substitutes for horsepower further than people expect, and reaching for the top tier
+    by reflex mostly buys you a slower version of the same answer. Escalate for volume or for
+    genuinely hard reasoning; not as a default.
+  </div>
+  <p>
+    Two practical notes that follow from that. Most platforms now expose <strong>reasoning or
+    thinking-depth toggles</strong>, and on some models turning that up is the difference between
+    an assistant that stays on target and one that wanders — it's part of the decision surface, not
+    a setting to leave alone. And the tier you actually want <strong>isn't always offered in the
+    interface you happen to be in</strong>: the same provider can surface different models in
+    different modes of its own product. Both are worth finding out by experiment rather than
+    assuming the default in front of you is the whole menu.
+  </p>
   <div class="callout">
     That last point has a non-AI twin worth recognizing, because the behavior is identical:
     the tech who keeps asking people about a machine's problem while the uptime graph sitting in

@@ -58,6 +58,17 @@
     margin: 1.25rem 0;
   }
   .exercise h3 { margin-top: 0; }
+  .shapes { margin: 1.25rem 0; }
+  .shapes > div {
+    border: 1px solid var(--border);
+    border-left-width: 3px;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+  .shapes .name { display: block; color: var(--accent); font-weight: 600; margin-bottom: 0.25rem; }
   pre {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -91,6 +102,9 @@
     assumes you've already decided an assistant is the right tool for this —
     <a href="/ai-fluency/lab-delegation.html">that call comes first</a> — and it doesn't yet cover
     judging what comes back, which is <a href="/ai-fluency/lab-discernment.html">its own leg</a>.
+    Everything here sits in the <strong>research</strong> step of the
+    <a href="/ai-fluency/lab-delegation.html">troubleshooting loop</a>: you have a complaint, you
+    don't yet have a hypothesis, and this is how you get from one to the other.
   </p>
 
   <p>
@@ -204,6 +218,51 @@ Don't propose a fix yet. Ask me ONE diagnostic question at a time, chosen to eli
     <a href="/">domain modules</a> are for. That's why AI fluency can't be a standalone
     module — it's the thing that makes the other modules usable in the moment you need them.
   </div>
+
+  <h2>A third shape: the discovery prompt</h2>
+  <p>
+    Push and pull aren't the whole set. There's a third mode that gets used constantly without
+    having a name, and naming it matters because reaching for the wrong one of these three is a
+    specific, recognizable failure.
+  </p>
+  <div class="shapes">
+    <div>
+      <span class="name">Push</span>
+      You have enough context and you know what you want. Ask directly. Appropriate far more often
+      than this Lab's opening example implies — the failure isn't pushing, it's pushing when you
+      couldn't have described the problem properly in the first place.
+    </div>
+    <div>
+      <span class="name">Pull</span>
+      You can't articulate the answer, but you know roughly what the space of causes looks like.
+      Ask it to interview you, one question at a time, and <em>narrow</em> toward a cause.
+    </div>
+    <div>
+      <span class="name">Discovery</span>
+      You don't yet know what evidence even exists. Ask it to walk you through what could be
+      looked at — which logs, on which box, what tests to run, what to ask the client — before
+      narrowing anything at all.
+    </div>
+  </div>
+  <p>
+    Pull and discovery feel similar and do opposite things. <strong>Pull narrows toward a cause.
+    Discovery widens the evidence surface.</strong> Using pull when you needed discovery is how you
+    end up narrowing confidently inside a space that never contained the answer — every question
+    good, every answer honest, and the actual cause was in a log nobody mentioned.
+  </p>
+  <div class="callout">
+    <strong>The diagnostic signal:</strong> a push prompt that gets no traction is telling you
+    something about your prompt, not about the model. It means there wasn't enough information in
+    it. Re-rolling the same push prompt with different wording is the reflex, and it doesn't work —
+    the fix is to switch modes. If you can name the possible causes, go to pull. If you can't even
+    do that, go to discovery.
+  </div>
+  <p>
+    All three live in the <strong>research</strong> step of the
+    <a href="/ai-fluency/lab-delegation.html">troubleshooting loop</a>, which is worth knowing
+    because everything downstream — hypotheses, experiments, conclusions — inherits whatever this
+    step got wrong.
+  </p>
 
   <h2>The rest of the pattern</h2>
   <ul>
