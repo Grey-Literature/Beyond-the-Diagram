@@ -41,6 +41,35 @@
     margin-bottom: 0.5rem;
     font-size: 0.93rem;
   }
+  .checks { list-style: none; counter-reset: chk; padding: 0; margin: 1.25rem 0; }
+  .checks li {
+    counter-increment: chk;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+  .checks .q {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .checks .q::before { content: counter(chk) " · "; }
+  .checks p { margin: 0.5rem 0 0; }
+  .rule {
+    border: 1px solid var(--accent-dim);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.15rem;
+    margin: 1.25rem 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
   .exercise {
     border: 1px solid var(--border);
     border-radius: 0.5rem;
@@ -89,16 +118,100 @@
       always a decision you should be making consciously rather than pasting past.
     </li>
     <li>
-      <strong>Where the model runs is part of evaluating it.</strong> Whose infrastructure, under
-      what jurisdiction, with what retention. That's a platform-selection criterion alongside
-      capability, not a footnote after it.
-    </li>
-    <li>
       <strong>A hosted connector is one more trust boundary.</strong> Every integration that
       reaches into your systems is a thing that has access. Prefer running it yourself where you
       can.
     </li>
   </ul>
+
+  <h3>Four questions before an unfamiliar platform gets anything</h3>
+  <p>
+    Where a model runs is a platform-selection criterion alongside capability, not a footnote after
+    it. These four are deliberately separate questions, because a comfortable answer to one is
+    routinely mistaken for an answer to another.
+  </p>
+
+  <ol class="checks">
+    <li>
+      <span class="q">Sharing threshold</span>
+      What tier of information you'll send to an unfamiliar model <em>at all</em>. Public facts,
+      hypotheticals and synthetic data: fine anywhere. Anything that identifies a real client, a
+      real address space, or a real credential: never — regardless of which vendor is asking, or
+      how well their privacy policy reads.
+      <p>
+        This is the only one of the four you decide unilaterally. The other three are research
+        about somebody else, and research goes stale. This one is a rule about you, and it's what
+        still holds when the rest of your homework is out of date.
+      </p>
+    </li>
+    <li>
+      <span class="q">Residency</span>
+      Where the data actually gets processed and stored, and which jurisdiction's law governs it
+      while it sits there. Note <em>actually</em> — the country on the marketing page and the
+      region your inference runs in are not reliably the same thing.
+    </li>
+    <li>
+      <span class="q">Legal reach</span>
+      Deliberately not the same question as "will they misuse it." It's <strong>what the company
+      running this platform, or a government with authority over that company, can compel access
+      to.</strong> That answer moves with where the vendor is headquartered and hosted, which makes
+      it a per-vendor research task rather than a universal answer you write once and reuse.
+    </li>
+    <li>
+      <span class="q">State-sponsored compromise, asked independently</span>
+      Is this platform a plausible target for state-sponsored compromise <em>irrespective of its
+      own legal exposure</em> — and does that change what you're willing to put in front of it
+      regardless of where it's headquartered?
+    </li>
+  </ol>
+
+  <div class="callout">
+    <strong>Three and four have to be asked separately, and here's why.</strong> For a vendor
+    operating under a legal regime that obligates cooperation with state intelligence work, the two
+    questions collapse into a single channel — there's no daylight between "compelled by law" and
+    "captured for the state," because the law is written to make them identical. For most other
+    vendors they're genuinely independent risks: clean legal standing and still a worthwhile breach
+    target. So a comfortable "no" on one does not answer the other, and treating it as though it
+    does is the actual failure mode here.
+  </div>
+  <p>
+    Question four is also the one without a clean per-vendor answer the way residency has one. It's
+    closer to a live threat-intelligence judgment than a policy lookup — which means
+    <strong>it ages faster than the other three and needs rechecking rather than a one-time
+    answer.</strong> Worth putting on a recurring review the same way you would any other standing
+    security question, and worth knowing that the other three mostly stay put between reviews while
+    this one doesn't.
+  </p>
+
+  <h3>Blind comparison platforms</h3>
+  <p>
+    Model arenas — blind side-by-side comparisons, "battle" modes, the same feature on some
+    model-hosting community sites; search for <em>LLM arena</em> — are one of the cheapest ways to
+    build Platform Awareness. You get to see how one prompt lands across models you don't pay for,
+    and more usefully, how changing <em>your</em> prompt changes the output, without a subscription
+    to each vendor.
+  </p>
+  <p>
+    The catch is exact, and it's an inversion worth sitting with: <strong>the thing that makes a
+    blind arena useful is the same thing that makes it dangerous.</strong> You don't know which
+    model answered — which also means you don't know which company received what you typed, or
+    where it went. All four questions above are unanswerable there by construction, not by
+    oversight.
+  </p>
+  <div class="rule">
+    <strong>If you wouldn't post it to a public forum under your own name, it doesn't go into a
+    blind comparison.</strong> That isn't a hedge, it's the actual boundary — "anonymous to you"
+    does not mean "anonymous to them."
+  </div>
+  <p>
+    Which leaves arenas excellent for exactly what this module keeps asking you to do. Run the
+    <a href="/ai-fluency/lab-pull-prompt.html">push, pull and discovery comparisons</a> there on
+    invented topology, invented hostnames, invented users — a scenario you made up on the way to
+    the kettle. The point of that exercise is watching how the shape of your prompt changes the
+    shape of the answer, and <strong>the lesson transfers even though the data was never
+    real.</strong> That makes a sanitized arena a genuinely good home-lab exercise, and a terrible
+    place to paste a live ticket.
+  </p>
 
   <h2>Transparency Diligence — the level depends on audience and stakes</h2>
   <ul>
@@ -219,6 +332,12 @@
     <p>
       Then pick the one with the largest blast radius and ask whether the disclosure level actually
       matched it — before you shipped, not in hindsight.
+    </p>
+    <p>
+      Separately: list every AI platform you've typed into in the last month, including the ones
+      you tried once out of curiosity. For each, can you answer all four questions above? The
+      uncomfortable finding is usually not a bad answer — it's a platform you can't answer question
+      two about at all, and used anyway.
     </p>
   </div>
 
