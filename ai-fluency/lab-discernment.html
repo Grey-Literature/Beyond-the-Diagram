@@ -238,6 +238,71 @@
     </ul>
   </div>
 
+  <h2>When "ask why" still doesn't get you there</h2>
+  <p>
+    Sometimes you ask for the explanation and you genuinely still don't follow it. Two different
+    reasons, and both are legitimate:
+  </p>
+  <ul>
+    <li>It's above where you are right now, and one paragraph isn't going to close that.</li>
+    <li>
+      You have the knowledge and not the bandwidth — end of a long shift, three tickets deep, and
+      the words simply aren't going in.
+    </li>
+  </ul>
+  <p>
+    The second isn't a lesser version of the first, and it's worth treating identically, because a
+    tired tech and an inexperienced one make the same mistakes with a script neither of them read.
+  </p>
+
+  <h3>Cross-check with a completely unrelated model</h3>
+  <p>
+    Paste it into something from a different provider, on a different training base, and ask what
+    it does. Ask it that way, too — <em>"what does this actually do, and what would it
+    affect"</em> rather than <em>"is this right,"</em> which is an invitation to agree with you.
+  </p>
+  <div class="callout">
+    <strong>This is substitution</strong> — the same technique from
+    <a href="/concepts/diagnostic-methodology.html">the methodology page</a>, with the model as the
+    swapped variable. And <em>completely unrelated</em> is what makes it valid: re-asking the same
+    model, or a sibling in the same family, isn't swapping the variable at all. It's re-running the
+    same test and treating the repeat as confirmation. Correlated errors stay correlated. That's
+    the identical mistake as reading a certificate from your own desk in
+    <a href="/ai-fluency/case-ai-near-miss.html">the near-miss Case</a>: right instinct, wrong
+    vantage point.
+  </div>
+  <p>
+    <strong>The trigger worth watching for is length.</strong> When a script comes back
+    meaningfully longer than you expected it to be, that mismatch is the detectable signal for
+    scope creep — you asked for one thing and the size says you got several. Length is something
+    you can judge without understanding a single line, which makes it the one check still available
+    to you when comprehension isn't.
+  </p>
+  <p>
+    Be clear about what a second opinion can and can't do, though. It can catch a factual error, a
+    dangerous flag, or an artifact doing more than its own description claims. It <em>cannot</em>
+    tell you whether the thing fits your environment — neither model knows your topology, your
+    change windows, or what's unusual about that particular box. Two models agreeing is a
+    better-informed hypothesis, not verification against the live system.
+  </p>
+
+  <h3>Then run it somewhere isolated anyway</h3>
+  <p>
+    An offline box, a lab VM, a machine you can reimage without having a conversation about it
+    first. Not because you distrust either model — because the cost of being wrong is asymmetric:
+    twenty wasted minutes on a test system, against an outage plus an explanation you already know
+    you can't give. That gap is wide enough that it doesn't need a suspicion to justify it.
+  </p>
+  <div class="callout">
+    The ladder, in order: <strong>understand it if you can; cross-check when you can't; contain it
+    regardless.</strong> Each rung relies less on your own comprehension and more on containment,
+    which is exactly the right trade when comprehension is the thing that's missing. The last rung
+    matters most for anything that <em>acts</em> rather than advises — see
+    <a href="/ai-fluency/lab-diligence-agentic-boundary.html">blast radius</a>, and
+    <a href="/ai-fluency/lab-diligence-agentic-boundary.html">the home lab</a> as the place this
+    habit is cheapest to build.
+  </div>
+
   <h2>Signals worth reacting to</h2>
   <p>None of these prove anything on their own. All of them are worth a second look.</p>
   <ul class="signals">
@@ -250,6 +315,7 @@
     <li><strong>It invents a detail to justify being stuck.</strong> Rarer, and worth knowing it happens — a looping assistant pointing at an error in your input that isn't there is covering, not diagnosing.</li>
     <li><strong>The fix sounds too clean for the complexity of the problem.</strong> Real infrastructure is rarely tidy. A neat answer to a messy symptom deserves suspicion.</li>
     <li><strong>You couldn't explain it to the next tech.</strong> The one signal on this list that's about you rather than the model — and the one that invalidates every other check on the page, because you can't evaluate what you didn't follow.</li>
+    <li><strong>The artifact is longer than you expected.</strong> A script noticeably bigger than the job you described usually is doing more than the job you described. Judgeable on sight, without reading a line of it.</li>
   </ul>
 
   <h2>Discernment and Description are a loop, not a sequence</h2>
