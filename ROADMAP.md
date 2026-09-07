@@ -143,9 +143,30 @@ Design decisions worth settling before writing any of it:
 - [ ] **Relationship to Phase 6, which is close enough to blur:** Phase 6 is the apparatus — the home lab, the local model, the fault-injection sandbox. Phase 8 is the lab notebook. Build the apparatus first or the notebook has nothing in it.
 - [ ] **Ready-made first entries already referenced as prescriptions with no record behind them:** the 24-hour failover drill (Delegation), the push-vs-pull-vs-discovery comparison run against a real symptom (Description), a cross-model sanity check on an artifact that was longer than expected (Discernment), and a sanitized arena run watching prompt shape change output (Diligence). One per competency, which is a tidy shape for a first pass.
 
+## Content veins identified, not yet scheduled
+
+Named by Tasha while working through Phase 5. Recorded so they don't evaporate; none of them are assigned to a phase yet, and she expects the list to keep growing — the project is surfacing complaints and habits she hadn't articulated before. Her own framing for the shape of it: *"almost like a blog, but with reasons behind it that I haven't voiced."*
+
+Worth noting what that phrase describes, because it isn't any of the existing content types. These aren't mechanisms (Lab), tests (Case/Drill), or dated records (proposed Phase 8). They're **tacit knowledge made explicit** — the reasoning a senior tech has fully internalized and never had to say out loud. Which is also, precisely, the verbalization gap named in `ai-fluency/lab-discernment.html`: understanding something perfectly and being unable to transmit it. Building this content *is* that exercise.
+
+- [ ] **Network hunting from a MAC or an IP alone** — finding an unknown device with nothing but one identifier and access to infrastructure. Almost certainly a Lab plus a Case; spans switching, DHCP, DNS and directory data, which makes it a natural first specimen for the cross-domain problem below.
+- [ ] **Cross-domain traversal — "monkey barring."** Following a symptom out of the domain it presents in and into the domain that actually contains the cause. Tasha's description: working across domains to establish that symptom X pointed to resolution A, not to X.
+
+### The structural gap that second one exposes
+
+This is worth flagging as an architecture problem rather than a content backlog item. **Every Case on this platform currently lives inside exactly one domain folder.** A DHCP Case has a DHCP cause; a DNS Case has a DNS cause. That was the right call for building nine modules quickly, and it quietly teaches something false: that a symptom's domain and its cause's domain are the same. Real incidents routinely cross — the stack-sync Case in `ai-fluency/` is the closest thing here to a counter-example, and it only qualifies because it presents as "email and remote sessions are slow" and resolves at layer 2.
+
+So the nine tidy folders are load-bearing for navigation and actively misleading as a model of how faults distribute. Options, none decided:
+
+- A tenth cross-cutting module for multi-domain Cases, linked from every domain.
+- Cross-domain Cases hosted in the domain where the *symptom* appears (which is where a learner would look for them), tagged and cross-linked to the domain where the cause lives.
+- Treat it as a `concepts/` page — traversal as a named methodology alongside half-splitting and substitution — with the Cases distributed.
+
+The third is probably right in combination with the second: **this is a diagnostic technique that needs teaching once, not a domain.** It also has an obvious relationship to the concept doc's existing top-down/bottom-up traversal entry, which is currently about moving between *layers* rather than between *domains* — likely the same skill described at a different granularity, and worth deciding whether they're one entry or two.
+
 ## Open questions carried forward (from the concept doc)
 
 - **Tech stack** — fully resolved: hybrid (static + React islands) and the build/deploy mechanics (GitHub Actions → GitHub Pages) both settled in Phase 1. Only remaining step is flipping on the Pages "GitHub Actions" source in repo settings.
-- **Scope** — internal tool for a specific team/org vs. broader public release. Affects tone, hosting, and whether the "Grey Literature" branding is public-facing.
+- **Scope** — **substantially narrowed, though not formally closed.** Tasha's stated goal: not a site whose only use is training the people she works with, but one that offers *a different perspective to the book knowledge* — CompTIA-style material being the implicit contrast. That points broader than internal, and it's consistent with how the work is actually being done: personal time, deliberately vague on specifics. Two things follow. The vendor-level anonymization convention isn't a temporary hedge pending this decision, it's the correct standing convention for the audience — treat it as settled rather than provisional. And tone should assume a reader with no connection to the author's employer, which is already how the content reads. What remains genuinely open is narrower than the original question: whether the "Grey Literature" branding is public-facing, and whether the site is ever actively promoted versus simply existing at a URL.
 - **Version/vendor drift strategy** — teach mechanism as timeless with drift as a named side-topic (leaning direction per the concept doc), vs. pinning cases to specific versions. Decide once enough case content exists to see how often drift actually bites. **Possible resolution now visible:** the proposed Phase 8 splits it cleanly — teaching content stays mechanism-first and undated, logged experiments are explicitly dated observations. That gives drift somewhere to live without contaminating the timeless material.
 - **Placement quiz content** — resolved as far as coverage goes: all 9 modules have a quiz (Phase 3, extended in Phase 5). Still open at the *depth* level — each bank is 3 questions, which was originally described as a proof rather than final content, and nobody has re-litigated whether 3 is enough now that they're real.
