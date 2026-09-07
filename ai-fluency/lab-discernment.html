@@ -38,6 +38,36 @@
     font-size: 0.93rem;
   }
   .signals li:hover { border-left-color: var(--accent); }
+  .failures { list-style: none; counter-reset: fail; padding: 0; margin: 1rem 0; }
+  .failures li {
+    counter-increment: fail;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+  .failures .n {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .failures .n::before { content: counter(fail) " · "; }
+  .asks {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+    font-size: 0.93rem;
+  }
+  .asks p:first-child { margin-top: 0; }
+  .asks ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
+  .asks li { margin-bottom: 0.4rem; }
   .exercise {
     border: 1px solid var(--border);
     border-radius: 0.5rem;
@@ -134,6 +164,80 @@
     module here exists: they're what make this one usable.
   </p>
 
+  <h2>The precondition nobody names: you have to have understood it</h2>
+  <p>
+    Everything above quietly assumes you followed the answer. When a model pitches above your
+    current level — and it will, constantly, because it has no reliable way to gauge where that
+    level is — <strong>none of the three types actually run.</strong> You're not evaluating output
+    at that point. You're deciding which answer sounds most like the one you already wanted, which
+    is pattern-matching on confidence with extra steps.
+  </p>
+  <p>This is the most common failure in the whole module, and it shows up in three shapes:</p>
+
+  <ol class="failures">
+    <li>
+      <span class="n">Paraphrase drift</span>
+      The tech restates the answer to themselves, badly, and lands on the option they'd already
+      half-decided on. This is how you get someone confidently emptying
+      <code>C:\Windows\Installer</code> to reclaim disk space — a real thing people do, and a real
+      way to break every future repair, patch and uninstall on that machine. The model may well
+      have said something more careful. What survived the paraphrase didn't.
+    </li>
+    <li>
+      <span class="n">Scope creep in the artifact</span>
+      You asked for one thing and got a script that does that plus four neighbouring things it
+      inferred you'd want. Usually harmless. Not always — and if you couldn't read the script line
+      by line, you can't tell which of those two you're holding. The over-delivery is the risk,
+      not the correctness.
+    </li>
+    <li>
+      <span class="n">Unexplainable outcomes</span>
+      It worked, and afterwards the tech can't say why they did what they did. What comes out
+      instead is <em>"the AI told me to."</em>
+    </li>
+  </ol>
+
+  <div class="callout">
+    <strong>That third one splits into two very different problems that look identical from
+    outside.</strong> One is not having understood it. The other is having understood it fine and
+    not being able to <em>verbalize</em> it start to finish — which is its own real skill, and
+    failing at it tends to produce the mirror-image mistake: explaining at your level rather than
+    the listener's, and then fielding fifty questions you created. Same symptom, opposite causes,
+    and the second one is far more common among people who are good at this than anyone admits.
+  </div>
+
+  <h2>The habit that fixes it: ask why, every time</h2>
+  <p>
+    Make it reflexive to ask the model to explain the <em>why</em> or the <em>how</em> behind what
+    it just handed you — not as a check on the answer, but as a standing habit regardless of
+    whether you're suspicious. Three things happen at once:
+  </p>
+  <ul>
+    <li>You can now actually run product, process and performance discernment on it, because there's something to evaluate rather than accept.</li>
+    <li>You can explain the change afterwards, which is the difference between a fix and a documented fix.</li>
+    <li>
+      <strong>Your technical knowledge compounds.</strong> This is the cheapest technical education
+      available and it arrives at the exact moment you have context for it — attached to a real
+      system, a real symptom, and a decision you're about to make. That beats a course.
+    </li>
+  </ul>
+
+  <div class="asks">
+    <p><strong>Worth having as reflexes:</strong></p>
+    <ul>
+      <li><em>"Before I run that — walk me through what each part of it does."</em></li>
+      <li><em>"Why that one and not the other option you listed?"</em></li>
+      <li><em>"What would this break if the cause turned out to be something else?"</em></li>
+      <li>
+        <em>"Explain it as though I'll have to explain it to the next tech."</em> — the one that
+        addresses both halves of the third failure at once, because it forces a
+        <strong>transmissible</strong> explanation rather than merely a correct one. If you can't
+        hand the explanation onward, you don't have it yet, however well you followed it in the
+        moment.
+      </li>
+    </ul>
+  </div>
+
   <h2>Signals worth reacting to</h2>
   <p>None of these prove anything on their own. All of them are worth a second look.</p>
   <ul class="signals">
@@ -145,6 +249,7 @@
     <li><strong>It's anchored to something you corrected earlier in the session.</strong> Say so explicitly; if it happens twice, the session is spent.</li>
     <li><strong>It invents a detail to justify being stuck.</strong> Rarer, and worth knowing it happens — a looping assistant pointing at an error in your input that isn't there is covering, not diagnosing.</li>
     <li><strong>The fix sounds too clean for the complexity of the problem.</strong> Real infrastructure is rarely tidy. A neat answer to a messy symptom deserves suspicion.</li>
+    <li><strong>You couldn't explain it to the next tech.</strong> The one signal on this list that's about you rather than the model — and the one that invalidates every other check on the page, because you can't evaluate what you didn't follow.</li>
   </ul>
 
   <h2>Discernment and Description are a loop, not a sequence</h2>
@@ -172,6 +277,7 @@
       <li><strong>Product</strong> — was every factual claim in the final output something you could point to evidence for?</li>
       <li><strong>Process</strong> — walk its sequence. Was the first thing it suggested checking the right first thing to check, given the symptom profile? If it landed correctly, would that path have worked on a different problem with the same symptoms?</li>
       <li><strong>Performance</strong> — at what point, if any, did the session stop being useful? What was the earliest signal you could have caught?</li>
+      <li><strong>Comprehension</strong> — could you explain, right now and out loud, why the thing you did worked? If not, that's the first gap to close, because it's the one holding up the other three.</li>
     </ol>
     <p>
       The session that <em>worked</em> is the more instructive one. A failed session tells you it
