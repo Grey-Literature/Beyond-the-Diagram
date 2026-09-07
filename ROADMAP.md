@@ -123,9 +123,29 @@ Delivered against the 5b pages after reading them. All of these are her correcti
 - [ ] Agent-injected fault sandbox concept — Guided mode (injecting agent stays in the loop) vs. Blind mode (fresh instance, full realism)
 - [ ] Explicitly scoped as a bridge/individual-growth track, not a near-term platform priority
 
+## Phase 7 — unassigned
+
+Deliberately left open. Tasha numbered the next idea 8, so this slot is reserved rather than accidentally skipped — don't renumber Phase 8 into it.
+
+## Phase 8 — Personal experiments (proposed)
+
+Tasha's idea, recorded here while the reasoning is fresh. Nothing built. Logged records of experiments actually run, serving two purposes she named: **they work as concrete examples of the techniques the modules prescribe, and they're evidence the author has actually done this rather than written about it.**
+
+The second purpose deserves stating sharply, because it's the stronger one. This platform currently prescribes a fair amount of verification it never demonstrates — run the detox drill, cross-check with an unrelated model, run the prompt comparison yourself, test the arena on invented data. A platform that instructs all of that and shows no instance of anyone doing it is committing the exact failure its own Discernment lab names: **output that sounds more thorough than the work that was done.** The concept doc's "authentic field texture over sanitized textbook scenarios" principle points the same direction. A reader feels the gap whether or not they can name it.
+
+Design decisions worth settling before writing any of it:
+
+- [ ] **This is a fourth content type, and that should be a deliberate choice rather than a shoehorn.** The concept doc names three (Labs / Cases / Drills). A logged experiment has a different shape from all of them: a date, a method, a result, and frequently an inconclusive or surprising one. Either add it to the architecture properly or decide it belongs inside existing Labs as worked examples — but don't let it become a Lab with a date on it by accident.
+- [ ] **Negative and inconclusive results have to be publishable, or the credibility purpose collapses.** If every logged experiment tidily confirms the lesson above it, it reads as marketing and does the opposite of what it's for. The detox drill already has the right texture baked in — the honest version of that experiment includes caving before the day was out.
+- [ ] **These date, and saying so is the feature.** Model behaviour changes; an experiment is a dated observation, not a timeless claim. Which makes this phase arguably the right place to **resolve the standing version/vendor-drift open question** below — experiments are inherently pinned to a moment, so labelling them clearly is the natural answer, and it lets the teaching content stay mechanism-first and undated.
+- [ ] **Open: does this phase break the vendor-anonymization convention, and should it?** A model-tier comparison is much less useful without naming the models. Naming *your own tooling* in a dated experiment is a different risk category from naming a client's environment — arguably fine where the latter isn't — but it's Tasha's call, not a detail to resolve silently. Whatever's decided, the sharing-threshold rule from the Diligence lab still binds: no real client, address space, or credential in a published experiment, ever.
+- [ ] **Placement:** probably its own top-level `experiments/` folder rather than living inside `ai-fluency/`, since these will eventually span domains — a home-lab fault injection is Phase 6 material, a model-tier comparison is AI-fluency material, and both are the same content type. Linked from the landing page and from whichever Lab prescribed the experiment.
+- [ ] **Relationship to Phase 6, which is close enough to blur:** Phase 6 is the apparatus — the home lab, the local model, the fault-injection sandbox. Phase 8 is the lab notebook. Build the apparatus first or the notebook has nothing in it.
+- [ ] **Ready-made first entries already referenced as prescriptions with no record behind them:** the 24-hour failover drill (Delegation), the push-vs-pull-vs-discovery comparison run against a real symptom (Description), a cross-model sanity check on an artifact that was longer than expected (Discernment), and a sanitized arena run watching prompt shape change output (Diligence). One per competency, which is a tidy shape for a first pass.
+
 ## Open questions carried forward (from the concept doc)
 
 - **Tech stack** — fully resolved: hybrid (static + React islands) and the build/deploy mechanics (GitHub Actions → GitHub Pages) both settled in Phase 1. Only remaining step is flipping on the Pages "GitHub Actions" source in repo settings.
 - **Scope** — internal tool for a specific team/org vs. broader public release. Affects tone, hosting, and whether the "Grey Literature" branding is public-facing.
-- **Version/vendor drift strategy** — teach mechanism as timeless with drift as a named side-topic (leaning direction per the concept doc), vs. pinning cases to specific versions. Decide once enough case content exists to see how often drift actually bites.
+- **Version/vendor drift strategy** — teach mechanism as timeless with drift as a named side-topic (leaning direction per the concept doc), vs. pinning cases to specific versions. Decide once enough case content exists to see how often drift actually bites. **Possible resolution now visible:** the proposed Phase 8 splits it cleanly — teaching content stays mechanism-first and undated, logged experiments are explicitly dated observations. That gives drift somewhere to live without contaminating the timeless material.
 - **Placement quiz content** — resolved as far as coverage goes: all 9 modules have a quiz (Phase 3, extended in Phase 5). Still open at the *depth* level — each bank is 3 questions, which was originally described as a proof rather than final content, and nobody has re-litigated whether 3 is enough now that they're real.
