@@ -1,0 +1,203 @@
+/* Wielding AI's editorial module overview. Intentionally scoped to this page. */
+.wielding-page {
+  --bg: #111917;
+  --panel: #18211e;
+  --border: #35423b;
+  --text: #efece1;
+  --text-dim: #b2bbb2;
+  --accent: #e9a17f;
+  --sage: #b3c69b;
+  --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.wielding-page ::selection { background: #e9a17f; color: #111917; }
+.wielding-page a { text-underline-offset: .25em; }
+.wielding-page a:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+.wielding-page main, .site-header, .site-footer { width: min(1192px, calc(100% - 96px)); margin-inline: auto; }
+.wielding-page section[id], .wielding-page main { scroll-margin-top: 32px; }
+.skip-link { position: fixed; left: 20px; top: -100px; background: var(--text); color: var(--bg); z-index: 10; padding: 10px 20px; }
+.skip-link:focus { top: 20px; }
+.site-header { min-height: 100px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); gap: 32px; }
+.wordmark { display: inline-flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: -.2px; }
+.brand-mark { font: 24px var(--mono); color: var(--accent); }
+.site-header nav { display: flex; gap: 34px; }
+.site-header nav a { color: var(--text-dim); font-size: 13px; text-decoration: none; }
+.site-header nav a:last-child { color: var(--accent); }
+.site-header nav a:hover, .text-link:hover { color: var(--text); }
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 34px; padding: 84px 0 70px; }
+.eyebrow, .chapter-label { font: 10px/1.7 var(--mono); text-transform: uppercase; letter-spacing: 1.7px; color: var(--sage); }
+.hero .eyebrow { display: flex; align-items: center; gap: 10px; }
+.signal-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+.eyebrow-divider { color: #718176; margin: 0 3px; }
+.wielding-page h1 { font-size: clamp(64px, 7.9vw, 108px); font-weight: 500; letter-spacing: -.075em; line-height: 1.06; margin: 27px 0 27px; }
+.wielding-page h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--accent); letter-spacing: -.08em; }
+.hero-lede { font-size: clamp(23px, 2.4vw, 30px); line-height: 1.4; letter-spacing: -.6px; margin: 0 0 20px; }
+.hero-lede em { font-family: Georgia, serif; font-weight: 400; color: var(--accent); }
+.hero-description { max-width: 450px; color: var(--text-dim); font-size: 15px; line-height: 1.8; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 32px; }
+.button-primary { display: inline-flex; gap: 24px; align-items: center; background: var(--accent); color: #19201b; padding: 13px 18px; font-size: 13px; font-weight: 650; text-decoration: none; border: 1px solid var(--accent); transition: background .18s; }
+.button-primary:hover { background: #f6b998; }
+.text-link { font-size: 12px; color: var(--text-dim); }
+.instrument-art { margin: 20px 0 0; padding: 20px 22px 12px; background: radial-gradient(ellipse at 65% 48%, #25332a 0, transparent 65%); border-top: 1px solid #4e5b4d; border-bottom: 1px solid #4e5b4d; }
+.art-label, .instrument-art figcaption { display: flex; justify-content: space-between; gap: 16px; font: 9px/1.7 var(--mono); text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+.instrument-art svg { width: 100%; height: auto; display: block; margin: 12px 0; }
+.instrument-art figcaption { color: var(--sage); padding-bottom: 5px; }
+.module-meta { display: flex; align-items: center; gap: 40px; border-block: 1px solid var(--border); padding: 20px 0; font: 10px/1.5 var(--mono); color: var(--text-dim); }
+.module-meta > span { display: flex; align-items: center; gap: 12px; }
+.module-meta strong { color: var(--text); font-size: 18px; font-weight: 400; }
+.module-meta a { margin-left: auto; text-decoration: none; color: var(--sage); }
+.opening-note { display: grid; grid-template-columns: 1fr 2fr; gap: 72px; padding: 48px 0 70px; }
+.opening-note .eyebrow { padding-top: 7px; }
+.opening-note p { color: var(--text-dim); margin: 0 0 12px; font-size: 16px; line-height: 1.85; max-width: 730px; }
+.opening-note p:last-child { color: var(--text); }
+.idea-section { border-top: 1px solid var(--border); padding: 62px 0 0; }
+.section-heading h2, .meta-skill h2, .course-rail h2 { font-size: clamp(32px, 3.5vw, 46px); line-height: 1.16; font-weight: 450; letter-spacing: -1.7px; margin: 15px 0 30px; }
+.section-heading h2 em { color: var(--accent); font: italic 1em/1.16 Georgia, serif; }
+.idea-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 84px; margin-top: 45px; }
+.prose { color: var(--text-dim); font-size: 15px; line-height: 1.9; }
+.prose h3 { color: var(--text); font-size: 23px; line-height: 1.35; font-weight: 500; letter-spacing: -.6px; margin: 12px 0 25px; max-width: 330px; }
+.prose p { margin: 0 0 20px; }
+.chapter-label { color: var(--accent); font-size: 9px; }
+.pull-line { border-left: 2px solid var(--accent); padding: 3px 0 3px 20px; margin-top: 32px !important; }
+.pull-line strong { color: var(--text); font-weight: 500; }
+.takeaway { margin: 44px 0 0; background: #222e26; border-block: 1px solid #495441; padding: 40px; display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 64px; }
+.takeaway p { margin: 0; }
+.takeaway p:first-child { font-size: 25px; line-height: 1.5; letter-spacing: -.6px; }
+.takeaway em { color: var(--sage); font-family: Georgia, serif; }
+.takeaway p:last-child { font-size: 13px; line-height: 1.85; color: #bdc7b8; }
+.meta-skill { display: grid; grid-template-columns: 1fr 1.35fr; gap: 100px; padding: 85px 0; }
+.meta-skill h2 { font-size: 35px; }
+.emphasis { color: var(--text); font-size: 20px; }
+.note { margin-top: 28px; padding: 20px 24px; border-left: 2px solid var(--sage); background: var(--panel); color: var(--text-dim); font-size: 13px; line-height: 1.85; }
+.note-label { display: block; color: var(--sage); font: 10px/1.6 var(--mono); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 9px; }
+.framework { border-block: 1px solid var(--border); padding: 64px 0; display: grid; grid-template-columns: 1fr 1.35fr; column-gap: 100px; }
+.framework .section-heading p { font-size: 14px; color: var(--text-dim); }
+.framework dl { margin: 0; counter-reset: skill; }
+/* The skills sit under the heading in the left column, beside the prose, so the heading spans the prose's rows. */
+.framework-notes { grid-column: 2; align-self: start; position: sticky; top: 32px; }
+.framework .skill-list { margin-top: 30px; }
+.framework .skill-list dt { font-size: 16px; }
+.framework .skill-list dd { margin: 4px 0 12px 34px; padding-bottom: 12px; line-height: 1.7; }
+.framework .skill-list dd:last-child { border-bottom: 0; padding-bottom: 0; }
+.framework dt { margin: 0; counter-increment: skill; display: flex; align-items: baseline; gap: 18px; font-size: 18px; }
+.framework dt::before { content: "0" counter(skill); font: 11px var(--mono); color: var(--accent); }
+.framework dt a { width: 100%; color: var(--text); text-decoration: none; }
+.framework dt a span { float: right; color: var(--accent); font-size: 16px; }
+.framework dt a:hover { color: var(--accent); }
+.framework dd { margin: 6px 0 22px 34px; padding-bottom: 20px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.8; color: var(--text-dim); }
+.framework .modes, .framework .attrib { grid-column: 2; margin: 0 0 18px; color: var(--text-dim); font-size: 14px; line-height: 1.9; }
+.framework .modes strong { color: var(--text); font-weight: 600; }
+/* The three answers, set out like the guitar's pickup-selector positions. */
+.framework .hands { list-style: none; margin: 0 0 18px; padding: 0; border-top: 1px solid var(--border); }
+.framework .hands li { display: grid; grid-template-columns: 120px 1fr; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 14px; }
+.framework .hands strong { font: 10px/1.6 var(--mono); text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); font-weight: 400; }
+.framework .attrib { font-size: 12px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 4px; }
+.curriculum { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 90px; padding: 85px 0; }
+.course-rail { align-self: start; position: sticky; top: 32px; }
+.course-rail h2 { font-size: 48px; }
+.course-rail > p { font-size: 14px; color: var(--text-dim); line-height: 1.85; max-width: 235px; }
+.course-rail nav { display: flex; flex-direction: column; gap: 0; margin: 30px 0; }
+.course-rail nav a { font-size: 12px; color: var(--text-dim); text-decoration: none; padding: 8px 0; }
+.course-rail nav a:hover { color: var(--accent); }
+.course-rail nav span { font: 10px var(--mono); color: var(--accent); display: inline-block; width: 28px; }
+.rail-placement { display: block; border-top: 1px solid var(--border); padding-top: 25px; color: var(--text-dim); font-size: 12px; text-decoration: none; }
+.rail-placement strong { display: block; margin-top: 6px; color: var(--sage); font-weight: 500; }
+.course-group { padding: 0 0 44px; margin-bottom: 44px; border-bottom: 1px solid var(--border); }
+.course-group:last-child { margin-bottom: 0; border-bottom: 0; padding-bottom: 0; }
+.group-heading { display: flex; align-items: baseline; gap: 18px; }
+.group-number { font: 14px var(--mono); color: var(--accent); }
+.group-heading h3 { font-size: 26px; font-weight: 450; letter-spacing: -.7px; line-height: 1.3; margin: 0; }
+.group-note { color: var(--text-dim); font-size: 14px; line-height: 1.85; margin: 17px 0 24px; }
+.module-nav { display: grid; gap: 12px; margin-top: 24px; }
+.module-nav a { display: block; position: relative; background: var(--panel); border: 1px solid var(--border); padding: 23px 28px; text-decoration: none; transition: background .18s, border-color .18s; }
+.module-nav a:hover { border-color: var(--sage); background: #202c25; }
+.module-nav .kind { font: 9px/1.6 var(--mono); letter-spacing: 1.3px; text-transform: uppercase; color: var(--sage); margin-bottom: 8px; }
+.module-nav a[href*="case-"] .kind { color: var(--accent); }
+.module-nav a[href*="drill-"] .kind { color: #a9c5d1; }
+.lesson-title { display: block; font-size: 18px; line-height: 1.45; font-weight: 500; letter-spacing: -.3px; color: var(--text); padding-right: 24px; }
+.lesson-arrow { position: absolute; right: 24px; top: 23px; color: var(--text-dim); font-size: 18px; }
+.module-nav .desc { color: var(--text-dim); font-size: 13px; line-height: 1.85; margin-top: 10px; }
+#placement .module-nav a { background: #263026; border-color: #67765c; }
+/* The guitar island (wielding-ai-guitar) mounts here; the course list above is its no-JS fallback. */
+.guitar-section { padding: 80px 0 64px; }
+/* Same column split as .framework above, so the subheader shares an edge with its prose. */
+.guitar-heading { display: grid; grid-template-columns: 1fr 1.35fr; align-items: end; column-gap: 100px; margin-bottom: 28px; }
+.guitar-heading .eyebrow { grid-column: 1 / -1; }
+.guitar-heading h2 { font-size: 48px; line-height: 1.1; font-weight: 450; letter-spacing: -1.7px; margin: 15px 0 0; }
+.guitar-heading p { margin: 0 0 6px; color: var(--text-dim); font-size: 14px; line-height: 1.85; }
+.site-footer { padding: 30px 0 38px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.site-footer > span, .site-footer > a:last-child { font-size: 10px; color: var(--text-dim); }
+.site-footer > a:last-child { text-decoration: none; }
+@media (min-width: 1500px) { .hero { padding-block: 100px 85px; } }
+@media (max-width: 1050px) {
+  .wielding-page main, .site-header, .site-footer { width: calc(100% - 64px); }
+  .hero { gap: 20px; padding-top: 64px; }
+  .hero h1 { font-size: 76px; }
+  .hero-actions { gap: 18px; }
+  .instrument-art { padding-inline: 10px; }
+  .opening-note, .idea-columns, .meta-skill, .framework { gap: 44px; }
+  .guitar-heading { column-gap: 44px; }
+  .takeaway { gap: 32px; padding: 30px; }
+  .curriculum { grid-template-columns: 220px minmax(0, 1fr); gap: 45px; }
+  .module-meta { gap: 26px; }
+  .module-meta > span { gap: 8px; }
+}
+@media (max-width: 760px) {
+  .wielding-page main, .site-header, .site-footer { width: calc(100% - 40px); }
+  .site-header { min-height: 82px; gap: 16px; }
+  .wordmark { font-size: 12px; gap: 8px; }
+  .brand-mark { font-size: 21px; }
+  .site-header nav { gap: 0; }
+  .site-header nav a { display: none; }
+  .site-header nav a:last-child { display: block; font-size: 11px; }
+  .hero { grid-template-columns: 1fr; padding: 48px 0 32px; gap: 34px; }
+  .hero h1 { font-size: clamp(62px, 13vw, 94px); margin-block: 22px; }
+  .hero-lede { font-size: 28px; }
+  .hero-description { max-width: 520px; }
+  .hero-actions { gap: 22px; }
+  .instrument-art { width: 100%; max-width: 480px; justify-self: center; margin: 0; }
+  .instrument-art svg { max-height: 285px; }
+  .module-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
+  .module-meta > span { display: flex; flex-direction: column; gap: 3px; align-items: start; font-size: 9px; }
+  .module-meta a { grid-column: 1 / -1; margin: 0; padding-top: 10px; }
+  .opening-note { grid-template-columns: 1fr; gap: 18px; padding: 35px 0 45px; }
+  .opening-note p { font-size: 15px; }
+  .idea-section { padding-top: 40px; }
+  .idea-columns { grid-template-columns: 1fr; gap: 35px; margin-top: 32px; }
+  .prose h3 { max-width: none; }
+  .takeaway { grid-template-columns: 1fr; gap: 22px; margin-top: 26px; padding: 25px; }
+  .takeaway p:first-child { font-size: 23px; }
+  .meta-skill, .framework { grid-template-columns: 1fr; gap: 20px; padding: 45px 0; }
+  .meta-skill h2 { margin-bottom: 12px; }
+  .framework .modes, .framework .attrib { grid-column: 1; }
+  .framework-notes { grid-column: 1; position: static; }
+  .framework .section-heading h2 { margin-bottom: 16px; }
+  .framework dl { margin-top: 12px; }
+  .curriculum { grid-template-columns: 1fr; gap: 40px; padding: 48px 0; }
+  .guitar-section { padding: 48px 0 40px; }
+  .guitar-heading { grid-template-columns: 1fr; }
+  .guitar-heading h2 { font-size: 40px; }
+  .guitar-heading h2 br { display: none; }
+  .guitar-heading p { justify-self: start; margin-top: 12px; }
+  .course-rail { position: static; }
+  .course-rail h2 { margin-bottom: 16px; }
+  .course-rail h2 br { display: none; }
+  .course-rail > p { max-width: none; }
+  .course-rail nav { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 16px; margin: 22px 0; }
+  .course-rail nav a { font-size: 11px; }
+  .group-heading { gap: 13px; }
+  .group-heading h3 { font-size: 24px; }
+  .module-nav a { padding: 20px; }
+  .lesson-arrow { top: 19px; right: 20px; }
+  .course-group { padding-bottom: 32px; margin-bottom: 32px; }
+  .site-footer { flex-wrap: wrap; gap: 14px; }
+  .site-footer > span { order: 3; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wielding-page *, .wielding-page *::before, .wielding-page *::after { animation: none !important; transition: none !important; }
+}

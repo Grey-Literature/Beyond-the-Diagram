@@ -77,6 +77,45 @@ export function setPlacement(moduleId: string, tier: Tier): void {
   }
 }
 
+// --- Exploration -----------------------------------------------------
+//
+// For islands that reward poking around rather than scoring an answer
+// (the Wielding AI guitar): the set of things a learner has found. Not an
+// attempt — nothing is right or wrong — so it gets its own key scheme too.
+
+function exploredKey(scopeId: string): string {
+  return `${KEY_PREFIX}explored:${scopeId}`
+}
+
+export function getExplored(scopeId: string): string[] {
+  try {
+    const raw = localStorage.getItem(exploredKey(scopeId))
+    const parsed: unknown = raw ? JSON.parse(raw) : []
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string') : []
+  } catch {
+    return []
+  }
+}
+
+export function markExplored(scopeId: string, itemId: string): string[] {
+  const found = getExplored(scopeId)
+  if (!found.includes(itemId)) found.push(itemId)
+  try {
+    localStorage.setItem(exploredKey(scopeId), JSON.stringify(found))
+  } catch {
+    // Unavailable — the island keeps its in-memory set for this visit.
+  }
+  return found
+}
+
+export function resetExplored(scopeId: string): void {
+  try {
+    localStorage.removeItem(exploredKey(scopeId))
+  } catch {
+    // Nothing stored to clear.
+  }
+}
+
 export function getPlacement(moduleId: string): Tier | null {
   try {
     const raw = localStorage.getItem(placementKey(moduleId))

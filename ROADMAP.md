@@ -163,15 +163,89 @@ Two follow-ons from Tasha.
 - [ ] **Future: a translation scenario — open-ended, not quiz-style** (Tasha's call over the earlier "Drill with one quietly-wrong rewrite" idea). One incident, already understood, that the learner has to explain to several audiences across the directions above — e.g. no technical knowledge, slightly less technical, and an escalation point (vendor, senior tech, sales). **Open design question before building, not decided here:** it doesn't fit the concept doc's three content types cleanly. A Case scores an investigation path; a Drill is a single classification; this is free-text writing with nothing to call a model to grade it. Candidate shape consistent with "nothing calls a model": learner writes each explanation (drafts kept in localStorage via `progress.ts`), *then* reveals what that audience needed and a worked example, and self-assesses against a short checklist — plus a "run the rehearsal yourself" prompt for having their own assistant play that audience. If it becomes a fourth content type, that's a concept-doc discrepancy to flag rather than silently introduce. **Tasha's note: ideally a preceding scenario should lead into it** — how to get there is still open; she's thinking about it.
 - [x] Senior-tech row in the audience table now leads with **the end goal, defined in detail**, plus a callout: in truly ambiguous complaints ("slow," "intermittent") a symptom has often been ignored or misplaced, so the handoff should start from the definitions of good vs. bad (tied to baseline articulation and "the complaint isn't automatically the right question"); and when the ask is for an application to do something it wasn't designed to do, the goal *is* the handoff — "make it do X" is often no, "we need Y" may have another route.
 
+### Phase 5g — the guitar: exploring instead of a list
+
+Tasha's call: lean harder into the instrument analogy and reward exploration, since exploring is most of what the module is encouraging. The practice list and the five-skills list on `wielding-ai/index.html` are replaced by an explorable guitar, a new island `wielding-ai-guitar`. The old list is kept as the no-JS fallback inside the mount point.
+
+- [x] **Strings are the six practice groups** (choosing, knowing, partnership, checking, owning, literacies). The notes on each string, at frets 5/7/9/12, are that group's labs, cases and drills.
+- [x] **Hardware and floor are the parts from Knowing the instrument.** Tuning pegs = standing instructions, capo = edit/branch/regenerate, pickups = context window, knobs = model and reasoning depth, taped setlist = memory, jack and cable = connectors. On the floor: case = workspaces, music stand = files, first pedal = search, second pedal = code execution, looper = agentic modes, half-built pedal = the API.
+- [x] **The 3-way pickup selector is "who has hands on the keyboard"** (advises, executes, acts). A clip-on tuner is the tier check.
+- [x] **Nothing is labelled.** A counter by zone ("35 found") tracks progress, persisted through a new exploration store in `progress.ts` (`btd:explored:<scope>`). A synthesized pluck is available, off by default.
+- [x] All blurb text is quoted from the index page and the knowing-the-instrument Lab. The only new copy is one `onGuitar` line per part, and those are Tasha's to review. The Lab's part headings gained anchor ids so the blurbs deep-link.
+- [x] **The floor makes sounds too** (Tasha's idea). The four pedals all play the same open-E chord, and only the effect changes, so the module's "same instrument, different technique" is heard, not just read. Each effect matches what its pedal already stands for: search = reverb (a sound from outside the room), code execution = distortion (its own amp), looper = echo (keeps playing after your hands leave), the half-built pedal/API = raw oscillators (the effect you built yourself). The music stand rustles, and the case opens with two latch clicks and a thud. All synthesized in `sound.ts`, all behind the same off-by-default Sound toggle; with sound off, those parts nudge the toggle instead of doing nothing. Levels are balanced to within about 3 dB across the pedals, checked by rendering each one offline.
+- [x] **Framework section rebalanced** (Tasha: an awkward gap at full width). The five skills are back as a list under the heading in the left column. Their links (`#choosing` and so on) pluck the matching string and scroll the guitar into view; with no JS they still land on the fallback list. The right-hand prose is one sticky block, and "advises / executes / acts" is set out as three rows styled like the pickup-selector positions, with the wording unchanged. The "Find your range" subheader now sits on the same column line as that prose, and the line above the guitar fades out at the ends.
+- [x] **Made right-handed** (Tasha caught it). It was drawn headstock-left with the low E on top, which is a left-handed guitar seen from the front, so the whole scene is now mirrored. The pickup selector was a ball-tipped lever that read as a whammy bar; it's now a Strat-style blade between the bridge pickup and the knobs, neck side = advises. The clip-on tuner clamps to the end of the headstock, and the capo's screw sits on the bass side.
+- [x] **Every part has a sound now**, each acting out what it stands for: pegs = a string bending up into tune, tuner = reference A, capo = clamp click then the chord again two frets up, pickups = single-coil hum, knobs = one note swelling (louder, never more), pickup selector = the same note warm/plain/bright per position, setlist = a smaller rustle, jack = plug-in crackle, pop and hum. Levels were checked offline alongside the pedals.
+- [x] Her call: the seven playing techniques (fingers, pick, slide, bow, teeth…) stay prose, not selectable.
+
 ## Phase 6 — Home lab / experimentation track
 
 - [ ] Scope-of-trust checklist content (what stays local, why client creds/topology don't go near a cloud AI) — **build on, don't restate, the four platform questions now in `wielding-ai/lab-owning-the-result.html`** (sharing threshold / residency / legal reach / state-sponsored compromise). That Lab owns the professional, client-facing version; this track's job is the experimenter-facing one — local and self-hosted models, a self-hosted rather than third-party MCP, what never leaves the house network. The blind-arena rule already there is the natural on-ramp: it's the one safe-by-construction place to practise prompt shape on invented data.
 - [ ] Agent-injected fault sandbox concept — Guided mode (injecting agent stays in the loop) vs. Blind mode (fresh instance, full realism)
 - [ ] Explicitly scoped as a bridge/individual-growth track, not a near-term platform priority
 
-## Phase 7 — unassigned
+## Phase 7 — Server-room simulator (in progress)
 
-Deliberately left open. Tasha numbered the next idea 8, so this slot is reserved rather than accidentally skipped — don't renumber Phase 8 into it.
+Fills the slot left reserved above. Concept: `it-troubleshooting-platform-concept.md` → "Physical Layer & the Server-Room Simulator". Lives at top-level `server-room/`, engine in `app/src/sim/`, view in `app/src/islands/server-room/`.
+
+**Provenance.** The foundation is Tasha's Arena battle-mode run of her own brief (`C:\3-AgentSandboxes\Claude-Sandbox\interactive-3d-server-simulator-v2.zip`, kept outside the repo). The arena output already had a real engine: derived power, links, VLAN segments, storage paths, cluster quorum, and 14 scenarios. The work here is porting it in, a second correctness pass, and personalizing it.
+
+**Second-pass findings on the arena build**, recorded so they don't get re-discovered:
+- **It gave the diagnosis away.** The health panel named the root cause and flew the camera to the culprit. It announced "ticket can be resolved". Hovers exposed engine-internal reasons that no real device prints ("adapter failed", "Protocol mismatch").
+- The `stack` scenario's title said *half* the phones were dead, but its ticket and the topology said *all* of them.
+- The DIMM ticket said "drain the host", but there was no drain action, so a planned drain and an unplanned power-off looked identical.
+- SFP+ cages accepted fiber with no optic modeled.
+- Switch self-loops were allowed, but L2 loops weren't modeled.
+- The topology was hardcoded into the engine.
+- Tailwind's global reset broke the island rule of no element selectors.
+
+**Realism calls from Tasha's own clients** (anonymized):
+- If there's a SAN at all it's **iSCSI, usually through a 10G fiber switch**. Local storage on the host is more common.
+- **Hosted VoIP**, not an on-prem PBX.
+- A **backup NAS**, not a backup server.
+- Hosts carry the virtual DC, file and app servers, or those live off-site.
+- Rooms are **messy, half-rack, single-PSU-heavy and cloud-heavy**.
+
+**Milestones:**
+- [x] M0: concept-doc section, this entry, CLAUDE.md.
+- [x] M1: port into the repo as an island at functional parity. The arena's Tailwind is replaced by a scoped stylesheet in the site's own tokens, and state persists under `btd:sim:server-room`.
+- [x] M2: pure actions module (`app/src/sim/actions.ts`) plus a vitest scenario harness (`npm --prefix app test`). Baseline is all green. Each scenario fails as intended. Each scripted fix returns to green. Fix everything the harness and the findings above turn up, including a host drain action. Also fixed along the way: derived state was recomputed on `requestAnimationFrame`, which pauses in background tabs, so status panels went stale. It's a microtask now.
+- [x] M3: environment realism.
+  - 24U half rack.
+  - FC → iSCSI through a 10G storage switch.
+  - Hosted VoIP (PBX removed).
+  - Backup NAS as the witness.
+  - Single-PSU access switches and firewall split across A/B.
+  - Messy-room texture as real state: a daisy-chained consumer power strip, a switchport description that doesn't match its patching, an unlabeled patch cable.
+  - Cloud-heavy service checks.
+  - New scenario: `strip`, where someone bumped the strip's rocker switch and the ONT and desktop switch went dark.
+  - `zoning` became `lun-access`, since FC zoning no longer exists.
+  - *Check in with Tasha.* ← here as of 2026-09-25
+- [x] M3b: which way things face, from Tasha's check-in.
+  - Access switches and edge boxes stay front-facing. Small boxes go front-first even though their cables exit the rear.
+  - The **storage (fiber) switch faces the rear**, beside the servers' iSCSI ports. Longer fiber runs get tugged and broken. It's ordered with **port-side-exhaust airflow**, so it still breathes cold air.
+  - Server-side copper runs through a **back-to-back tie-panel pair** (TP-R on the rear rails, TP-F on the front, same U, permanent punched-down links between them). The engine resolves patch cord → tie link → patch cord as one end-to-end circuit.
+  - Front blanks now go wherever the front rails are empty, including behind the rear-mounted switch.
+  - **Heat:** every device has an airflow direction and a derived inlet temperature. The rack's front is room air, and its rear is server exhaust that scales with load.
+  - Two new scenarios:
+    - `airflow`: an RMA replacement arrives as the standard-airflow SKU and draws hot-aisle air.
+    - `tie-link`: a bad punch-down on a tie link. Every patch cord tests fine; the permanent-link test doesn't.
+  - Host 10G DACs still wrap round the rack side. A DAC can't go through an RJ45 panel, and a fiber tie cassette would mean more fiber runs, which is the thing to avoid.
+  - Tasha's note for later: given the choice, the network goes in its own rack with patch panels between the racks. Not needed for this project.
+- [ ] M4: Lab mode vs Case mode.
+  - Case mode shows only what a tech could observe: monitoring alerts arrive only if the device's management path is reachable, which is Signal vs. Silence made mechanical.
+  - Commit-then-reveal.
+  - Process scored separately from outcome from the action log, via `recordAttempt`.
+  - *Check in with Tasha.*
+- [ ] M5: tickets redrafted in field-texture voice for Tasha to edit. Each scenario gets links to the concept pages it exercises.
+
+**Deferred, not scheduled:**
+- **Topology as data.** Device roles and relationships declared in the catalog instead of IDs hardcoded in the engine. This is the prerequisite for racking and unracking hardware (real build-from-empty) and for more than one environment.
+- **Environment profiles** (see the concept doc's open question): thin cloud-heavy wall-mount, single host on local storage, direct-attach SAS, iSCSI without a storage switch.
+- **SFP optics as components.** SR/LR optic vs. DAC, wrong-optic faults.
+- **L2 loops and storms.** Would make the prosumer-networking VLAN-loop Case reproducible physically.
+- **Management-plane gating.** Config UIs only reachable if you have a path to the device's management interface, which pairs with the out-of-band tooling principle.
+- A second (network) rack, only if it earns its place.
 
 ## Phase 8 — Personal experiments (proposed)
 

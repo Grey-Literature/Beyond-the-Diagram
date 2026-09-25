@@ -3,104 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Learn to wield an AI assistant: choose the instrument, know its range, work the partnership, check the work, and own the result.">
+<meta name="color-scheme" content="dark">
 <title>Wielding AI — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
-  body { padding: 2rem 1.25rem 4rem; }
-  main { max-width: 40rem; margin: 0 auto; }
-  h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
-  .lede { color: var(--text-dim); line-height: 1.6; margin: 0 0 1.25rem; }
-  .note {
-    border-left: 3px solid var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    padding: 0.75rem 1rem;
-    margin: 0 0 2rem;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-  .framework {
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 1rem 1.25rem;
-    margin: 0 0 2rem;
-    background: var(--panel);
-    font-size: 0.9rem;
-  }
-  .framework h2 { font-size: 0.95rem; margin: 0 0 0.75rem; color: var(--text); }
-  .framework dl { margin: 0; }
-  .framework dt { color: var(--accent); font-weight: 600; margin-top: 0.6rem; }
-  .framework dt:first-child { margin-top: 0; }
-  .framework dd { margin: 0.15rem 0 0; color: var(--text-dim); line-height: 1.55; }
-  .framework .modes { margin: 1rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--border); color: var(--text-dim); line-height: 1.6; }
-  .framework .modes strong { color: var(--text); }
-  .framework .attrib { margin: 0.85rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
-  h2.group {
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--accent);
-    margin: 2rem 0 0.4rem;
-  }
-  .group-note { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 0.9rem; line-height: 1.55; }
-  .module-nav { display: flex; flex-direction: column; gap: 0.6rem; }
-  .module-nav a {
-    display: block;
-    padding: 0.85rem 1.1rem;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    text-decoration: none;
-    color: var(--text);
-  }
-  .module-nav a:hover { border-color: var(--accent); }
-  .module-nav .kind { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
-  .module-nav .desc { color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem; }
-</style>
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/wielding-ai.css">
 </head>
-<body>
-<main>
-  <a class="back-link" href="/">&larr; Beyond the Diagram</a>
-
-  <div class="status" style="margin-bottom: 1rem;">Meta-skill module</div>
-  <h1>Wielding AI</h1>
-  <p class="lede">
-    An AI assistant is closer to an instrument than a tool. A screwdriver works the same in anyone's
-    hand. An instrument doesn't — it gives back roughly what the player puts in, it has a range and
-    tells you only learn by playing it, and getting good means practice, finesse, and deliberately
-    pushing it to find where it runs out. This module treats the assistant as a partner you learn
-    to play, not a vending machine you feed symptoms into.
-  </p>
-  <p class="lede">
-    It's a meta-skill, not a tenth domain. Every technique here is gated on already knowing where
-    the evidence lives, which is what the other nine modules are for — the assistant can help you
-    find that evidence faster, or confidently point you at the wrong thing, and the difference is
-    mostly the player.
-  </p>
-  <div class="note">
-    Nothing on these pages calls a model. The prompt comparisons are worked examples with the
-    responses written out; the exercise is to run them yourself, against whatever assistant you
-    actually use, and compare what comes back.
-  </div>
-
-  <div class="framework">
-    <h2>What getting good at it takes</h2>
-    <dl>
-      <dt>Choosing the instrument</dt>
-      <dd>Whether this job wants an assistant at all, which one, and at what setting.</dd>
-      <dt>Knowing the instrument</dt>
-      <dd>What every part of the product you use actually does, what it's good for in ITOps, and where each part runs out.</dd>
-      <dt>Working the partnership</dt>
-      <dd>Briefing it, letting it interview you, feeding real evidence back each round — a conversation, not a query.</dd>
-      <dt>Checking the work</dt>
-      <dd>The answer, the reasoning that produced it, and whether the session itself is still healthy.</dd>
-      <dt>Owning the result</dt>
-      <dd>What you put in, what you disclose, and what you put your name to on the way out.</dd>
-    </dl>
+<body class="wielding-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="wordmark" href="../index.html"><span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+  <nav aria-label="Page navigation"><a href="#the-idea">The idea</a><a href="#five-skills">Five skills</a><a href="#practice">The practice <span aria-hidden="true">↗</span></a></nav>
+</header>
+<main id="main">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> Meta-skill module <span class="eyebrow-divider">/</span> AI &amp; ITOps</div>
+      <h1 id="page-title">Wielding <em>AI.</em></h1>
+      <p class="hero-lede">An AI assistant is closer to<br class="desktop-break"> <em>an instrument</em> than a tool.</p>
+      <p class="hero-description">A screwdriver works the same in anyone's hand. An instrument doesn't — it gives back roughly what the player puts in.</p>
+      <div class="hero-actions"><a class="button-primary" href="lab-choosing-the-instrument.html">Start with the instrument <span aria-hidden="true">↗</span></a><a class="text-link" href="placement-quiz.html">Find your starting point <span aria-hidden="true">→</span></a></div>
+    </div>
+    <figure class="instrument-art">
+      <div class="art-label"><span>Technique changes the result.</span><span aria-hidden="true">01 / 05</span></div>
+      <svg viewBox="0 0 500 410" fill="none" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="string-color" x1="55" y1="350" x2="440" y2="45" gradientUnits="userSpaceOnUse"><stop stop-color="#91bba9"/><stop offset=".55" stop-color="#e6d5a5"/><stop offset="1" stop-color="#ec9d77"/></linearGradient></defs>
+        <g stroke="#344340" stroke-width="1"><path d="M35 80H465M35 160H465M35 240H465M35 320H465"/><path d="M90 35V375M170 35V375M250 35V375M330 35V375M410 35V375"/></g>
+        <circle cx="250" cy="205" r="145" stroke="#52615a" stroke-dasharray="2 8"/>
+        <circle cx="250" cy="205" r="87" stroke="#52615a"/>
+        <g stroke="url(#string-color)" stroke-width="1.8">
+          <path d="M55 358C155 358 140 60 445 53"/><path d="M55 339C176 339 159 84 445 72"/><path d="M55 320C200 320 180 106 445 91"/><path d="M55 301C217 301 201 128 445 110"/><path d="M55 282C242 282 224 150 445 129"/><path d="M55 263C265 263 247 172 445 148"/>
+        </g>
+        <g fill="#ec9d77"><circle cx="445" cy="53" r="3"/><circle cx="445" cy="72" r="3"/><circle cx="445" cy="91" r="3"/><circle cx="445" cy="110" r="3"/><circle cx="445" cy="129" r="3"/><circle cx="445" cy="148" r="3"/></g>
+        <g fill="#91bba9"><circle cx="55" cy="358" r="3"/><circle cx="55" cy="339" r="3"/><circle cx="55" cy="320" r="3"/><circle cx="55" cy="301" r="3"/><circle cx="55" cy="282" r="3"/><circle cx="55" cy="263" r="3"/></g>
+        <path d="M242 205H258M250 197V213" stroke="#e7e5d9"/>
+      </svg>
+      <figcaption><span>Instrument. Technique. Result.</span><span aria-hidden="true">↗</span></figcaption>
+    </figure>
+  </section>
+  <div class="module-meta" aria-label="Module contents"><span><strong>05</strong> Core skills</span><span><strong>07</strong> Labs</span><span><strong>03</strong> Cases</span><span><strong>03</strong> Drills</span><a href="#practice">Explore the module <span aria-hidden="true">↓</span></a></div>
+  <section class="opening-note">
+    <span class="eyebrow">Practice, not a shortcut</span>
+    <div><p>You learn its range by using it, its limits by pushing past them, and getting good takes practice, finesse, and enough domain experience to recognize when the thing in your hands is starting to lie to you.</p><p>This module treats the assistant as something you learn to wield, not a vending machine you feed symptoms into.</p></div>
+  </section>
+  <section class="idea-section" id="the-idea" aria-labelledby="idea-title">
+    <div class="section-heading"><span class="eyebrow">The instrument analogy</span><h2 id="idea-title">Same instrument.<br><em>Different possibilities.</em></h2></div>
+    <div class="idea-columns">
+      <article class="prose">
+        <span class="chapter-label">01 / The technique</span>
+        <h3>A guitar is not played one way.</h3>
+        <p>You can strum it with your fingers or a pick. You can fingerpick it, tap it, use a glass or metal slide, run a violin bow across the strings, or — if you are sufficiently committed to the bit — play it with your teeth.</p>
+        <p>It is still the same instrument. But the technique changes the result dramatically.</p>
+        <p>AI works much the same way. A quick chat, deep research, a coding environment, connected files, a browser, persistent project context, or an autonomous agent may all involve the same underlying model. What changes is how you are playing it — what access you give it, how much context you provide, how tightly you guide it, and what kind of output you are trying to produce.</p>
+        <p class="pull-line">The skill is not simply knowing which instrument to pick.<br><strong>It is knowing how to play it for the result you want.</strong></p>
+      </article>
+      <article class="prose">
+        <span class="chapter-label">02 / The instrument</span>
+        <h3>Not every instrument sounds the same.</h3>
+        <p>Technique is only part of the equation.</p>
+        <p>A Gibson does not sound or feel exactly like a Fender. Both are guitars. Both can play the same notes. Put them in the same musician's hands and ask for the same song, and the result can still be noticeably different.</p>
+        <p>AI models behave similarly.</p>
+        <p>Models that occupy roughly the same capability class are not interchangeable. They may differ in how they reason, how literally they follow direction, how readily they improvise, how consistently they behave across sessions, and how well they respond to particular kinds of work.</p>
+        <p>Then the way you play them changes the result again.</p>
+        <p>Chat with the model. Give it research tools. Put it in a coding environment. Connect it to files. Give it a browser. Let it operate as an agent.</p>
+      </article>
+    </div>
+    <div class="takeaway"><p>Same instrument family. Different instrument.<br>Different technique. <em>Different result.</em></p><p>Learning to wield AI means learning all three: what instrument you have, how it behaves, and how to play it for what you are trying to accomplish.</p></div>
+  </section>
+  <section class="meta-skill" aria-labelledby="meta-title"><div><span class="eyebrow">The meta-skill</span><h2 id="meta-title">The difference is<br>mostly the player.</h2></div><div class="prose"><p class="emphasis">It's a meta-skill, not a tenth domain.</p><p>Every technique here is gated on already knowing where the evidence lives, which is what the other nine modules are for — the assistant can help you find that evidence faster, or confidently point you at the wrong thing, and the difference is mostly the player.</p><aside class="note"><span class="note-label">Bring your own assistant</span>Nothing on these pages calls a model. The prompt comparisons are worked examples with the responses written out; the exercise is to run them yourself, against whatever assistant you actually use, and compare what comes back.</aside></div></section>
+  <section class="framework" id="five-skills" aria-labelledby="framework-title">
+    <div class="section-heading"><span class="eyebrow">The framework</span><h2 id="framework-title">What getting good<br>at it takes.</h2><p>Five skills. One continuing practice.</p>
+      <dl class="skill-list">
+        <dt><a href="#choosing">Choosing the instrument <span aria-hidden="true">↓</span></a></dt>
+        <dd>Whether this job wants an assistant at all, which one, and at what setting.</dd>
+        <dt><a href="#knowing">Knowing the instrument <span aria-hidden="true">↓</span></a></dt>
+        <dd>What every part of the product you use actually does, what it's good for in ITOps, and where each part runs out.</dd>
+        <dt><a href="#partnership">Working the partnership <span aria-hidden="true">↓</span></a></dt>
+        <dd>Briefing it, letting it interview you, feeding real evidence back each round — a conversation, not a query.</dd>
+        <dt><a href="#checking">Checking the work <span aria-hidden="true">↓</span></a></dt>
+        <dd>The answer, the reasoning that produced it, and whether the session itself is still healthy.</dd>
+        <dt><a href="#owning">Owning the result <span aria-hidden="true">↓</span></a></dt>
+        <dd>What you put in, what you disclose, and what you put your name to on the way out.</dd>
+      </dl>
+    </div>
+    <div class="framework-notes">
     <p class="modes">
-      Running through all five is one question: <strong>who has hands on the keyboard?</strong>
-      The assistant <strong>advises</strong> (you decide and make the change), it
-      <strong>executes</strong> a task you defined exactly, or it <strong>acts</strong> on a system
-      on its own judgment. The answer changes what you owe in checking and disclosure.
+      Running through all five is one question: <strong>who has hands on the keyboard?</strong> The assistant:
     </p>
+    <ol class="hands">
+      <li><strong>Advises</strong><span>you decide and make the change</span></li>
+      <li><strong>Executes</strong><span>a task you defined exactly</span></li>
+      <li><strong>Acts</strong><span>on a system, on its own judgment</span></li>
+    </ol>
+    <p class="modes">The answer changes what you owe in checking and disclosure.</p>
     <p class="modes" style="border-top: none; padding-top: 0; margin-top: 0.6rem;">
       Where a tech starts, ITOps is almost entirely advisory — call it 90–95%, where a tech brings a
       problem to an assistant and the session turns out to be some mix of research, discovery,
@@ -117,122 +112,152 @@
       assistant as an instrument you practice with — and around ITOps specimens the course never
       covers, but the debt is real and worth stating.
     </p>
-  </div>
+    </div>
+  </section>
 
-  <h2 class="group">Choosing the instrument</h2>
+  <section class="guitar-section" id="practice" aria-labelledby="practice-title">
+    <div class="guitar-heading">
+      <span class="eyebrow">Put it into practice</span>
+      <h2 id="practice-title">Find your <br>range.</h2>
+      <p>Work through the five skills, or go straight to the one you need.</p>
+    </div>
+    <div id="wielding-ai-guitar-root">
+      <noscript>
+    <div class="course-groups">
+  <section class="course-group" id="choosing" aria-labelledby="choosing-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">01</span><h3 id="choosing-title">Choosing the instrument</h3></div>
   <p class="group-note">
     Looks like it isn't a decision at all — it gets made in about the time it takes to pick left or
     right at a familiar junction, which is not the same as not deciding.
   </p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">
+  <div class="module-nav">
+    <a href="lab-choosing-the-instrument.html">
       <div class="kind">Lab</div>
-      Whether, which one, and at what setting
+      <span class="lesson-title">Whether, which one, and at what setting</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Troubleshooting mapped onto the scientific method, and where an assistant fits at each of the six steps. Then which model and at what tier — plus why a mid-range daily driver covers most ITOps work if you're deliberate, and why your AI stack is infrastructure.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Knowing the instrument</h2>
+  </section>
+<section class="course-group" id="knowing" aria-labelledby="knowing-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">02</span><h3 id="knowing-title">Knowing the instrument</h3></div>
   <p class="group-note">
     Most people play three notes of it. The rest of the range is sitting in the settings menu.
   </p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-knowing-the-instrument.html">
+  <div class="module-nav">
+    <a href="lab-knowing-the-instrument.html">
       <div class="kind">Lab</div>
-      Every part of it, and where each runs out
+      <span class="lesson-title">Every part of it, and where each runs out</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Context, files, standing instructions, workspaces, memory, reasoning depth, search, connectors, code execution, agentic modes, and the API inside your own scripts — what each is for in ITOps work, the limit you'll hit, and a practice routine for finding the edges on purpose instead of mid-incident.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Working the partnership</h2>
+  </section>
+<section class="course-group" id="partnership" aria-labelledby="partnership-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">03</span><h3 id="partnership-title">Working the partnership</h3></div>
   <p class="group-note">Getting useful behavior back once you've decided to bring it in.</p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-pull-prompt.html">
+  <div class="module-nav">
+    <a href="lab-pull-prompt.html">
       <div class="kind">Lab</div>
-      The pull-prompt
+      <span class="lesson-title">The pull-prompt</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Ask the AI to interview you instead of answer you — and demand a verification method with every question it asks. Side-by-side weak and strong prompts with both responses written out, plus the third shape: the discovery prompt, for when you don't yet know what evidence exists.</div>
     </a>
-    <a href="/wielding-ai/drill-unpaired-question.html">
+    <a href="drill-unpaired-question.html">
       <div class="kind">Classification Drill</div>
-      A narrowing question with no way to check it
+      <span class="lesson-title">A narrowing question with no way to check it</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">A verbatim AI reply. Classify it before you answer it.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Checking the work</h2>
+  </section>
+<section class="course-group" id="checking" aria-labelledby="checking-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">04</span><h3 id="checking-title">Checking the work</h3></div>
   <p class="group-note">
     Three things that fail independently — the answer, the reasoning, and the session. Conflating
     them is why "check the AI's work" is useless advice.
   </p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-checking-the-work.html">
+  <div class="module-nav">
+    <a href="lab-checking-the-work.html">
       <div class="kind">Lab</div>
-      Judging what comes back
+      <span class="lesson-title">Judging what comes back</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">The answer, the path it took, and the session's health — why the path is hardest to check, and the precondition nobody names: none of it works if the answer pitched above your level. Plus the habit that fixes it, and the fallback ladder for when it doesn't — understand it if you can, cross-check when you can't, contain it regardless.</div>
     </a>
-    <a href="/wielding-ai/case-ai-near-miss.html">
+    <a href="case-ai-near-miss.html">
       <div class="kind">Case</div>
-      The AI's answer is confident, well-written, and wrong
+      <span class="lesson-title">The AI's answer is confident, well-written, and wrong</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Symptom only — plus a plausible AI diagnosis you didn't ask to be tested on.</div>
     </a>
-    <a href="/wielding-ai/case-narrativized-ticket.html">
+    <a href="case-narrativized-ticket.html">
       <div class="kind">Case</div>
-      The ticket that describes work you didn't do
+      <span class="lesson-title">The ticket that describes work you didn't do</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Nothing is broken and the draft reads well. That's the problem — and a ticket is a record.</div>
     </a>
-    <a href="/wielding-ai/case-stack-sync.html">
+    <a href="case-stack-sync.html">
       <div class="kind">Case</div>
-      Correct advice, wrong sequence
+      <span class="lesson-title">Correct advice, wrong sequence</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">The suggestion isn't wrong information. It's wrongly ordered — and the check it sends you to can't tell your hypotheses apart.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Owning the result</h2>
+  </section>
+<section class="course-group" id="owning" aria-labelledby="owning-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">05</span><h3 id="owning-title">Owning the result</h3></div>
   <p class="group-note">The part with actual professional consequences attached.</p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-owning-the-result.html">
+  <div class="module-nav">
+    <a href="lab-owning-the-result.html">
       <div class="kind">Lab</div>
-      What goes in, what you disclose, what you vouch for
+      <span class="lesson-title">What goes in, what you disclose, what you vouch for</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">The four questions to ask before an unfamiliar platform gets anything, where advising ends and acting begins, how that mix moves as you get better and the checks that should come with it, explaining it to someone who wasn't there, why disclosure follows blast radius, and the personal-account boundary.</div>
     </a>
-    <a href="/wielding-ai/drill-who-acted.html">
+    <a href="drill-who-acted.html">
       <div class="kind">Classification Drill</div>
-      Advised, executed, or acted?
+      <span class="lesson-title">Advised, executed, or acted?</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Same chat window, same amount of typing, completely different accountability. One question settles it.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Underlying literacies</h2>
+  </section>
+<section class="course-group" id="literacies" aria-labelledby="literacies-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">06</span><h3 id="literacies-title">Underlying literacies</h3></div>
   <p class="group-note">
     Two places where the gap isn't AI skill at all — it's not being able to read the evidence
     you'd be handing over. Worth doing independently of any assistant.
   </p>
-  <nav class="module-nav">
-    <a href="/wielding-ai/lab-packet-capture-with-ai.html">
+  <div class="module-nav">
+    <a href="lab-packet-capture-with-ai.html">
       <div class="kind">Lab</div>
-      Packet captures with AI help
+      <span class="lesson-title">Packet captures with AI help</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">A .pcap is binary and most tools can't read it. Reducing it to a text slice is itself half-splitting — and the AI still can't spot an anomaly until you state the baseline.</div>
     </a>
-    <a href="/wielding-ai/lab-browser-console-literacy.html">
+    <a href="lab-browser-console-literacy.html">
       <div class="kind">Lab</div>
-      Reading a browser console
+      <span class="lesson-title">Reading a browser console</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Four console errors worth recognizing on sight, and the three-bucket sort: yours to fix, the dev team's, or your infrastructure wearing a web-shaped disguise.</div>
     </a>
-    <a href="/wielding-ai/drill-console-cors.html">
+    <a href="drill-console-cors.html">
       <div class="kind">Classification Drill</div>
-      A CORS error in the console
+      <span class="lesson-title">A CORS error in the console</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Whose problem is this? The reflex answer is right often enough to be dangerous.</div>
     </a>
-  </nav>
+  </div>
 
-  <h2 class="group">Placement</h2>
-  <nav class="module-nav">
-    <a href="/wielding-ai/placement-quiz.html">
+  </section>
+<section class="course-group" id="placement" aria-labelledby="placement-title">
+<div class="group-heading"><span class="group-number" aria-hidden="true">↗</span><h3 id="placement-title">Placement</h3></div>
+  <div class="module-nav">
+    <a href="placement-quiz.html">
       <div class="kind">Placement</div>
-      Wielding AI tier check
+      <span class="lesson-title">Wielding AI tier check</span><span class="lesson-arrow" aria-hidden="true">↗</span>
       <div class="desc">Behavioral, not self-report. Skip this and start with choosing the instrument if you'd rather not bother.</div>
     </a>
-  </nav>
+  </div>
+</section>
+    </div>
+      </noscript>
+    </div>
+    <script type="module" src="/islands/wielding-ai-guitar.js"></script>
+  </section>
 </main>
+<footer class="site-footer"><a class="wordmark" href="../index.html"><span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a><span>Learn the mechanism. Practice the methodology.</span><a href="#main">Back to top ↑</a></footer>
 </body>
 </html>

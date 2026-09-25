@@ -40,6 +40,12 @@ const islands = {
   'case-narrativized-ticket': resolve(import.meta.dirname, 'src/islands/case-narrativized-ticket/main.tsx'),
   'case-stack-sync': resolve(import.meta.dirname, 'src/islands/case-stack-sync/main.tsx'),
   'drill-who-acted': resolve(import.meta.dirname, 'src/islands/drill-who-acted/main.tsx'),
+  // Not a Case or Drill: the explorable guitar that is Wielding AI's way into
+  // its content. Nothing scored; it only remembers what's been found.
+  'wielding-ai-guitar': resolve(import.meta.dirname, 'src/islands/wielding-ai-guitar/main.tsx'),
+  // Full-viewport 3D simulator — much heavier than every other island
+  // (three.js), and only server-room/index.html loads it. See root CLAUDE.md.
+  'server-room': resolve(import.meta.dirname, 'src/islands/server-room/main.tsx'),
 }
 
 // https://vite.dev/config/

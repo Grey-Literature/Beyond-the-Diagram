@@ -4,8 +4,35 @@
     {
       "name": "app-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "app", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "app",
+        "run",
+        "dev"
+      ],
       "port": 5173
+    },
+    {
+      "name": "site-dryrun",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8080",
+        "--directory",
+        "_site"
+      ],
+      "port": 8080
+    },
+    {
+      "name": "site-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8081"
+      ],
+      "port": 8081
     }
   ]
 }
