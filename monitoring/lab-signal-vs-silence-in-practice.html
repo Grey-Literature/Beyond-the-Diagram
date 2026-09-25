@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: Signal vs. Silence in monitoring — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: Signal vs. Silence in monitoring — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 38rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
@@ -29,52 +29,109 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/monitoring/">&larr; Monitoring</a>
-
-  <h1>Lab: Signal vs. Silence, applied</h1>
-
-  <p>
-    Monitoring is where <a href="/concepts/cross-cutting-concepts.html#signal-vs-silence">Signal
-    vs. Silence</a> shows up in its purest form — nearly every monitoring protocol has its own
-    three-bucket version of the same taxonomy, and confusing the buckets wastes real
-    investigation time.
-  </p>
-
-  <h2>SNMP's three buckets</h2>
-  <ol>
-    <li><strong>No response</strong> — error <code>-2003</code> or a plain timeout. Ambiguous: wrong credentials, wrong version, a blocked port, the service down or bound to localhost only, a restrictive ACL. Any of these look identical from here.</li>
-    <li><strong>"I don't have that"</strong> — <code>No Such Object</code> / <code>No Such Instance</code>. Usually a MIB/OID mismatch, often from a firmware upgrade that silently renumbered an OID. The device answered fine; it just doesn't have anything at that specific address anymore.</li>
-    <li><strong>A value that's genuinely bad</strong> — the only bucket where "go fix the underlying thing" is actually correct.</li>
-  </ol>
-
-  <h2>Ping's nuances are sharper than they look</h2>
-  <ul>
-    <li><strong>"Request timed out"</strong> — genuinely ambiguous, five-plus possible causes.</li>
-    <li><strong>"Destination host unreachable"</strong> — an explicit reply from an <em>intermediate router</em>, not the target. Points at routing, not the destination itself.</li>
-    <li><strong>"Destination port unreachable"</strong> on a UDP probe — counter-intuitively <em>proves the host is alive</em>. Only a live host generates that specific ICMP reply.</li>
-    <li><strong>"Could not find host"</strong> — never even left the resolver stage. The network layer was never touched.</li>
-  </ul>
-  <div class="callout">
-    Four different strings that all read as "ping failed" to someone skimming quickly — and each
-    one points at a completely different layer to check next.
-  </div>
-
-  <h2>The same taxonomy, other protocols</h2>
-  <p>
-    HTTP monitoring maps cleanly: connection refused / DNS failure (no signal) vs. a clean 404 or
-    a TLS handshake with the wrong cert (explicit rejection) vs. a slow-but-200 or a 500 (bad
-    value). Database and log-based monitoring generalize the same way — the buckets are the
-    pattern, not the protocol.
-  </p>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/monitoring/case-snmp-oid-mismatch.html">Case: an SNMP sensor goes red right after a firmware upgrade</a>
-    <a href="/monitoring/drill-ping-port-unreachable.html">Drill: classify what "destination port unreachable" actually proves</a>
-  </div>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-blue">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Monitoring</a>
+        <div class="eyebrow">Observation & evidence <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: Signal vs. Silence, applied</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#snmp-s-three-buckets">
+                <span>01</span>SNMP&#x27;s three buckets</a>
+              <a href="#ping-s-nuances-are-sharper-than-they-look">
+                <span>02</span>Ping&#x27;s nuances are sharper than they look</a>
+              <a href="#the-same-taxonomy-other-protocols">
+                <span>03</span>The same taxonomy, other protocols</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#snmp-s-three-buckets">
+                <span>01</span>SNMP&#x27;s three buckets</a>
+              <a href="#ping-s-nuances-are-sharper-than-they-look">
+                <span>02</span>Ping&#x27;s nuances are sharper than they look</a>
+              <a href="#the-same-taxonomy-other-protocols">
+                <span>03</span>The same taxonomy, other protocols</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Monitoring activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <p>
+            Monitoring is where <a href="../concepts/cross-cutting-concepts.html#signal-vs-silence">Signal
+              vs. Silence</a> shows up in its purest form — nearly every monitoring protocol has its own
+            three-bucket version of the same taxonomy, and confusing the buckets wastes real
+            investigation time.
+          </p>
+          <h2 id="snmp-s-three-buckets">SNMP's three buckets</h2>
+          <ol>
+            <li>
+              <strong>No response</strong> — error <code>-2003</code> or a plain timeout. Ambiguous: wrong credentials, wrong version, a blocked port, the service down or bound to localhost only, a restrictive ACL. Any of these look identical from here.</li>
+            <li>
+              <strong>"I don't have that"</strong> — <code>No Such Object</code> / <code>No Such Instance</code>. Usually a MIB/OID mismatch, often from a firmware upgrade that silently renumbered an OID. The device answered fine; it just doesn't have anything at that specific address anymore.</li>
+            <li>
+              <strong>A value that's genuinely bad</strong> — the only bucket where "go fix the underlying thing" is actually correct.</li>
+          </ol>
+          <h2 id="ping-s-nuances-are-sharper-than-they-look">Ping's nuances are sharper than they look</h2>
+          <ul>
+            <li>
+              <strong>"Request timed out"</strong> — genuinely ambiguous, five-plus possible causes.</li>
+            <li>
+              <strong>"Destination host unreachable"</strong> — an explicit reply from an <em>intermediate router</em>, not the target. Points at routing, not the destination itself.</li>
+            <li>
+              <strong>"Destination port unreachable"</strong> on a UDP probe — counter-intuitively <em>proves the host is alive</em>. Only a live host generates that specific ICMP reply.</li>
+            <li>
+              <strong>"Could not find host"</strong> — never even left the resolver stage. The network layer was never touched.</li>
+          </ul>
+          <div class="callout">
+            Four different strings that all read as "ping failed" to someone skimming quickly — and each
+            one points at a completely different layer to check next.
+          </div>
+          <h2 id="the-same-taxonomy-other-protocols">The same taxonomy, other protocols</h2>
+          <p>
+            HTTP monitoring maps cleanly: connection refused / DNS failure (no signal) vs. a clean 404 or
+            a TLS handshake with the wrong cert (explicit rejection) vs. a slow-but-200 or a 500 (bad
+            value). Database and log-based monitoring generalize the same way — the buckets are the
+            pattern, not the protocol.
+          </p>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../monitoring/case-snmp-oid-mismatch.html">Case: an SNMP sensor goes red right after a firmware upgrade</a>
+            <a href="../monitoring/drill-ping-port-unreachable.html">Drill: classify what "destination port unreachable" actually proves</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

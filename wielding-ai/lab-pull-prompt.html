@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: The pull-prompt — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: The pull-prompt — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 40rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
@@ -89,245 +89,295 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/wielding-ai/">&larr; Wielding AI</a>
-
-  <div class="d-tag">Working the partnership</div>
-  <h1>Lab: The pull-prompt</h1>
-
-  <p>
-    This is where the partnership actually gets worked: how you set the session up so the
-    assistant does its half of the job and you do yours. It assumes you've already decided an
-    assistant is the right instrument for this —
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">that call comes first</a> — and it doesn't yet cover
-    judging what comes back, which is <a href="/wielding-ai/lab-checking-the-work.html">its own skill</a>.
-    Everything here sits in the <strong>research</strong> step of the
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">troubleshooting loop</a>: you have a complaint, you
-    don't yet have a hypothesis, and this is how you get from one to the other.
-  </p>
-
-  <p>
-    The failure mode this fixes is specific. A tech in a high-uncertainty state — vague symptom,
-    no idea where to start — pastes the symptom into an AI and gets back one of two things: a
-    single confident-sounding guess they implement without testing, or a generic list of
-    possibilities with no way to check any of them.
-  </p>
-  <p>
-    Both waste time. The second one is arguably worse, because it <em>looks</em> helpful. A
-    well-organized list of five plausible causes feels like progress right up until you realize
-    you're no closer to knowing which one it is than before you asked.
-  </p>
-
-  <h2>The same problem, asked two ways</h2>
-  <p>
-    Here's a real-shaped scenario: <strong>Monday morning, users at one branch office can't reach
-    the file server. It worked Friday. Nobody reports changing anything.</strong>
-  </p>
-
-  <h3>The push prompt — asking for an answer</h3>
-
-  <div class="exchange" data-verdict="weak">
-    <div class="label">You</div>
-    <div class="you">users at our branch office can't access the file server this morning, worked fine friday, what's wrong?</div>
-    <div class="label">AI</div>
-    <div class="ai">
-      <p>
-        This is most commonly a DNS resolution issue — after a weekend of DHCP lease renewals,
-        clients often pick up a stale or incorrect DNS server and can no longer resolve the file
-        server's hostname. Here's what to look at:
-      </p>
-      <ol>
-        <li><strong>DNS resolution</strong> — verify clients can resolve the file server's FQDN.</li>
-        <li><strong>SMB service state</strong> — confirm the Server service is running and listening on 445.</li>
-        <li><strong>Firewall rules</strong> — check whether anything is blocking SMB between the branch subnet and the server.</li>
-        <li><strong>Share and NTFS permissions</strong> — confirm the affected users still have access rights.</li>
-        <li><strong>Network path</strong> — verify routing between the branch and the site hosting the file server.</li>
-        <li><strong>Authentication</strong> — check for expired passwords or a broken secure channel on the clients.</li>
-      </ol>
-      <p>Start with DNS, as that's the most likely culprit given the symptoms.</p>
-    </div>
-  </div>
-
-  <p class="verdict">
-    Be honest about this answer: it isn't stupid. Every item on that list is a real thing that
-    really causes this. It's well-organized, it's fast, and it sounds like it was written by
-    someone who's done this before. That's exactly the problem — it's confident enough to steer
-    you. An unsure tech reads "start with DNS" and spends the next twenty minutes on DNS. And
-    notice what the list <em>doesn't</em> contain: a single instruction for how to check any of
-    the six items, or any way to tell which one you're actually looking at. It narrowed nothing.
-    It restated the search space and put a confident guess on top.
-  </p>
-
-  <h3>The pull-prompt — asking to be interviewed</h3>
-
-  <div class="exchange" data-verdict="strong">
-    <div class="label">You</div>
-    <div class="you">I'm troubleshooting an IT issue and I want you to interview me, not answer me.
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-copper">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Wielding AI</a>
+        <div class="eyebrow">Practice & partnership <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: The pull-prompt</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#the-same-problem-asked-two-ways">
+                <span>01</span>The same problem, asked two ways</a>
+              <a href="#the-part-techs-actually-get-wrong">
+                <span>02</span>The part techs actually get wrong</a>
+              <a href="#a-third-shape-the-discovery-prompt">
+                <span>03</span>A third shape: the discovery prompt</a>
+              <a href="#the-rest-of-the-pattern">
+                <span>04</span>The rest of the pattern</a>
+              <a href="#what-this-sets-up">
+                <span>05</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#the-same-problem-asked-two-ways">
+                <span>01</span>The same problem, asked two ways</a>
+              <a href="#the-part-techs-actually-get-wrong">
+                <span>02</span>The part techs actually get wrong</a>
+              <a href="#a-third-shape-the-discovery-prompt">
+                <span>03</span>A third shape: the discovery prompt</a>
+              <a href="#the-rest-of-the-pattern">
+                <span>04</span>The rest of the pattern</a>
+              <a href="#what-this-sets-up">
+                <span>05</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Wielding AI activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <div class="d-tag">Working the partnership</div>
+          <p>
+            This is where the partnership actually gets worked: how you set the session up so the
+            assistant does its half of the job and you do yours. It assumes you've already decided an
+            assistant is the right instrument for this —
+            <a href="../wielding-ai/lab-choosing-the-instrument.html">that call comes first</a> — and it doesn't yet cover
+            judging what comes back, which is <a href="../wielding-ai/lab-checking-the-work.html">its own skill</a>.
+            Everything here sits in the <strong>research</strong> step of the
+            <a href="../wielding-ai/lab-choosing-the-instrument.html">troubleshooting loop</a>: you have a complaint, you
+            don't yet have a hypothesis, and this is how you get from one to the other.
+          </p>
+          <p>
+            The failure mode this fixes is specific. A tech in a high-uncertainty state — vague symptom,
+            no idea where to start — pastes the symptom into an AI and gets back one of two things: a
+            single confident-sounding guess they implement without testing, or a generic list of
+            possibilities with no way to check any of them.
+          </p>
+          <p>
+            Both waste time. The second one is arguably worse, because it <em>looks</em> helpful. A
+            well-organized list of five plausible causes feels like progress right up until you realize
+            you're no closer to knowing which one it is than before you asked.
+          </p>
+          <h2 id="the-same-problem-asked-two-ways">The same problem, asked two ways</h2>
+          <p>
+            Here's a real-shaped scenario: <strong>Monday morning, users at one branch office can't reach
+              the file server. It worked Friday. Nobody reports changing anything.</strong>
+          </p>
+          <h3>The push prompt — asking for an answer</h3>
+          <div class="exchange" data-verdict="weak">
+            <div class="label">You</div>
+            <div class="you">users at our branch office can't access the file server this morning, worked fine friday, what's wrong?</div>
+            <div class="label">AI</div>
+            <div class="ai">
+              <p>
+                This is most commonly a DNS resolution issue — after a weekend of DHCP lease renewals,
+                clients often pick up a stale or incorrect DNS server and can no longer resolve the file
+                server's hostname. Here's what to look at:
+              </p>
+              <ol>
+                <li>
+                  <strong>DNS resolution</strong> — verify clients can resolve the file server's FQDN.</li>
+                <li>
+                  <strong>SMB service state</strong> — confirm the Server service is running and listening on 445.</li>
+                <li>
+                  <strong>Firewall rules</strong> — check whether anything is blocking SMB between the branch subnet and the server.</li>
+                <li>
+                  <strong>Share and NTFS permissions</strong> — confirm the affected users still have access rights.</li>
+                <li>
+                  <strong>Network path</strong> — verify routing between the branch and the site hosting the file server.</li>
+                <li>
+                  <strong>Authentication</strong> — check for expired passwords or a broken secure channel on the clients.</li>
+              </ol>
+              <p>Start with DNS, as that's the most likely culprit given the symptoms.</p>
+            </div>
+          </div>
+          <p class="verdict">
+            Be honest about this answer: it isn't stupid. Every item on that list is a real thing that
+            really causes this. It's well-organized, it's fast, and it sounds like it was written by
+            someone who's done this before. That's exactly the problem — it's confident enough to steer
+            you. An unsure tech reads "start with DNS" and spends the next twenty minutes on DNS. And
+            notice what the list <em>doesn't</em> contain: a single instruction for how to check any of
+            the six items, or any way to tell which one you're actually looking at. It narrowed nothing.
+            It restated the search space and put a confident guess on top.
+          </p>
+          <h3>The pull-prompt — asking to be interviewed</h3>
+          <div class="exchange" data-verdict="strong">
+            <div class="label">You</div>
+            <div class="you">I'm troubleshooting an IT issue and I want you to interview me, not answer me.
 
 Symptom: users at one branch office can't reach a file server this morning. It worked Friday. No known changes.
 
 My scope: I'm a tier-2 tech with domain admin, RMM agents on all endpoints and servers, read access to the firewall, and remote console to the switches. There is nobody physically on site today.
 
 Don't propose a fix yet. Ask me ONE diagnostic question at a time, chosen to eliminate as much of the possibility space as it can. For each question, tell me exactly how to check the answer — the specific command, log, or tool — because I may not already know how to test it. Also tell me what each possible answer would rule out.</div>
-    <div class="label">AI</div>
-    <div class="ai">
-      <p><strong>Question 1:</strong> Is this affecting every user at that branch, or only some of them?</p>
-      <p>
-        <strong>How to check:</strong> Don't poll users — that's slow and their reports are
-        unreliable. Use your RMM to run <code>Test-NetConnection &lt;fileserver&gt; -Port 445</code>
-        on three or four endpoints at that site, including at least one machine nobody has
-        reported a problem on. If you can, run the same test from a machine at a
-        <em>different</em> site as a control.
-      </p>
-      <p>
-        <strong>What the answers rule out:</strong> If every branch endpoint fails and the control
-        site succeeds, this is site-scoped — network path, routing, or firewall — and we can drop
-        per-user permissions, passwords, and anything client-specific entirely. If only some
-        branch machines fail, it's not the path, and we look at what those machines have in common.
-        If the control site fails too, the branch is a red herring and the server itself is the
-        problem.
-      </p>
-      <p>Tell me what you get and I'll pick the next split from there.</p>
-    </div>
-  </div>
-
-  <p class="verdict">
-    Same model, same scenario, roughly the same amount of typing. The difference isn't the AI's
-    intelligence — it's what you asked it to do. One question, chosen to cut the space roughly in
-    half, with a concrete way to answer it and a stated consequence for each outcome. That's
-    <a href="/concepts/diagnostic-methodology.html">half-splitting</a>, applied to a conversation
-    instead of a wire.
-  </p>
-
-  <h2>The part techs actually get wrong</h2>
-  <p>
-    It isn't enough for the AI to ask a good narrowing question. "Is this one user or everyone?"
-    is a genuinely good split — and completely useless to someone who doesn't know
-    <em>how</em> to establish that. Faced with an unpaired question, a tech under pressure will
-    do one of three things: guess, answer from impression ("I think it's everyone?"), or go ask
-    users and take their word for it. All three feed bad data into the next split, and every
-    question after that inherits the error.
-  </p>
-  <div class="callout">
-    <strong>The actual skill</strong> is noticing when a question arrives without a check attached,
-    and asking for the pairing out loud rather than answering anyway. One sentence does it:
-    <em>"How would I check that? I have RMM, firewall read access, and no one on site."</em>
-    <br><br>
-    The knowledge of where that evidence lives is what the rest of this platform's
-    <a href="/">domain modules</a> are for. That's why wielding AI can't be a standalone
-    module — it's the thing that makes the other modules usable in the moment you need them.
-  </div>
-
-  <h2>A third shape: the discovery prompt</h2>
-  <p>
-    Push and pull aren't the whole set. There's a third mode that gets used constantly without
-    having a name, and naming it matters because reaching for the wrong one of these three is a
-    specific, recognizable failure.
-  </p>
-  <div class="shapes">
-    <div>
-      <span class="name">Push</span>
-      You have enough context and you know what you want. Ask directly. Appropriate far more often
-      than this Lab's opening example implies — the failure isn't pushing, it's pushing when you
-      couldn't have described the problem properly in the first place.
-      <br><br>
-      <strong>And be honest inside it.</strong> If you know there are holes in what you're handing
-      over — you don't have that log, you can't reach that box, you genuinely don't know how to
-      check that piece — say so in the prompt. An unflagged gap gets quietly filled with an
-      assumption you'll never see. A flagged one usually gets addressed, and naming it is often
-      what turns a push prompt into a partial discovery request without you having to start over.
-      <em>"I don't know how to get that"</em> is useful information, not an admission.
-    </div>
-    <div>
-      <span class="name">Pull</span>
-      You can't articulate the answer, but you know roughly what the space of causes looks like.
-      Ask it to interview you, one question at a time, and <em>narrow</em> toward a cause.
-    </div>
-    <div>
-      <span class="name">Discovery</span>
-      You don't yet know what evidence even exists. Ask it to walk you through what could be
-      looked at — which logs, on which box, what tests to run, what to ask the client — before
-      narrowing anything at all.
-    </div>
-  </div>
-  <p>
-    Pull and discovery feel similar and do opposite things. <strong>Pull narrows toward a cause.
-    Discovery widens the evidence surface.</strong> Using pull when you needed discovery is how you
-    end up narrowing confidently inside a space that never contained the answer — every question
-    good, every answer honest, and the actual cause was in a log nobody mentioned.
-  </p>
-  <div class="callout">
-    <strong>The diagnostic signal:</strong> a push prompt that gets no traction is telling you
-    something about your prompt, not about the model. It means there wasn't enough information in
-    it. Re-rolling the same push prompt with different wording is the reflex, and it doesn't work —
-    the fix is to switch modes. If you can name the possible causes, go to pull. If you can't even
-    do that, go to discovery.
-  </div>
-  <p>
-    All three live in the <strong>research</strong> step of the
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">troubleshooting loop</a>, which is worth knowing
-    because everything downstream — hypotheses, experiments, conclusions — inherits whatever this
-    step got wrong.
-  </p>
-
-  <h2>The rest of the pattern</h2>
-  <ul>
-    <li>
-      <strong>Feed it evidence incrementally.</strong> The loop only works if you report back what
-      you actually found after each check. Otherwise it keeps reasoning from your increasingly
-      stale opening description instead of from real data.
-    </li>
-    <li>
-      <strong>State scope and capability up front</strong> — your role, your access level, your
-      tooling (RMM, packet capture, admin rights, remote-hands-only). Skip this and it burns turns
-      suggesting things you can't do, or worse, assumes an access level you don't have and hands
-      you a plan that dead-ends three steps in. Blind spots belong in the same declaration: what
-      you don't have, and what you wouldn't know how to go get.
-    </li>
-    <li>
-      <strong>Paste verbatim, never paraphrase.</strong> "It says something about a trust issue" is
-      already lossy — you've thrown away the distinction between
-      <a href="/ad-gpo/">"the trust relationship failed" and "the domain is not available"</a>
-      before the AI ever saw it. Same "learn to read what's actually printed" discipline that
-      applies to reading an error yourself, applied to what you feed in.
-    </li>
-    <li>
-      <strong>Treat its hypothesis like a search result, never a verdict.</strong> An AI can produce
-      a confident, well-written, wrong answer with exactly the shape of a forum post that matches
-      your symptom but not your cause. Verify against the live system before you act on it —
-      that's the entire point of the <a href="/wielding-ai/case-ai-near-miss.html">Case</a> in this
-      module.
-    </li>
-    <li>
-      <strong>Know when the loop isn't worth it.</strong> Production is down, you need hands on
-      keyboard now, and you have two strong candidates — just check them. A multi-turn interview
-      costs more than it saves under acute pressure. This pattern earns its keep in the "lots of
-      unknowns, no idea where to start" state it was designed for, and nowhere else.
-    </li>
-  </ul>
-
-  <div class="exercise">
-    <h3>Now run both yourself</h3>
-    <p>
-      Reading a comparison isn't the exercise. The responses above are worked examples — yours
-      will differ, and the differences are the interesting part. Take a symptom you're
-      <em>currently</em> stuck on, or the last one that took you too long, and run it twice
-      through whatever AI tool you actually use.
-    </p>
-    <p>
-      One caveat if you're doing this somewhere unfamiliar — a blind model arena is a good place to
-      watch prompt shape change output, and a bad place to paste a live ticket, because you can't
-      know which company received it. Invent the topology and the hostnames if so; the lesson
-      transfers even when the data was never real. See
-      <a href="/wielding-ai/lab-owning-the-result.html">owning the result</a> for where that line
-      sits.
-    </p>
-    <p><strong>First, the push version.</strong> Type the symptom the way you'd normally type it:</p>
-<pre>&lt;your symptom, one or two sentences, the way you'd normally ask&gt;</pre>
-    <p><strong>Then, in a fresh conversation, the pull version:</strong></p>
-<pre>I'm troubleshooting an IT issue and I want you to interview me, not answer me.
+            <div class="label">AI</div>
+            <div class="ai">
+              <p>
+                <strong>Question 1:</strong> Is this affecting every user at that branch, or only some of them?</p>
+              <p>
+                <strong>How to check:</strong> Don't poll users — that's slow and their reports are
+                unreliable. Use your RMM to run <code>Test-NetConnection &lt;fileserver&gt; -Port 445</code>
+                on three or four endpoints at that site, including at least one machine nobody has
+                reported a problem on. If you can, run the same test from a machine at a
+                <em>different</em> site as a control.
+              </p>
+              <p>
+                <strong>What the answers rule out:</strong> If every branch endpoint fails and the control
+                site succeeds, this is site-scoped — network path, routing, or firewall — and we can drop
+                per-user permissions, passwords, and anything client-specific entirely. If only some
+                branch machines fail, it's not the path, and we look at what those machines have in common.
+                If the control site fails too, the branch is a red herring and the server itself is the
+                problem.
+              </p>
+              <p>Tell me what you get and I'll pick the next split from there.</p>
+            </div>
+          </div>
+          <p class="verdict">
+            Same model, same scenario, roughly the same amount of typing. The difference isn't the AI's
+            intelligence — it's what you asked it to do. One question, chosen to cut the space roughly in
+            half, with a concrete way to answer it and a stated consequence for each outcome. That's
+            <a href="../concepts/diagnostic-methodology.html">half-splitting</a>, applied to a conversation
+            instead of a wire.
+          </p>
+          <h2 id="the-part-techs-actually-get-wrong">The part techs actually get wrong</h2>
+          <p>
+            It isn't enough for the AI to ask a good narrowing question. "Is this one user or everyone?"
+            is a genuinely good split — and completely useless to someone who doesn't know
+            <em>how</em> to establish that. Faced with an unpaired question, a tech under pressure will
+            do one of three things: guess, answer from impression ("I think it's everyone?"), or go ask
+            users and take their word for it. All three feed bad data into the next split, and every
+            question after that inherits the error.
+          </p>
+          <div class="callout">
+            <strong>The actual skill</strong> is noticing when a question arrives without a check attached,
+            and asking for the pairing out loud rather than answering anyway. One sentence does it:
+            <em>"How would I check that? I have RMM, firewall read access, and no one on site."</em>
+            <br>
+            <br>
+            The knowledge of where that evidence lives is what the rest of this platform's
+            <a href="../">domain modules</a> are for. That's why wielding AI can't be a standalone
+            module — it's the thing that makes the other modules usable in the moment you need them.
+          </div>
+          <h2 id="a-third-shape-the-discovery-prompt">A third shape: the discovery prompt</h2>
+          <p>
+            Push and pull aren't the whole set. There's a third mode that gets used constantly without
+            having a name, and naming it matters because reaching for the wrong one of these three is a
+            specific, recognizable failure.
+          </p>
+          <div class="shapes">
+            <div>
+              <span class="name">Push</span>
+              You have enough context and you know what you want. Ask directly. Appropriate far more often
+              than this Lab's opening example implies — the failure isn't pushing, it's pushing when you
+              couldn't have described the problem properly in the first place.
+              <br>
+              <br>
+              <strong>And be honest inside it.</strong> If you know there are holes in what you're handing
+              over — you don't have that log, you can't reach that box, you genuinely don't know how to
+              check that piece — say so in the prompt. An unflagged gap gets quietly filled with an
+              assumption you'll never see. A flagged one usually gets addressed, and naming it is often
+              what turns a push prompt into a partial discovery request without you having to start over.
+              <em>"I don't know how to get that"</em> is useful information, not an admission.
+            </div>
+            <div>
+              <span class="name">Pull</span>
+              You can't articulate the answer, but you know roughly what the space of causes looks like.
+              Ask it to interview you, one question at a time, and <em>narrow</em> toward a cause.
+            </div>
+            <div>
+              <span class="name">Discovery</span>
+              You don't yet know what evidence even exists. Ask it to walk you through what could be
+              looked at — which logs, on which box, what tests to run, what to ask the client — before
+              narrowing anything at all.
+            </div>
+          </div>
+          <p>
+            Pull and discovery feel similar and do opposite things. <strong>Pull narrows toward a cause.
+              Discovery widens the evidence surface.</strong> Using pull when you needed discovery is how you
+            end up narrowing confidently inside a space that never contained the answer — every question
+            good, every answer honest, and the actual cause was in a log nobody mentioned.
+          </p>
+          <div class="callout">
+            <strong>The diagnostic signal:</strong> a push prompt that gets no traction is telling you
+            something about your prompt, not about the model. It means there wasn't enough information in
+            it. Re-rolling the same push prompt with different wording is the reflex, and it doesn't work —
+            the fix is to switch modes. If you can name the possible causes, go to pull. If you can't even
+            do that, go to discovery.
+          </div>
+          <p>
+            All three live in the <strong>research</strong> step of the
+            <a href="../wielding-ai/lab-choosing-the-instrument.html">troubleshooting loop</a>, which is worth knowing
+            because everything downstream — hypotheses, experiments, conclusions — inherits whatever this
+            step got wrong.
+          </p>
+          <h2 id="the-rest-of-the-pattern">The rest of the pattern</h2>
+          <ul>
+            <li>
+              <strong>Feed it evidence incrementally.</strong> The loop only works if you report back what
+              you actually found after each check. Otherwise it keeps reasoning from your increasingly
+              stale opening description instead of from real data.
+            </li>
+            <li>
+              <strong>State scope and capability up front</strong> — your role, your access level, your
+              tooling (RMM, packet capture, admin rights, remote-hands-only). Skip this and it burns turns
+              suggesting things you can't do, or worse, assumes an access level you don't have and hands
+              you a plan that dead-ends three steps in. Blind spots belong in the same declaration: what
+              you don't have, and what you wouldn't know how to go get.
+            </li>
+            <li>
+              <strong>Paste verbatim, never paraphrase.</strong> "It says something about a trust issue" is
+              already lossy — you've thrown away the distinction between
+              <a href="../ad-gpo/index.html">"the trust relationship failed" and "the domain is not available"</a>
+              before the AI ever saw it. Same "learn to read what's actually printed" discipline that
+              applies to reading an error yourself, applied to what you feed in.
+            </li>
+            <li>
+              <strong>Treat its hypothesis like a search result, never a verdict.</strong> An AI can produce
+              a confident, well-written, wrong answer with exactly the shape of a forum post that matches
+              your symptom but not your cause. Verify against the live system before you act on it —
+              that's the entire point of the <a href="../wielding-ai/case-ai-near-miss.html">Case</a> in this
+              module.
+            </li>
+            <li>
+              <strong>Know when the loop isn't worth it.</strong> Production is down, you need hands on
+              keyboard now, and you have two strong candidates — just check them. A multi-turn interview
+              costs more than it saves under acute pressure. This pattern earns its keep in the "lots of
+              unknowns, no idea where to start" state it was designed for, and nowhere else.
+            </li>
+          </ul>
+          <div class="exercise">
+            <h3>Now run both yourself</h3>
+            <p>
+              Reading a comparison isn't the exercise. The responses above are worked examples — yours
+              will differ, and the differences are the interesting part. Take a symptom you're
+              <em>currently</em> stuck on, or the last one that took you too long, and run it twice
+              through whatever AI tool you actually use.
+            </p>
+            <p>
+              One caveat if you're doing this somewhere unfamiliar — a blind model arena is a good place to
+              watch prompt shape change output, and a bad place to paste a live ticket, because you can't
+              know which company received it. Invent the topology and the hostnames if so; the lesson
+              transfers even when the data was never real. See
+              <a href="../wielding-ai/lab-owning-the-result.html">owning the result</a> for where that line
+              sits.
+            </p>
+            <p>
+              <strong>First, the push version.</strong> Type the symptom the way you'd normally type it:</p>
+            <pre>&lt;your symptom, one or two sentences, the way you'd normally ask&gt;</pre>
+            <p>
+              <strong>Then, in a fresh conversation, the pull version:</strong>
+            </p>
+            <pre>I'm troubleshooting an IT issue and I want you to interview me, not answer me.
 
 Symptom: &lt;symptom, verbatim error text if you have one&gt;
 
@@ -339,28 +389,35 @@ to eliminate as much of the possibility space as it can. For each question,
 tell me exactly how to check the answer — the specific command, log, or
 tool — because I may not already know how to test it. Also tell me what
 each possible answer would rule out.</pre>
-    <p>Then compare, and specifically check these:</p>
-    <ul>
-      <li>Did the push version lead with a confident single cause? Would you have chased it?</li>
-      <li>Did the pull version's first question actually split the space, or just ask for detail?</li>
-      <li>
-        Did every question come with a real check attached — a command, a log path, a tool — or
-        did any arrive unpaired? When one does, demand the pairing and note what you get back.
-      </li>
-      <li>
-        Run the pull loop for three or four turns, feeding back real results. Did it narrow, or
-        did it start recycling the same suggestions? Recycling usually means you stopped giving
-        it new evidence.
-      </li>
-    </ul>
-  </div>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/wielding-ai/drill-unpaired-question.html">Drill: classify a narrowing question that has no check attached</a>
-    <a href="/wielding-ai/lab-checking-the-work.html">Lab: Checking the work — judging the answer, the reasoning, and the session</a>
-    <a href="/wielding-ai/case-ai-near-miss.html">Case: the AI's answer is confident, well-written, and wrong</a>
-  </div>
-</main>
-</body>
+            <p>Then compare, and specifically check these:</p>
+            <ul>
+              <li>Did the push version lead with a confident single cause? Would you have chased it?</li>
+              <li>Did the pull version's first question actually split the space, or just ask for detail?</li>
+              <li>
+                Did every question come with a real check attached — a command, a log path, a tool — or
+                did any arrive unpaired? When one does, demand the pairing and note what you get back.
+              </li>
+              <li>
+                Run the pull loop for three or four turns, feeding back real results. Did it narrow, or
+                did it start recycling the same suggestions? Recycling usually means you stopped giving
+                it new evidence.
+              </li>
+            </ul>
+          </div>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../wielding-ai/drill-unpaired-question.html">Drill: classify a narrowing question that has no check attached</a>
+            <a href="../wielding-ai/lab-checking-the-work.html">Lab: Checking the work — judging the answer, the reasoning, and the session</a>
+            <a href="../wielding-ai/case-ai-near-miss.html">Case: the AI's answer is confident, well-written, and wrong</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: Checking the work — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: Checking the work — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 40rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
@@ -86,282 +86,358 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/wielding-ai/">&larr; Wielding AI</a>
-
-  <div class="d-tag">Checking the work</div>
-  <h1>Lab: Judging what comes back</h1>
-
-  <p>
-    Checking the work splits into three things that fail independently, and conflating them is why
-    "check the AI's work" is useless advice. You can catch a wrong answer and still miss that the
-    reasoning was broken. You can get a right answer through reasoning that will produce a wrong
-    one next time.
-  </p>
-
-  <div class="type">
-    <h3>The answer</h3>
-    <p class="q">Is the output itself accurate?</p>
-    <p>
-      Does it reflect what actually happened, or what the model assumed happened? Did it add steps
-      you didn't take, conclusions you didn't reach, verification you didn't perform? This is the
-      easiest of the three to check and the easiest to skip, because well-written output reads as
-      correct output.
-    </p>
-  </div>
-
-  <div class="type">
-    <h3>The path</h3>
-    <p class="q">How did it get there?</p>
-    <p>
-      Harder, because you usually see only the output, not the path. The signals are structural:
-      logical gaps, wrong sequencing, anchoring to an early assumption that should have been
-      revised, connections that aren't supported by anything you actually provided.
-    </p>
-    <p>
-      <strong>A model can reach a correct answer through bad reasoning, and a wrong answer through
-      good reasoning. Both matter.</strong> The first will burn you next time on a problem where
-      the same path doesn't happen to land right.
-    </p>
-  </div>
-
-  <div class="type">
-    <h3>The session</h3>
-    <p class="q">How is it behaving right now?</p>
-    <p>
-      Is it challenging you or agreeing with everything? Is it still asking questions when it
-      clearly should have some? Has it drifted — technically responsive but contextually adrift
-      from the thread? An instrument can drift out of tune mid-set while every individual note
-      still sounds plausible. Recognizing that a session has gone bad, and either resetting it or
-      moving to a different tool, is a skill separate from evaluating any single answer.
-    </p>
-  </div>
-
-  <h2>The connection to how this platform scores you</h2>
-  <p>
-    Every <a href="/">Case here</a> scores your process separately from your outcome — landing on
-    the right root cause by luck doesn't score the same as reaching it by evidence. That principle
-    exists because the process is what generalizes and the outcome is what happened once.
-  </p>
-  <div class="callout">
-    Checking the answer versus checking the path is the exact same split, pointed at the model instead of at
-    you. Which means you already know how to do this — the move is just to run it in a direction
-    most people never think to. Was the answer right, <em>and</em> was the way it got there sound?
-    Two questions, and the second one is the one that tells you whether to trust the next answer.
-  </div>
-
-  <h2>Why the path is the hard one to check</h2>
-  <p>
-    Catching a plainly wrong answer takes very little. Catching a wrong answer arrived at through
-    plausible-sounding logic requires reconstructing the path well enough to find where it
-    diverged — and that requires knowing the domain.
-  </p>
-  <p>
-    <strong>Domain expertise is the prerequisite, not the thing the AI replaces.</strong> Without
-    it, a confident wrong answer and a confident right answer are indistinguishable. This is the
-    whole reason wielding AI can't stand alone as a module on this platform, and why every other
-    module here exists: they're what make this one usable.
-  </p>
-
-  <h2>The precondition nobody names: you have to have understood it</h2>
-  <p>
-    Everything above quietly assumes you followed the answer. When a model pitches above your
-    current level — and it will, constantly, because it has no reliable way to gauge where that
-    level is — <strong>none of the three types actually run.</strong> You're not evaluating output
-    at that point. You're deciding which answer sounds most like the one you already wanted, which
-    is pattern-matching on confidence with extra steps.
-  </p>
-  <p>This is the most common failure in the whole module, and it shows up in three shapes:</p>
-
-  <ol class="failures">
-    <li>
-      <span class="n">Paraphrase drift</span>
-      The tech restates the answer to themselves, badly, and lands on the option they'd already
-      half-decided on. This is how you get someone confidently emptying
-      <code>C:\Windows\Installer</code> to reclaim disk space — a real thing people do, and a real
-      way to break every future repair, patch and uninstall on that machine. The model may well
-      have said something more careful. What survived the paraphrase didn't.
-    </li>
-    <li>
-      <span class="n">Scope creep in the artifact</span>
-      You asked for one thing and got a script that does that plus four neighbouring things it
-      inferred you'd want. Usually harmless. Not always — and if you couldn't read the script line
-      by line, you can't tell which of those two you're holding. The over-delivery is the risk,
-      not the correctness.
-    </li>
-    <li>
-      <span class="n">Unexplainable outcomes</span>
-      It worked, and afterwards the tech can't say why they did what they did. What comes out
-      instead is <em>"the AI told me to."</em>
-    </li>
-  </ol>
-
-  <div class="callout">
-    <strong>That third one splits into two very different problems that look identical from
-    outside.</strong> One is not having understood it. The other is having understood it fine and
-    not being able to <em>verbalize</em> it start to finish — which is its own real skill, and
-    failing at it tends to produce the mirror-image mistake: explaining at your level rather than
-    the listener's, and then fielding fifty questions you created. Same symptom, opposite causes,
-    and the second one is far more common among people who are good at this than anyone admits.
-    Habits for closing that gap — including using the assistant itself as a translator — are in
-    <a href="/wielding-ai/lab-owning-the-result.html#explaining-it">owning the result</a>.
-  </div>
-
-  <h2>The habit that fixes it: ask why, every time</h2>
-  <p>
-    Make it reflexive to ask the model to explain the <em>why</em> or the <em>how</em> behind what
-    it just handed you — not as a check on the answer, but as a standing habit regardless of
-    whether you're suspicious. Three things happen at once:
-  </p>
-  <ul>
-    <li>You can now actually check the answer, the path and the session, because there's something to evaluate rather than accept.</li>
-    <li>You can explain the change afterwards, which is the difference between a fix and a documented fix.</li>
-    <li>
-      <strong>Your technical knowledge compounds.</strong> This is the cheapest technical education
-      available and it arrives at the exact moment you have context for it — attached to a real
-      system, a real symptom, and a decision you're about to make. That beats a course.
-    </li>
-  </ul>
-
-  <div class="asks">
-    <p><strong>Worth having as reflexes:</strong></p>
-    <ul>
-      <li><em>"Before I run that — walk me through what each part of it does."</em></li>
-      <li><em>"Why that one and not the other option you listed?"</em></li>
-      <li><em>"What would this break if the cause turned out to be something else?"</em></li>
-      <li>
-        <em>"Explain it as though I'll have to explain it to the next tech."</em> — the one that
-        addresses both halves of the third failure at once, because it forces a
-        <strong>transmissible</strong> explanation rather than merely a correct one. If you can't
-        hand the explanation onward, you don't have it yet, however well you followed it in the
-        moment.
-      </li>
-    </ul>
-  </div>
-
-  <h2>When "ask why" still doesn't get you there</h2>
-  <p>
-    Sometimes you ask for the explanation and you genuinely still don't follow it. Two different
-    reasons, and both are legitimate:
-  </p>
-  <ul>
-    <li>It's above where you are right now, and one paragraph isn't going to close that.</li>
-    <li>
-      You have the knowledge and not the bandwidth — end of a long shift, three tickets deep, and
-      the words simply aren't going in.
-    </li>
-  </ul>
-  <p>
-    The second isn't a lesser version of the first, and it's worth treating identically, because a
-    tired tech and an inexperienced one make the same mistakes with a script neither of them read.
-  </p>
-
-  <h3>Cross-check with a completely unrelated model</h3>
-  <p>
-    Paste it into something from a different provider, on a different training base, and ask what
-    it does. Ask it that way, too — <em>"what does this actually do, and what would it
-    affect"</em> rather than <em>"is this right,"</em> which is an invitation to agree with you.
-  </p>
-  <div class="callout">
-    <strong>This is substitution</strong> — the same technique from
-    <a href="/concepts/diagnostic-methodology.html">the methodology page</a>, with the model as the
-    swapped variable. And <em>completely unrelated</em> is what makes it valid: re-asking the same
-    model, or a sibling in the same family, isn't swapping the variable at all. It's re-running the
-    same test and treating the repeat as confirmation. Correlated errors stay correlated. That's
-    the identical mistake as reading a certificate from your own desk in
-    <a href="/wielding-ai/case-ai-near-miss.html">the near-miss Case</a>: right instinct, wrong
-    vantage point.
-  </div>
-  <p>
-    <strong>The trigger worth watching for is length.</strong> When a script comes back
-    meaningfully longer than you expected it to be, that mismatch is the detectable signal for
-    scope creep — you asked for one thing and the size says you got several. Length is something
-    you can judge without understanding a single line, which makes it the one check still available
-    to you when comprehension isn't.
-  </p>
-  <p>
-    Be clear about what a second opinion can and can't do, though. It can catch a factual error, a
-    dangerous flag, or an artifact doing more than its own description claims. It <em>cannot</em>
-    tell you whether the thing fits your environment — neither model knows your topology, your
-    change windows, or what's unusual about that particular box. Two models agreeing is a
-    better-informed hypothesis, not verification against the live system.
-  </p>
-
-  <h3>Then run it somewhere isolated anyway</h3>
-  <p>
-    An offline box, a lab VM, a machine you can reimage without having a conversation about it
-    first. Not because you distrust either model — because the cost of being wrong is asymmetric:
-    twenty wasted minutes on a test system, against an outage plus an explanation you already know
-    you can't give. That gap is wide enough that it doesn't need a suspicion to justify it.
-  </p>
-  <div class="callout">
-    The ladder, in order: <strong>understand it if you can; cross-check when you can't; contain it
-    regardless.</strong> Each rung relies less on your own comprehension and more on containment,
-    which is exactly the right trade when comprehension is the thing that's missing. The last rung
-    matters most for anything that <em>acts</em> rather than advises — see
-    <a href="/wielding-ai/lab-owning-the-result.html">blast radius</a>, and
-    <a href="/wielding-ai/lab-owning-the-result.html">the home lab</a> as the place this
-    habit is cheapest to build.
-  </div>
-
-  <h2>Signals worth reacting to</h2>
-  <p>None of these prove anything on their own. All of them are worth a second look.</p>
-  <ul class="signals">
-    <li><strong>The output sounds more thorough than the work that was done.</strong> The single most reliable tell, and the one with professional consequences — see the <a href="/wielding-ai/case-narrativized-ticket.html">Case</a> in this module.</li>
-    <li><strong>A confident answer on thin data.</strong> You gave it three sentences and got a root cause.</li>
-    <li><strong>It stopped asking questions when it clearly should still have some.</strong></li>
-    <li><strong>The answer is technically correct and doesn't address the problem.</strong> Correct and useless is a real category.</li>
-    <li><strong>It's repeating itself in different words.</strong> Usually means the thread is exhausted, not that you asked badly. Reset it.</li>
-    <li><strong>It's anchored to something you corrected earlier in the session.</strong> Say so explicitly; if it happens twice, the session is spent.</li>
-    <li><strong>It invents a detail to justify being stuck.</strong> Rarer, and worth knowing it happens — a looping assistant pointing at an error in your input that isn't there is covering, not diagnosing.</li>
-    <li><strong>The fix sounds too clean for the complexity of the problem.</strong> Real infrastructure is rarely tidy. A neat answer to a messy symptom deserves suspicion.</li>
-    <li><strong>You couldn't explain it to the next tech.</strong> The one signal on this list that's about you rather than the model — and the one that invalidates every other check on the page, because you can't evaluate what you didn't follow.</li>
-    <li><strong>The artifact is longer than you expected.</strong> A script noticeably bigger than the job you described usually is doing more than the job you described. Judgeable on sight, without reading a line of it.</li>
-  </ul>
-
-  <h2>Checking and briefing are a loop, not a sequence</h2>
-  <p>
-    The brief sets the expectation; checking evaluates whether it was met. Every catch tells
-    you something about the brief — what context was missing, what constraint went
-    unspecified, what the model assumed that it shouldn't have. Feed that back and the next
-    brief is better.
-  </p>
-  <p>
-    Which is the same relationship as a hypothesis and a test.
-    <a href="/concepts/diagnostic-methodology.html">The scientific method applies to working with a
-    model exactly as it applies to troubleshooting a network</a>: isolate the variable, adjust,
-    retest. When a session goes sideways, "where did this go wrong and how should I have described
-    it" is a legitimate prompt, and one of the fastest ways to build the instinct.
-  </p>
-
-  <div class="exercise">
-    <h3>Try it</h3>
-    <p>
-      Take a real session where an assistant helped you resolve something, and one where it didn't.
-      Score both on all three types:
-    </p>
-    <ol>
-      <li><strong>The answer</strong> — was every factual claim in the final output something you could point to evidence for?</li>
-      <li><strong>The path</strong> — walk its sequence. Was the first thing it suggested checking the right first thing to check, given the symptom profile? If it landed correctly, would that path have worked on a different problem with the same symptoms?</li>
-      <li><strong>The session</strong> — at what point, if any, did the session stop being useful? What was the earliest signal you could have caught?</li>
-      <li><strong>Comprehension</strong> — could you explain, right now and out loud, why the thing you did worked? If not, that's the first gap to close, because it's the one holding up the other three.</li>
-    </ol>
-    <p>
-      The session that <em>worked</em> is the more instructive one. A failed session tells you it
-      failed. A successful session scored on process is where you find out whether you got a good
-      answer or got lucky — which is the same reason this platform scores your own successful cases
-      on process too.
-    </p>
-  </div>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/wielding-ai/case-narrativized-ticket.html">Case: the summary describes work you didn't do</a>
-    <a href="/wielding-ai/case-stack-sync.html">Case: correct advice, wrong sequence, clean interface counters</a>
-    <a href="/wielding-ai/lab-owning-the-result.html">Lab: Owning the result — what happens after you decide the output is good</a>
-  </div>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-copper">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Wielding AI</a>
+        <div class="eyebrow">Practice & partnership <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: Judging what comes back</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#the-connection-to-how-this-platform-scores-you">
+                <span>01</span>The connection to how this platform scores you</a>
+              <a href="#why-the-path-is-the-hard-one-to-check">
+                <span>02</span>Why the path is the hard one to check</a>
+              <a href="#the-precondition-nobody-names-you-have-to-have-understood-it">
+                <span>03</span>The precondition nobody names: you have to have understood it</a>
+              <a href="#the-habit-that-fixes-it-ask-why-every-time">
+                <span>04</span>The habit that fixes it: ask why, every time</a>
+              <a href="#when-ask-why-still-doesn-t-get-you-there">
+                <span>05</span>When &quot;ask why&quot; still doesn&#x27;t get you there</a>
+              <a href="#signals-worth-reacting-to">
+                <span>06</span>Signals worth reacting to</a>
+              <a href="#checking-and-briefing-are-a-loop-not-a-sequence">
+                <span>07</span>Checking and briefing are a loop, not a sequence</a>
+              <a href="#what-this-sets-up">
+                <span>08</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#the-connection-to-how-this-platform-scores-you">
+                <span>01</span>The connection to how this platform scores you</a>
+              <a href="#why-the-path-is-the-hard-one-to-check">
+                <span>02</span>Why the path is the hard one to check</a>
+              <a href="#the-precondition-nobody-names-you-have-to-have-understood-it">
+                <span>03</span>The precondition nobody names: you have to have understood it</a>
+              <a href="#the-habit-that-fixes-it-ask-why-every-time">
+                <span>04</span>The habit that fixes it: ask why, every time</a>
+              <a href="#when-ask-why-still-doesn-t-get-you-there">
+                <span>05</span>When &quot;ask why&quot; still doesn&#x27;t get you there</a>
+              <a href="#signals-worth-reacting-to">
+                <span>06</span>Signals worth reacting to</a>
+              <a href="#checking-and-briefing-are-a-loop-not-a-sequence">
+                <span>07</span>Checking and briefing are a loop, not a sequence</a>
+              <a href="#what-this-sets-up">
+                <span>08</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Wielding AI activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <div class="d-tag">Checking the work</div>
+          <p>
+            Checking the work splits into three things that fail independently, and conflating them is why
+            "check the AI's work" is useless advice. You can catch a wrong answer and still miss that the
+            reasoning was broken. You can get a right answer through reasoning that will produce a wrong
+            one next time.
+          </p>
+          <div class="type">
+            <h3>The answer</h3>
+            <p class="q">Is the output itself accurate?</p>
+            <p>
+              Does it reflect what actually happened, or what the model assumed happened? Did it add steps
+              you didn't take, conclusions you didn't reach, verification you didn't perform? This is the
+              easiest of the three to check and the easiest to skip, because well-written output reads as
+              correct output.
+            </p>
+          </div>
+          <div class="type">
+            <h3>The path</h3>
+            <p class="q">How did it get there?</p>
+            <p>
+              Harder, because you usually see only the output, not the path. The signals are structural:
+              logical gaps, wrong sequencing, anchoring to an early assumption that should have been
+              revised, connections that aren't supported by anything you actually provided.
+            </p>
+            <p>
+              <strong>A model can reach a correct answer through bad reasoning, and a wrong answer through
+                good reasoning. Both matter.</strong> The first will burn you next time on a problem where
+              the same path doesn't happen to land right.
+            </p>
+          </div>
+          <div class="type">
+            <h3>The session</h3>
+            <p class="q">How is it behaving right now?</p>
+            <p>
+              Is it challenging you or agreeing with everything? Is it still asking questions when it
+              clearly should have some? Has it drifted — technically responsive but contextually adrift
+              from the thread? An instrument can drift out of tune mid-set while every individual note
+              still sounds plausible. Recognizing that a session has gone bad, and either resetting it or
+              moving to a different tool, is a skill separate from evaluating any single answer.
+            </p>
+          </div>
+          <h2 id="the-connection-to-how-this-platform-scores-you">The connection to how this platform scores you</h2>
+          <p>
+            Every <a href="../">Case here</a> scores your process separately from your outcome — landing on
+            the right root cause by luck doesn't score the same as reaching it by evidence. That principle
+            exists because the process is what generalizes and the outcome is what happened once.
+          </p>
+          <div class="callout">
+            Checking the answer versus checking the path is the exact same split, pointed at the model instead of at
+            you. Which means you already know how to do this — the move is just to run it in a direction
+            most people never think to. Was the answer right, <em>and</em> was the way it got there sound?
+            Two questions, and the second one is the one that tells you whether to trust the next answer.
+          </div>
+          <h2 id="why-the-path-is-the-hard-one-to-check">Why the path is the hard one to check</h2>
+          <p>
+            Catching a plainly wrong answer takes very little. Catching a wrong answer arrived at through
+            plausible-sounding logic requires reconstructing the path well enough to find where it
+            diverged — and that requires knowing the domain.
+          </p>
+          <p>
+            <strong>Domain expertise is the prerequisite, not the thing the AI replaces.</strong> Without
+            it, a confident wrong answer and a confident right answer are indistinguishable. This is the
+            whole reason wielding AI can't stand alone as a module on this platform, and why every other
+            module here exists: they're what make this one usable.
+          </p>
+          <h2 id="the-precondition-nobody-names-you-have-to-have-understood-it">The precondition nobody names: you have to have understood it</h2>
+          <p>
+            Everything above quietly assumes you followed the answer. When a model pitches above your
+            current level — and it will, constantly, because it has no reliable way to gauge where that
+            level is — <strong>none of the three types actually run.</strong> You're not evaluating output
+            at that point. You're deciding which answer sounds most like the one you already wanted, which
+            is pattern-matching on confidence with extra steps.
+          </p>
+          <p>This is the most common failure in the whole module, and it shows up in three shapes:</p>
+          <ol class="failures">
+            <li>
+              <span class="n">Paraphrase drift</span>
+              The tech restates the answer to themselves, badly, and lands on the option they'd already
+              half-decided on. This is how you get someone confidently emptying
+              <code>C:\Windows\Installer</code> to reclaim disk space — a real thing people do, and a real
+              way to break every future repair, patch and uninstall on that machine. The model may well
+              have said something more careful. What survived the paraphrase didn't.
+            </li>
+            <li>
+              <span class="n">Scope creep in the artifact</span>
+              You asked for one thing and got a script that does that plus four neighbouring things it
+              inferred you'd want. Usually harmless. Not always — and if you couldn't read the script line
+              by line, you can't tell which of those two you're holding. The over-delivery is the risk,
+              not the correctness.
+            </li>
+            <li>
+              <span class="n">Unexplainable outcomes</span>
+              It worked, and afterwards the tech can't say why they did what they did. What comes out
+              instead is <em>"the AI told me to."</em>
+            </li>
+          </ol>
+          <div class="callout">
+            <strong>That third one splits into two very different problems that look identical from
+              outside.</strong> One is not having understood it. The other is having understood it fine and
+            not being able to <em>verbalize</em> it start to finish — which is its own real skill, and
+            failing at it tends to produce the mirror-image mistake: explaining at your level rather than
+            the listener's, and then fielding fifty questions you created. Same symptom, opposite causes,
+            and the second one is far more common among people who are good at this than anyone admits.
+            Habits for closing that gap — including using the assistant itself as a translator — are in
+            <a href="../wielding-ai/lab-owning-the-result.html#explaining-it">owning the result</a>.
+          </div>
+          <h2 id="the-habit-that-fixes-it-ask-why-every-time">The habit that fixes it: ask why, every time</h2>
+          <p>
+            Make it reflexive to ask the model to explain the <em>why</em> or the <em>how</em> behind what
+            it just handed you — not as a check on the answer, but as a standing habit regardless of
+            whether you're suspicious. Three things happen at once:
+          </p>
+          <ul>
+            <li>You can now actually check the answer, the path and the session, because there's something to evaluate rather than accept.</li>
+            <li>You can explain the change afterwards, which is the difference between a fix and a documented fix.</li>
+            <li>
+              <strong>Your technical knowledge compounds.</strong> This is the cheapest technical education
+              available and it arrives at the exact moment you have context for it — attached to a real
+              system, a real symptom, and a decision you're about to make. That beats a course.
+            </li>
+          </ul>
+          <div class="asks">
+            <p>
+              <strong>Worth having as reflexes:</strong>
+            </p>
+            <ul>
+              <li>
+                <em>"Before I run that — walk me through what each part of it does."</em>
+              </li>
+              <li>
+                <em>"Why that one and not the other option you listed?"</em>
+              </li>
+              <li>
+                <em>"What would this break if the cause turned out to be something else?"</em>
+              </li>
+              <li>
+                <em>"Explain it as though I'll have to explain it to the next tech."</em> — the one that
+                addresses both halves of the third failure at once, because it forces a
+                <strong>transmissible</strong> explanation rather than merely a correct one. If you can't
+                hand the explanation onward, you don't have it yet, however well you followed it in the
+                moment.
+              </li>
+            </ul>
+          </div>
+          <h2 id="when-ask-why-still-doesn-t-get-you-there">When "ask why" still doesn't get you there</h2>
+          <p>
+            Sometimes you ask for the explanation and you genuinely still don't follow it. Two different
+            reasons, and both are legitimate:
+          </p>
+          <ul>
+            <li>It's above where you are right now, and one paragraph isn't going to close that.</li>
+            <li>
+              You have the knowledge and not the bandwidth — end of a long shift, three tickets deep, and
+              the words simply aren't going in.
+            </li>
+          </ul>
+          <p>
+            The second isn't a lesser version of the first, and it's worth treating identically, because a
+            tired tech and an inexperienced one make the same mistakes with a script neither of them read.
+          </p>
+          <h3>Cross-check with a completely unrelated model</h3>
+          <p>
+            Paste it into something from a different provider, on a different training base, and ask what
+            it does. Ask it that way, too — <em>"what does this actually do, and what would it
+              affect"</em> rather than <em>"is this right,"</em> which is an invitation to agree with you.
+          </p>
+          <div class="callout">
+            <strong>This is substitution</strong> — the same technique from
+            <a href="../concepts/diagnostic-methodology.html">the methodology page</a>, with the model as the
+            swapped variable. And <em>completely unrelated</em> is what makes it valid: re-asking the same
+            model, or a sibling in the same family, isn't swapping the variable at all. It's re-running the
+            same test and treating the repeat as confirmation. Correlated errors stay correlated. That's
+            the identical mistake as reading a certificate from your own desk in
+            <a href="../wielding-ai/case-ai-near-miss.html">the near-miss Case</a>: right instinct, wrong
+            vantage point.
+          </div>
+          <p>
+            <strong>The trigger worth watching for is length.</strong> When a script comes back
+            meaningfully longer than you expected it to be, that mismatch is the detectable signal for
+            scope creep — you asked for one thing and the size says you got several. Length is something
+            you can judge without understanding a single line, which makes it the one check still available
+            to you when comprehension isn't.
+          </p>
+          <p>
+            Be clear about what a second opinion can and can't do, though. It can catch a factual error, a
+            dangerous flag, or an artifact doing more than its own description claims. It <em>cannot</em>
+            tell you whether the thing fits your environment — neither model knows your topology, your
+            change windows, or what's unusual about that particular box. Two models agreeing is a
+            better-informed hypothesis, not verification against the live system.
+          </p>
+          <h3>Then run it somewhere isolated anyway</h3>
+          <p>
+            An offline box, a lab VM, a machine you can reimage without having a conversation about it
+            first. Not because you distrust either model — because the cost of being wrong is asymmetric:
+            twenty wasted minutes on a test system, against an outage plus an explanation you already know
+            you can't give. That gap is wide enough that it doesn't need a suspicion to justify it.
+          </p>
+          <div class="callout">
+            The ladder, in order: <strong>understand it if you can; cross-check when you can't; contain it
+              regardless.</strong> Each rung relies less on your own comprehension and more on containment,
+            which is exactly the right trade when comprehension is the thing that's missing. The last rung
+            matters most for anything that <em>acts</em> rather than advises — see
+            <a href="../wielding-ai/lab-owning-the-result.html">blast radius</a>, and
+            <a href="../wielding-ai/lab-owning-the-result.html">the home lab</a> as the place this
+            habit is cheapest to build.
+          </div>
+          <h2 id="signals-worth-reacting-to">Signals worth reacting to</h2>
+          <p>None of these prove anything on their own. All of them are worth a second look.</p>
+          <ul class="signals">
+            <li>
+              <strong>The output sounds more thorough than the work that was done.</strong> The single most reliable tell, and the one with professional consequences — see the <a href="../wielding-ai/case-narrativized-ticket.html">Case</a> in this module.</li>
+            <li>
+              <strong>A confident answer on thin data.</strong> You gave it three sentences and got a root cause.</li>
+            <li>
+              <strong>It stopped asking questions when it clearly should still have some.</strong>
+            </li>
+            <li>
+              <strong>The answer is technically correct and doesn't address the problem.</strong> Correct and useless is a real category.</li>
+            <li>
+              <strong>It's repeating itself in different words.</strong> Usually means the thread is exhausted, not that you asked badly. Reset it.</li>
+            <li>
+              <strong>It's anchored to something you corrected earlier in the session.</strong> Say so explicitly; if it happens twice, the session is spent.</li>
+            <li>
+              <strong>It invents a detail to justify being stuck.</strong> Rarer, and worth knowing it happens — a looping assistant pointing at an error in your input that isn't there is covering, not diagnosing.</li>
+            <li>
+              <strong>The fix sounds too clean for the complexity of the problem.</strong> Real infrastructure is rarely tidy. A neat answer to a messy symptom deserves suspicion.</li>
+            <li>
+              <strong>You couldn't explain it to the next tech.</strong> The one signal on this list that's about you rather than the model — and the one that invalidates every other check on the page, because you can't evaluate what you didn't follow.</li>
+            <li>
+              <strong>The artifact is longer than you expected.</strong> A script noticeably bigger than the job you described usually is doing more than the job you described. Judgeable on sight, without reading a line of it.</li>
+          </ul>
+          <h2 id="checking-and-briefing-are-a-loop-not-a-sequence">Checking and briefing are a loop, not a sequence</h2>
+          <p>
+            The brief sets the expectation; checking evaluates whether it was met. Every catch tells
+            you something about the brief — what context was missing, what constraint went
+            unspecified, what the model assumed that it shouldn't have. Feed that back and the next
+            brief is better.
+          </p>
+          <p>
+            Which is the same relationship as a hypothesis and a test.
+            <a href="../concepts/diagnostic-methodology.html">The scientific method applies to working with a
+              model exactly as it applies to troubleshooting a network</a>: isolate the variable, adjust,
+            retest. When a session goes sideways, "where did this go wrong and how should I have described
+            it" is a legitimate prompt, and one of the fastest ways to build the instinct.
+          </p>
+          <div class="exercise">
+            <h3>Try it</h3>
+            <p>
+              Take a real session where an assistant helped you resolve something, and one where it didn't.
+              Score both on all three types:
+            </p>
+            <ol>
+              <li>
+                <strong>The answer</strong> — was every factual claim in the final output something you could point to evidence for?</li>
+              <li>
+                <strong>The path</strong> — walk its sequence. Was the first thing it suggested checking the right first thing to check, given the symptom profile? If it landed correctly, would that path have worked on a different problem with the same symptoms?</li>
+              <li>
+                <strong>The session</strong> — at what point, if any, did the session stop being useful? What was the earliest signal you could have caught?</li>
+              <li>
+                <strong>Comprehension</strong> — could you explain, right now and out loud, why the thing you did worked? If not, that's the first gap to close, because it's the one holding up the other three.</li>
+            </ol>
+            <p>
+              The session that <em>worked</em> is the more instructive one. A failed session tells you it
+              failed. A successful session scored on process is where you find out whether you got a good
+              answer or got lucky — which is the same reason this platform scores your own successful cases
+              on process too.
+            </p>
+          </div>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../wielding-ai/case-narrativized-ticket.html">Case: the summary describes work you didn't do</a>
+            <a href="../wielding-ai/case-stack-sync.html">Case: correct advice, wrong sequence, clean interface counters</a>
+            <a href="../wielding-ai/lab-owning-the-result.html">Lab: Owning the result — what happens after you decide the output is good</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

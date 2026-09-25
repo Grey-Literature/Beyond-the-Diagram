@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: DNS resolution and split-horizon — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: DNS resolution and split-horizon — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 38rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
@@ -38,64 +38,114 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/dns/">&larr; DNS</a>
-
-  <h1>Lab: DNS resolution, TTL, and split-horizon</h1>
-
-  <p>
-    Two things worth watching directly: how a name actually gets resolved (and why the answer can
-    be stale), and what it means for the same hostname to have two legitimately different correct
-    answers depending on who's asking.
-  </p>
-
-  <h2>1. The resolution chain</h2>
-  <p>A client doesn't usually talk to an authoritative server directly — it asks a recursive resolver to do the walking:</p>
-  <pre><code>client &rarr; recursive resolver &rarr; root &rarr; TLD (.com) &rarr; authoritative server for the domain</code></pre>
-  <p>
-    Every step's answer gets cached for as long as its TTL says, by every resolver along the way —
-    including ones you don't control, like a user's ISP or a corporate proxy. That's why a DNS
-    change can be "done" on your end and still not visible to someone else for minutes or days:
-    you changed the source, not every cached copy of the old answer.
-  </p>
-
-  <h2>2. Split-horizon (split-brain) DNS</h2>
-  <p>
-    Plenty of organizations intentionally run two views of the same zone: an internal resolver
-    that returns a private IP for <code>app.example.com</code>, and a public one that returns
-    something else (or nothing) for the exact same name. That's normal and deliberate — the
-    failure mode is the two views drifting out of sync when only one of them gets updated.
-  </p>
-  <p>Compare the two views directly rather than guessing which one is "right":</p>
-  <pre><code>nslookup app.example.com &lt;internal-dns-ip&gt;
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-sage">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← DNS</a>
+        <div class="eyebrow">Names & resolution <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: DNS resolution, TTL, and split-horizon</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#1-the-resolution-chain">
+                <span>01</span>The resolution chain</a>
+              <a href="#2-split-horizon-split-brain-dns">
+                <span>02</span>Split-horizon (split-brain) DNS</a>
+              <a href="#3-registrar-nameserver-cutover">
+                <span>03</span>Registrar / nameserver cutover</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#1-the-resolution-chain">
+                <span>01</span>The resolution chain</a>
+              <a href="#2-split-horizon-split-brain-dns">
+                <span>02</span>Split-horizon (split-brain) DNS</a>
+              <a href="#3-registrar-nameserver-cutover">
+                <span>03</span>Registrar / nameserver cutover</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All DNS activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <p>
+            Two things worth watching directly: how a name actually gets resolved (and why the answer can
+            be stale), and what it means for the same hostname to have two legitimately different correct
+            answers depending on who's asking.
+          </p>
+          <h2 id="1-the-resolution-chain">1. The resolution chain</h2>
+          <p>A client doesn't usually talk to an authoritative server directly — it asks a recursive resolver to do the walking:</p>
+          <pre><code>client &rarr; recursive resolver &rarr; root &rarr; TLD (.com) &rarr; authoritative server for the domain</code></pre>
+          <p>
+            Every step's answer gets cached for as long as its TTL says, by every resolver along the way —
+            including ones you don't control, like a user's ISP or a corporate proxy. That's why a DNS
+            change can be "done" on your end and still not visible to someone else for minutes or days:
+            you changed the source, not every cached copy of the old answer.
+          </p>
+          <h2 id="2-split-horizon-split-brain-dns">2. Split-horizon (split-brain) DNS</h2>
+          <p>
+            Plenty of organizations intentionally run two views of the same zone: an internal resolver
+            that returns a private IP for <code>app.example.com</code>, and a public one that returns
+            something else (or nothing) for the exact same name. That's normal and deliberate — the
+            failure mode is the two views drifting out of sync when only one of them gets updated.
+          </p>
+          <p>Compare the two views directly rather than guessing which one is "right":</p>
+          <pre><code>nslookup app.example.com &lt;internal-dns-ip&gt;
 nslookup app.example.com 8.8.8.8</code></pre>
-  <div class="callout">
-    If these disagree, that's not automatically a bug — confirm first whether split-horizon is
-    intentional for this name before treating the public answer as broken. The actual bug is
-    usually that <em>one</em> view got updated and the other didn't.
-  </div>
-
-  <h2>3. Registrar / nameserver cutover</h2>
-  <p>
-    Moving a domain to a new DNS provider is the sharpest version of the TTL problem: the
-    propagation window is governed entirely by every resolver's cached TTL out in the world —
-    nothing you do makes it faster. Worse, any record that isn't explicitly recreated at the new
-    provider — MX, SPF, DKIM, random verification TXT records nobody remembers exist — just
-    silently stops resolving, with no error to point at.
-  </p>
-  <p>
-    Mitigation is boring but effective: pull a full zone export from the old provider
-    <em>before</em> cutover, so there's a complete list to reconcile against instead of discovering
-    missing records one broken integration at a time.
-  </p>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/dns/case-split-horizon-intranet.html">Case: an intranet site that works from the office but not from home</a>
-    <a href="/dns/drill-dns-nxdomain.html">Drill: classify what an NXDOMAIN response actually tells you</a>
-  </div>
-</main>
-</body>
+          <div class="callout">
+            If these disagree, that's not automatically a bug — confirm first whether split-horizon is
+            intentional for this name before treating the public answer as broken. The actual bug is
+            usually that <em>one</em> view got updated and the other didn't.
+          </div>
+          <h2 id="3-registrar-nameserver-cutover">3. Registrar / nameserver cutover</h2>
+          <p>
+            Moving a domain to a new DNS provider is the sharpest version of the TTL problem: the
+            propagation window is governed entirely by every resolver's cached TTL out in the world —
+            nothing you do makes it faster. Worse, any record that isn't explicitly recreated at the new
+            provider — MX, SPF, DKIM, random verification TXT records nobody remembers exist — just
+            silently stops resolving, with no error to point at.
+          </p>
+          <p>
+            Mitigation is boring but effective: pull a full zone export from the old provider
+            <em>before</em> cutover, so there's a complete list to reconcile against instead of discovering
+            missing records one broken integration at a time.
+          </p>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../dns/case-split-horizon-intranet.html">Case: an intranet site that works from the office but not from home</a>
+            <a href="../dns/drill-dns-nxdomain.html">Drill: classify what an NXDOMAIN response actually tells you</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

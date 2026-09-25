@@ -16,6 +16,8 @@ Live at: [beyondthediagram.rosettaskeys.com](https://beyondthediagram.rosettaske
 - [`ROADMAP.md`](ROADMAP.md) — phased build plan derived from the concept doc.
 - `index.html` — plain static landing page (no build step), deployed as-is via GitHub Pages.
 - `assets/site.css` — shared tokens/reset for the hand-written static pages (landing, domain modules, Labs).
+- `assets/editorial.css` — opt-in design for the homepage, domain overviews, lessons, references, and exercise shells. Pages use the `editorial` body class; this stylesheet is not loaded by the server-room simulator. Long reading pages include desktop section navigation and collapsible mobile contents.
+- `assets/wielding-ai.css` — the Wielding AI overview's instrument-inspired design, which the other public pages follow.
 - `dhcp/`, `dns/`, `email-auth/`, `ad-gpo/`, `cloud-identity/`, `monitoring/`, `authn-authz/`, `remote-access/`, `prosumer-networking/` — the nine domain modules: `index.html` (module landing) plus one page per content item (Lab, Case, Drill, and a `placement-quiz.html` — DHCP and DNS share one, since the concept doc groups them as a single placement tier).
 - `wielding-ai/` — same shape, but a meta-skill rather than a tenth domain, and grouped into five skills rather than a flat list: seven Labs, three Cases, three Drills and a placement quiz.
 - `concepts/` — cross-cutting reference material every domain module links into (Signal vs. Silence, Eventual Consistency, Fail-Open vs. Fail-Closed, Trust-Boundary Flattening, named diagnostic methodology) rather than each module re-explaining these from scratch.

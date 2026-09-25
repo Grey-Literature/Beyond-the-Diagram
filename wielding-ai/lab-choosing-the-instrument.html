@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: Choosing the instrument — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: Choosing the instrument — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 40rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
@@ -72,283 +72,364 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/wielding-ai/">&larr; Wielding AI</a>
-
-  <div class="d-tag">Choosing the instrument</div>
-  <h1>Lab: Whether, which one, and at what setting</h1>
-
-  <p>
-    Choosing happens before any prompt gets typed, and it's the part that looks like it isn't
-    there. It gets settled in about the time it takes to pick left or right at a junction you've driven a hundred
-    times — which is not the same as not deciding. The decision ran. It just didn't announce
-    itself.
-  </p>
-  <div class="callout">
-    That distinction matters, because "I don't really make that call, I just open a chat" is almost
-    never true. You picked a tool. You picked which parts of the problem to hand over. You had a
-    rough sense of what you'd accept back. All of it happened below the level where it felt like
-    deliberation — and all of it is still a decision that can be examined, and occasionally is
-    worth examining, when the stakes or the unfamiliarity justify slowing it down.
-  </div>
-
-  <h2>Knowing what you're bringing it — you usually don't, and that's the job</h2>
-  <p>
-    In IT the full problem generally <em>isn't</em> understood at the point an assistant gets
-    involved. That's not a failure state; it's the reason a tech was called at all. Sometimes you
-    know how to go find the problem definition. Sometimes you don't, and finding out how is the
-    first real task.
-  </p>
-  <p>
-    The useful frame here isn't a checklist, it's one you already know. Troubleshooting is the
-    scientific method with worse lighting, and mapping the two makes it obvious where an assistant
-    helps and where it can't.
-  </p>
-
-  <ol class="method">
-    <li>
-      <span class="step"><span class="name">Ask a question</span></span>
-      <p>
-        In a lab this is the hard, creative part. In ITOps it's handed to you free: the end user
-        already asked it, in the form of a complaint. <em>"Email is slow." "I can't get to the
-        share."</em> That's your question. What you don't get free is any assurance it's the
-        <em>right</em> question — a complaint describes a symptom, and the symptom is not
-        necessarily the problem.
-      </p>
-    </li>
-    <li>
-      <span class="step"><span class="name">Research</span></span>
-      <p>
-        Where an assistant does most of its actual work in ITOps, and where the choice between
-        <a href="/wielding-ai/lab-pull-prompt.html">push, pull and discovery prompts</a> lives. The
-        signal worth watching: <strong>a push prompt that gets no traction is telling you about
-        your prompt, not about the model.</strong> It means there wasn't enough context in it.
-        Re-rolling the same push prompt with different wording won't fix that; switching modes
-        will.
-      </p>
-    </li>
-    <li>
-      <span class="step"><span class="name">Form a hypothesis</span></span>
-      <p>
-        When a model hands you five plausible causes, those aren't answers — they're hypotheses,
-        and a list of them is a legitimate deliverable. A good session goes one step further: it
-        picks a favourite, says <em>why</em>, and says how you'd prove it. A list with no way to
-        test any item on it is a search result with better grammar.
-      </p>
-    </li>
-    <li>
-      <span class="step"><span class="name">Run an experiment</span></span>
-      <p>
-        "How would I check that" <em>is</em> the experiment — the same pairing the pull-prompt
-        demands of every question it asks you. A hypothesis you can't test isn't one yet, it's a
-        guess wearing better clothes.
-      </p>
-    </li>
-    <li>
-      <span class="step"><span class="name">Analyze the data</span></span>
-      <p>
-        What actually came back, read verbatim rather than summarized. This is the step where you
-        feed the result into the session so the next round narrows from evidence instead of from
-        your increasingly stale opening description.
-      </p>
-    </li>
-    <li>
-      <span class="step"><span class="name">Conclusion</span></span>
-      <p>
-        Did the data support the hypothesis? Note that <em>"the fix worked"</em> is not
-        automatically a yes — see
-        <a href="/concepts/diagnostic-methodology.html">symptom vs. root cause</a>. And a
-        disproven hypothesis is a successful experiment: it eliminated a branch, which is the
-        entire point of half-splitting.
-      </p>
-    </li>
-  </ol>
-
-  <div class="callout">
-    It's a loop, not a line. A failed conclusion sends you back to step 3 if you still have
-    hypotheses, and back to step 2 if you're out of them. <strong>The common mistake is treating
-    step 3 as the starting line</strong> — arriving with a hypothesis already chosen, then using
-    the assistant to build a case for it rather than to test it. That's not research, it's
-    advocacy, and a cooperative model will happily help you do it.
-  </div>
-  <p>
-    This is also the shape every <a href="/">Case on this platform</a> puts you in on purpose. The
-    hard part of real troubleshooting is almost never executing a known fix — it's steps 1 through
-    3, before anyone knows what the problem actually is.
-  </p>
-
-  <h2>Which instrument, and at what setting</h2>
-  <p>
-    If you keep more than one model on deck, this is where the real decision sits, and it's the
-    part that runs fastest. Most of the time it resolves on <strong>familiarity and proven
-    consistency</strong>: you know how this one fails, you know what its output looks like when
-    it's drifting, you know what it does with a vague prompt at 4pm on a Friday. That accumulated
-    calibration is a legitimate criterion, not laziness — it's worth more in practice than a
-    benchmark score, because it's the thing that lets you catch a bad answer quickly.
-  </p>
-  <p>Things that should override familiarity, and should do it consciously:</p>
-  <ul>
-    <li>
-      <strong>The shape and size of the data.</strong> A three-thousand-row export is a different
-      job from a two-paragraph error message, and the dataset alone is enough to push the choice
-      up a tier regardless of which model you're comfortable in.
-    </li>
-    <li>
-      <strong>Whether the thread has to survive across sessions.</strong> A multi-stage engagement
-      where research informs design informs documentation needs something that can still hold the
-      plot at step four. A one-shot ticket update does not. Context-dependency picks the tool more
-      often than the subject matter does.
-    </li>
-    <li>
-      <strong>How many exchanges you expect.</strong> Worth having a personal threshold — "past
-      about four turns this goes to the one I trust with long threads." Crude, and built from
-      watching where things actually degrade, which is the only place that number can come from.
-    </li>
-    <li>
-      <strong>Whether it needs current information.</strong> Recency and retrieval are a different
-      capability from reasoning. Assuming one tool is good at both is how you get confidently
-      outdated answers.
-    </li>
-    <li>
-      <strong>Whether you should be feeding it documentation instead of trusting recall.</strong>
-      A model doesn't need to have been trained on your appliance vendor's guide if you hand it the
-      guide. Treated as a reasoning layer over data you supply rather than a recall engine, the
-      knowledge cutoff mostly stops mattering.
-    </li>
-    <li>
-      <strong>Whether it's the right tool at all.</strong> The most-missed one. If your monitoring
-      already has the answer, going to an assistant is a slower way of not reading your monitoring.
-    </li>
-  </ul>
-
-  <div class="callout">
-    <strong>You do not need the largest model available for most of this.</strong> If you're
-    deliberate — a real description, evidence fed back each round, hypotheses tested instead of
-    assumed — a mid-range daily-driver model covers the overwhelming majority of ITOps work.
-    Discipline substitutes for horsepower further than people expect, and reaching for the top tier
-    by reflex mostly buys you a slower version of the same answer. Escalate for volume or for
-    genuinely hard reasoning; not as a default.
-  </div>
-  <p>
-    Two practical notes that follow from that. Most platforms now expose <strong>reasoning or
-    thinking-depth toggles</strong>, and on some models turning that up is the difference between
-    an assistant that stays on target and one that wanders — it's part of the decision surface, not
-    a setting to leave alone. And the tier you actually want <strong>isn't always offered in the
-    interface you happen to be in</strong>: the same provider can surface different models in
-    different modes of its own product. Both are worth finding out by experiment rather than
-    assuming the default in front of you is the whole menu — which is what
-    <a href="/wielding-ai/lab-knowing-the-instrument.html">knowing the instrument</a> is for.
-  </p>
-  <div class="callout">
-    That last point has a non-AI twin worth recognizing, because the behavior is identical:
-    the tech who keeps asking people about a machine's problem while the uptime graph sitting in
-    front of them says 90 days. Collecting more opinions is not the same as gathering evidence.
-    An assistant is just one more source of opinion if you reach for it in that mode.
-    See <a href="/monitoring/">Monitoring</a> for the evidence that was already there.
-  </div>
-
-  <div class="specimen">
-    <span class="tag">Specimen — a choice of instrument that was wrong</span>
-    <p>
-      Mid-project, a problem came up inside a large vendor's own ecosystem, so the obvious move was
-      to reach for that vendor's own assistant. Home-field advantage.
-    </p>
-    <p>
-      There wasn't any. The assistant looped, and rather than admitting it was stuck, it fabricated
-      an error in the input — pointing at a typo that wasn't there — to justify the loop. A plain
-      web search resolved it, because the actual problem was a licensing ambiguity, not a reasoning
-      problem.
-    </p>
-    <p>
-      The lesson isn't "that assistant is bad." It's that <strong>model selection has to match the
-      problem type, not the vendor logo</strong>. Home-field advantage is a hypothesis like any
-      other, and it needs the same treatment: cheap to test, not to be assumed.
-    </p>
-  </div>
-
-  <h2>What never leaves your hands</h2>
-  <p>
-    Everything is negotiable depending on the task, the tool, and how much brain you have left at
-    that hour — except these:
-  </p>
-  <ul>
-    <li><strong>The final call.</strong> Somebody decides. It isn't the model.</li>
-    <li><strong>The blast-radius assessment.</strong> What breaks if this is wrong, and who notices.</li>
-    <li><strong>Environment-specific context.</strong> The thing about <em>this</em> site, <em>this</em> client, <em>this</em> box that isn't written down anywhere and won't be inferred.</li>
-    <li><strong>Professional accountability.</strong> Your name is on what ships. Covered properly in <a href="/wielding-ai/lab-owning-the-result.html">owning the result</a>.</li>
-  </ul>
-
-  <h2>Your tool stack is infrastructure — treat it that way</h2>
-  <p>
-    This is the part that gets skipped everywhere, and it's the most ITOps-shaped idea in the whole
-    module: <strong>dependency on a single assistant is a single point of failure.</strong> Provider
-    has a bad day, your workflow degrades. And if you haven't touched your backup option in three
-    months, the muscle memory for working with it is gone — you have an untested backup, which is
-    to say you have none.
-  </p>
-  <div class="table-scroll">
-  <table class="tiers">
-    <tr><th>Tier</th><th>What it's for</th></tr>
-    <tr><td>Primary</td><td>Project-class work, complex reasoning, threads that must stay coherent across sessions</td></tr>
-    <tr><td>Secondary</td><td>Quick dispatch, current information, one-shot formatting, offloading mental overhead</td></tr>
-    <tr><td>Tertiary</td><td>Creative and lateral work. Know what you're getting — this tier tends to wildcard under pressure</td></tr>
-    <tr><td>Emergency</td><td>Warm enough to actually use on a bad day. Both primary and secondary being degraded at once is a real scenario, not a theoretical one</td></tr>
-  </table>
-  </div>
-  <p>
-    Keeping it warm is active work, not a note in a document. Periodically ask what's new and worth
-    trying; test new options <em>before</em> you need them, not during an outage — a blind model
-    arena is a cheap way to do that on invented scenarios, within
-    <a href="/wielding-ai/lab-owning-the-result.html">the sharing rules that apply to
-    unfamiliar platforms</a>. And where a model
-    runs — what jurisdiction and whose infrastructure — is part of evaluating the platform, not a
-    footnote to it.
-  </p>
-  <div class="callout">
-    The stack earns its keep twice. Availability is the obvious reason to have a second option on
-    deck; the less obvious one is that an <em>unrelated</em> model is a diagnostic instrument — the
-    thing you hand an answer you don't understand, to see whether an independent training base
-    describes it the same way. That only works if it's genuinely unrelated, which is a good reason
-    to keep the tiers on different providers rather than different sizes of the same one. Covered
-    in <a href="/wielding-ai/lab-checking-the-work.html">checking the work</a>.
-  </div>
-
-  <div class="exercise">
-    <h3>Try it — the failover drill</h3>
-    <p>
-      Go 24 hours without your primary assistant. Not as a purity exercise — as a failover test,
-      the same way you'd test a backup restore rather than assuming the backup works.
-    </p>
-    <p>Two things to watch for, and the second is the valuable one:</p>
-    <ul>
-      <li>
-        <strong>Can you actually still work in your secondary?</strong> If the answer is "eventually,
-        after fighting it for an hour," that's a cold standby, and you found out on a day it didn't
-        matter.
-      </li>
-      <li>
-        <strong>Where does the itch actually show up?</strong> It won't be routine tasks and it
-        won't be quick dispatch. It'll be the "something weird just broke and I need something that
-        holds the thread while I think" moments. That's your real dependency, and knowing precisely
-        where it is beats a vague sense that you use it a lot.
-      </li>
-    </ul>
-    <p>
-      There's a side effect worth naming: without a model to hand a half-formed thought to, you have
-      to finish forming it yourself first. That pre-thinking is exactly what separates a pull-prompt
-      from a vending-machine request — which means the drill sharpens the skill it's testing.
-    </p>
-  </div>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/wielding-ai/lab-knowing-the-instrument.html">Lab: Knowing the instrument — every part of the product, and where each runs out</a>
-    <a href="/wielding-ai/lab-pull-prompt.html">Lab: The pull-prompt — working the partnership once you've brought it in</a>
-    <a href="/wielding-ai/lab-checking-the-work.html">Lab: Checking the work — judging what comes back</a>
-    <a href="/wielding-ai/lab-owning-the-result.html">Lab: Owning the result — what you do with it</a>
-  </div>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-copper">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Wielding AI</a>
+        <div class="eyebrow">Practice & partnership <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: Whether, which one, and at what setting</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#knowing-what-you-re-bringing-it-you-usually-don-t-and-that-s-the-job">
+                <span>01</span>Knowing what you&#x27;re bringing it — you usually don&#x27;t, and that&#x27;s the job</a>
+              <a href="#which-instrument-and-at-what-setting">
+                <span>02</span>Which instrument, and at what setting</a>
+              <a href="#what-never-leaves-your-hands">
+                <span>03</span>What never leaves your hands</a>
+              <a href="#your-tool-stack-is-infrastructure-treat-it-that-way">
+                <span>04</span>Your tool stack is infrastructure — treat it that way</a>
+              <a href="#what-this-sets-up">
+                <span>05</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#knowing-what-you-re-bringing-it-you-usually-don-t-and-that-s-the-job">
+                <span>01</span>Knowing what you&#x27;re bringing it — you usually don&#x27;t, and that&#x27;s the job</a>
+              <a href="#which-instrument-and-at-what-setting">
+                <span>02</span>Which instrument, and at what setting</a>
+              <a href="#what-never-leaves-your-hands">
+                <span>03</span>What never leaves your hands</a>
+              <a href="#your-tool-stack-is-infrastructure-treat-it-that-way">
+                <span>04</span>Your tool stack is infrastructure — treat it that way</a>
+              <a href="#what-this-sets-up">
+                <span>05</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Wielding AI activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <div class="d-tag">Choosing the instrument</div>
+          <p>
+            Choosing happens before any prompt gets typed, and it's the part that looks like it isn't
+            there. It gets settled in about the time it takes to pick left or right at a junction you've driven a hundred
+            times — which is not the same as not deciding. The decision ran. It just didn't announce
+            itself.
+          </p>
+          <div class="callout">
+            That distinction matters, because "I don't really make that call, I just open a chat" is almost
+            never true. You picked a tool. You picked which parts of the problem to hand over. You had a
+            rough sense of what you'd accept back. All of it happened below the level where it felt like
+            deliberation — and all of it is still a decision that can be examined, and occasionally is
+            worth examining, when the stakes or the unfamiliarity justify slowing it down.
+          </div>
+          <h2 id="knowing-what-you-re-bringing-it-you-usually-don-t-and-that-s-the-job">Knowing what you're bringing it — you usually don't, and that's the job</h2>
+          <p>
+            In IT the full problem generally <em>isn't</em> understood at the point an assistant gets
+            involved. That's not a failure state; it's the reason a tech was called at all. Sometimes you
+            know how to go find the problem definition. Sometimes you don't, and finding out how is the
+            first real task.
+          </p>
+          <p>
+            The useful frame here isn't a checklist, it's one you already know. Troubleshooting is the
+            scientific method with worse lighting, and mapping the two makes it obvious where an assistant
+            helps and where it can't.
+          </p>
+          <ol class="method">
+            <li>
+              <span class="step">
+                <span class="name">Ask a question</span>
+              </span>
+              <p>
+                In a lab this is the hard, creative part. In ITOps it's handed to you free: the end user
+                already asked it, in the form of a complaint. <em>"Email is slow." "I can't get to the
+                  share."</em> That's your question. What you don't get free is any assurance it's the
+                <em>right</em> question — a complaint describes a symptom, and the symptom is not
+                necessarily the problem.
+              </p>
+            </li>
+            <li>
+              <span class="step">
+                <span class="name">Research</span>
+              </span>
+              <p>
+                Where an assistant does most of its actual work in ITOps, and where the choice between
+                <a href="../wielding-ai/lab-pull-prompt.html">push, pull and discovery prompts</a> lives. The
+                signal worth watching: <strong>a push prompt that gets no traction is telling you about
+                  your prompt, not about the model.</strong> It means there wasn't enough context in it.
+                Re-rolling the same push prompt with different wording won't fix that; switching modes
+                will.
+              </p>
+            </li>
+            <li>
+              <span class="step">
+                <span class="name">Form a hypothesis</span>
+              </span>
+              <p>
+                When a model hands you five plausible causes, those aren't answers — they're hypotheses,
+                and a list of them is a legitimate deliverable. A good session goes one step further: it
+                picks a favourite, says <em>why</em>, and says how you'd prove it. A list with no way to
+                test any item on it is a search result with better grammar.
+              </p>
+            </li>
+            <li>
+              <span class="step">
+                <span class="name">Run an experiment</span>
+              </span>
+              <p>
+                "How would I check that" <em>is</em> the experiment — the same pairing the pull-prompt
+                demands of every question it asks you. A hypothesis you can't test isn't one yet, it's a
+                guess wearing better clothes.
+              </p>
+            </li>
+            <li>
+              <span class="step">
+                <span class="name">Analyze the data</span>
+              </span>
+              <p>
+                What actually came back, read verbatim rather than summarized. This is the step where you
+                feed the result into the session so the next round narrows from evidence instead of from
+                your increasingly stale opening description.
+              </p>
+            </li>
+            <li>
+              <span class="step">
+                <span class="name">Conclusion</span>
+              </span>
+              <p>
+                Did the data support the hypothesis? Note that <em>"the fix worked"</em> is not
+                automatically a yes — see
+                <a href="../concepts/diagnostic-methodology.html">symptom vs. root cause</a>. And a
+                disproven hypothesis is a successful experiment: it eliminated a branch, which is the
+                entire point of half-splitting.
+              </p>
+            </li>
+          </ol>
+          <div class="callout">
+            It's a loop, not a line. A failed conclusion sends you back to step 3 if you still have
+            hypotheses, and back to step 2 if you're out of them. <strong>The common mistake is treating
+              step 3 as the starting line</strong> — arriving with a hypothesis already chosen, then using
+            the assistant to build a case for it rather than to test it. That's not research, it's
+            advocacy, and a cooperative model will happily help you do it.
+          </div>
+          <p>
+            This is also the shape every <a href="../">Case on this platform</a> puts you in on purpose. The
+            hard part of real troubleshooting is almost never executing a known fix — it's steps 1 through
+            3, before anyone knows what the problem actually is.
+          </p>
+          <h2 id="which-instrument-and-at-what-setting">Which instrument, and at what setting</h2>
+          <p>
+            If you keep more than one model on deck, this is where the real decision sits, and it's the
+            part that runs fastest. Most of the time it resolves on <strong>familiarity and proven
+              consistency</strong>: you know how this one fails, you know what its output looks like when
+            it's drifting, you know what it does with a vague prompt at 4pm on a Friday. That accumulated
+            calibration is a legitimate criterion, not laziness — it's worth more in practice than a
+            benchmark score, because it's the thing that lets you catch a bad answer quickly.
+          </p>
+          <p>Things that should override familiarity, and should do it consciously:</p>
+          <ul>
+            <li>
+              <strong>The shape and size of the data.</strong> A three-thousand-row export is a different
+              job from a two-paragraph error message, and the dataset alone is enough to push the choice
+              up a tier regardless of which model you're comfortable in.
+            </li>
+            <li>
+              <strong>Whether the thread has to survive across sessions.</strong> A multi-stage engagement
+              where research informs design informs documentation needs something that can still hold the
+              plot at step four. A one-shot ticket update does not. Context-dependency picks the tool more
+              often than the subject matter does.
+            </li>
+            <li>
+              <strong>How many exchanges you expect.</strong> Worth having a personal threshold — "past
+              about four turns this goes to the one I trust with long threads." Crude, and built from
+              watching where things actually degrade, which is the only place that number can come from.
+            </li>
+            <li>
+              <strong>Whether it needs current information.</strong> Recency and retrieval are a different
+              capability from reasoning. Assuming one tool is good at both is how you get confidently
+              outdated answers.
+            </li>
+            <li>
+              <strong>Whether you should be feeding it documentation instead of trusting recall.</strong>
+              A model doesn't need to have been trained on your appliance vendor's guide if you hand it the
+              guide. Treated as a reasoning layer over data you supply rather than a recall engine, the
+              knowledge cutoff mostly stops mattering.
+            </li>
+            <li>
+              <strong>Whether it's the right tool at all.</strong> The most-missed one. If your monitoring
+              already has the answer, going to an assistant is a slower way of not reading your monitoring.
+            </li>
+          </ul>
+          <div class="callout">
+            <strong>You do not need the largest model available for most of this.</strong> If you're
+            deliberate — a real description, evidence fed back each round, hypotheses tested instead of
+            assumed — a mid-range daily-driver model covers the overwhelming majority of ITOps work.
+            Discipline substitutes for horsepower further than people expect, and reaching for the top tier
+            by reflex mostly buys you a slower version of the same answer. Escalate for volume or for
+            genuinely hard reasoning; not as a default.
+          </div>
+          <p>
+            Two practical notes that follow from that. Most platforms now expose <strong>reasoning or
+              thinking-depth toggles</strong>, and on some models turning that up is the difference between
+            an assistant that stays on target and one that wanders — it's part of the decision surface, not
+            a setting to leave alone. And the tier you actually want <strong>isn't always offered in the
+              interface you happen to be in</strong>: the same provider can surface different models in
+            different modes of its own product. Both are worth finding out by experiment rather than
+            assuming the default in front of you is the whole menu — which is what
+            <a href="../wielding-ai/lab-knowing-the-instrument.html">knowing the instrument</a> is for.
+          </p>
+          <div class="callout">
+            That last point has a non-AI twin worth recognizing, because the behavior is identical:
+            the tech who keeps asking people about a machine's problem while the uptime graph sitting in
+            front of them says 90 days. Collecting more opinions is not the same as gathering evidence.
+            An assistant is just one more source of opinion if you reach for it in that mode.
+            See <a href="../monitoring/index.html">Monitoring</a> for the evidence that was already there.
+          </div>
+          <div class="specimen">
+            <span class="tag">Specimen — a choice of instrument that was wrong</span>
+            <p>
+              Mid-project, a problem came up inside a large vendor's own ecosystem, so the obvious move was
+              to reach for that vendor's own assistant. Home-field advantage.
+            </p>
+            <p>
+              There wasn't any. The assistant looped, and rather than admitting it was stuck, it fabricated
+              an error in the input — pointing at a typo that wasn't there — to justify the loop. A plain
+              web search resolved it, because the actual problem was a licensing ambiguity, not a reasoning
+              problem.
+            </p>
+            <p>
+              The lesson isn't "that assistant is bad." It's that <strong>model selection has to match the
+                problem type, not the vendor logo</strong>. Home-field advantage is a hypothesis like any
+              other, and it needs the same treatment: cheap to test, not to be assumed.
+            </p>
+          </div>
+          <h2 id="what-never-leaves-your-hands">What never leaves your hands</h2>
+          <p>
+            Everything is negotiable depending on the task, the tool, and how much brain you have left at
+            that hour — except these:
+          </p>
+          <ul>
+            <li>
+              <strong>The final call.</strong> Somebody decides. It isn't the model.</li>
+            <li>
+              <strong>The blast-radius assessment.</strong> What breaks if this is wrong, and who notices.</li>
+            <li>
+              <strong>Environment-specific context.</strong> The thing about <em>this</em> site, <em>this</em> client, <em>this</em> box that isn't written down anywhere and won't be inferred.</li>
+            <li>
+              <strong>Professional accountability.</strong> Your name is on what ships. Covered properly in <a href="../wielding-ai/lab-owning-the-result.html">owning the result</a>.</li>
+          </ul>
+          <h2 id="your-tool-stack-is-infrastructure-treat-it-that-way">Your tool stack is infrastructure — treat it that way</h2>
+          <p>
+            This is the part that gets skipped everywhere, and it's the most ITOps-shaped idea in the whole
+            module: <strong>dependency on a single assistant is a single point of failure.</strong> Provider
+            has a bad day, your workflow degrades. And if you haven't touched your backup option in three
+            months, the muscle memory for working with it is gone — you have an untested backup, which is
+            to say you have none.
+          </p>
+          <div class="table-scroll">
+            <div class="table-overflow" role="region" aria-label="Comparison table" tabindex="0">
+              <table class="tiers">
+                <tr>
+                  <th>Tier</th>
+                  <th>What it's for</th>
+                </tr>
+                <tr>
+                  <td>Primary</td>
+                  <td>Project-class work, complex reasoning, threads that must stay coherent across sessions</td>
+                </tr>
+                <tr>
+                  <td>Secondary</td>
+                  <td>Quick dispatch, current information, one-shot formatting, offloading mental overhead</td>
+                </tr>
+                <tr>
+                  <td>Tertiary</td>
+                  <td>Creative and lateral work. Know what you're getting — this tier tends to wildcard under pressure</td>
+                </tr>
+                <tr>
+                  <td>Emergency</td>
+                  <td>Warm enough to actually use on a bad day. Both primary and secondary being degraded at once is a real scenario, not a theoretical one</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <p>
+            Keeping it warm is active work, not a note in a document. Periodically ask what's new and worth
+            trying; test new options <em>before</em> you need them, not during an outage — a blind model
+            arena is a cheap way to do that on invented scenarios, within
+            <a href="../wielding-ai/lab-owning-the-result.html">the sharing rules that apply to
+              unfamiliar platforms</a>. And where a model
+            runs — what jurisdiction and whose infrastructure — is part of evaluating the platform, not a
+            footnote to it.
+          </p>
+          <div class="callout">
+            The stack earns its keep twice. Availability is the obvious reason to have a second option on
+            deck; the less obvious one is that an <em>unrelated</em> model is a diagnostic instrument — the
+            thing you hand an answer you don't understand, to see whether an independent training base
+            describes it the same way. That only works if it's genuinely unrelated, which is a good reason
+            to keep the tiers on different providers rather than different sizes of the same one. Covered
+            in <a href="../wielding-ai/lab-checking-the-work.html">checking the work</a>.
+          </div>
+          <div class="exercise">
+            <h3>Try it — the failover drill</h3>
+            <p>
+              Go 24 hours without your primary assistant. Not as a purity exercise — as a failover test,
+              the same way you'd test a backup restore rather than assuming the backup works.
+            </p>
+            <p>Two things to watch for, and the second is the valuable one:</p>
+            <ul>
+              <li>
+                <strong>Can you actually still work in your secondary?</strong> If the answer is "eventually,
+                after fighting it for an hour," that's a cold standby, and you found out on a day it didn't
+                matter.
+              </li>
+              <li>
+                <strong>Where does the itch actually show up?</strong> It won't be routine tasks and it
+                won't be quick dispatch. It'll be the "something weird just broke and I need something that
+                holds the thread while I think" moments. That's your real dependency, and knowing precisely
+                where it is beats a vague sense that you use it a lot.
+              </li>
+            </ul>
+            <p>
+              There's a side effect worth naming: without a model to hand a half-formed thought to, you have
+              to finish forming it yourself first. That pre-thinking is exactly what separates a pull-prompt
+              from a vending-machine request — which means the drill sharpens the skill it's testing.
+            </p>
+          </div>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../wielding-ai/lab-knowing-the-instrument.html">Lab: Knowing the instrument — every part of the product, and where each runs out</a>
+            <a href="../wielding-ai/lab-pull-prompt.html">Lab: The pull-prompt — working the partnership once you've brought it in</a>
+            <a href="../wielding-ai/lab-checking-the-work.html">Lab: Checking the work — judging what comes back</a>
+            <a href="../wielding-ai/lab-owning-the-result.html">Lab: Owning the result — what you do with it</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

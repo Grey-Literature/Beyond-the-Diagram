@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagnostic Methodology — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Methodology — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 38rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
@@ -18,99 +18,158 @@
   .seen-in a { color: var(--text-dim); }
   .seen-in a:hover { color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/concepts/">&larr; Concepts</a>
-
-  <h1>Named Diagnostic Methodology</h1>
-  <p class="lede">
-    Not protocol knowledge — these are the moves that decide what you check next, regardless of
-    which protocol you're in. Every Case on this platform is really testing which of these you
-    reach for.
-  </p>
-
-  <h2>Half-splitting / binary search</h2>
-  <p>
-    Pick a midpoint in your hypothesis space, test it, discard whichever half it rules out.
-    Originates in electronics/radar fault isolation — voltage and continuity checks — and
-    transfers cleanly to computer systems with different test points: a command output or a log
-    line instead of a multimeter reading.
-  </p>
-
-  <h2>Substitution</h2>
-  <p>
-    Swap in a variable known to be good — a known-good account, a second machine, a different DC
-    or resolver — and see whether the failure follows the swap or stays put. Arguably the
-    most-used move in practice: it shows up independently across nearly every real field playbook,
-    from "test with an account that's signed into other systems today" to "try a second machine on
-    the same DC."
-  </p>
-
-  <h2>Top-down vs. bottom-up traversal</h2>
-  <p>
-    Work from the application layer down, or the physical layer up — whichever is cheaper to check
-    first given what you already know about the symptom.
-  </p>
-
-  <h2>"What changed"</h2>
-  <p>
-    Establish the last known-good state before touching anything; most real root causes are a
-    delta, not a mystery. <strong>Caveat:</strong> some failures — stale replication, a certificate
-    hitting its expiry date, a service race condition — have no proximate human "change" at all.
-    Treat this as the default first question, not a guaranteed answer.
-  </p>
-  <p>
-    There's a second, more common failure of this question, and it's a reporting problem rather than
-    a causal one: <strong>a change happened and nobody classified it as one.</strong> Rebooting a
-    single member of a redundant stack, clearing a cache, re-seating a cable, restarting a service
-    that came back fine — people who did all of these will answer "nothing changed" in complete good
-    faith, because in their mental model those aren't changes. Asking <em>what was done</em> rather
-    than <em>what changed</em> gets a different and better answer. Worked through in
-    <a href="/wielding-ai/case-stack-sync.html">the stack-sync Case</a>.
-  </p>
-
-  <h2>Symptom vs. root cause</h2>
-  <p>
-    A reboot or a reimage can "fix" something without anyone ever learning why. That's not always
-    wrong under time pressure, but it means the same failure can — and often does — recur later,
-    with nobody any closer to the actual cause the second time either.
-  </p>
-
-  <h2 id="behavioral-temporal">Behavioral / temporal observation</h2>
-  <p>
-    When a tool gives no explicit signal at all — no alert, no log line, nothing to half-split
-    against — the only remaining move is watching state change over time and inferring the fault
-    from the pattern of that change. There's nothing to <em>read</em> here, only something to
-    <em>watch</em> — a genuinely different move from everything else on this list, and the one
-    most easily forgotten because it doesn't feel like "checking" anything.
-  </p>
-
-  <h2>Classify before you diagnose</h2>
-  <p>
-    Sort an error into a category — authentication vs. authorization vs. account-state; signal vs.
-    silence vs. bad-value — before acting on it. This is deliberately its own exercise type
-    (Classification Drills) on this platform, separate from a full Case: the failure mode it
-    targets is pattern-matching on a keyword and jumping to a remembered fix instead of actually
-    parsing what's printed on the screen.
-  </p>
-
-  <p class="seen-in">
-    See <a href="/concepts/cross-cutting-concepts.html">Cross-Cutting Concepts</a> for the
-    failure-mode patterns these techniques get applied to, <a href="/dhcp/">DHCP</a> /
-    <a href="/dns/">DNS</a> for substitution and half-splitting in use, and
-    <a href="/prosumer-networking/">Abstracted Networking Gear</a> for behavioral/temporal
-    observation as the only technique that actually finds a VLAN-scoped loop. See
-    <a href="/wielding-ai/">Wielding AI</a> for several of these turned sideways: half-splitting
-    applied to a <em>conversation</em> rather than a wire, classify-before-you-diagnose applied to
-    browser console output and to what an AI is actually being allowed to do, and the ordering
-    question — recognizing that an accurate suggestion can still be
-    <a href="/wielding-ai/case-stack-sync.html">the wrong next step</a> for the symptom profile
-    you're holding. That module also
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">maps the whole troubleshooting loop onto the six
-    steps of the scientific method</a>, which is worth reading even without the AI angle: this page
-    is a menu of techniques, and that's a spine to hang them on.
-  </p>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-sage">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Concepts</a>
+        <div class="eyebrow">The common ground <span aria-hidden="true">/</span> Reference</div>
+        <h1>Named Diagnostic Methodology</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#half-splitting-binary-search">
+                <span>01</span>Half-splitting / binary search</a>
+              <a href="#substitution">
+                <span>02</span>Substitution</a>
+              <a href="#top-down-vs-bottom-up-traversal">
+                <span>03</span>Top-down vs. bottom-up traversal</a>
+              <a href="#what-changed">
+                <span>04</span>&quot;What changed&quot;</a>
+              <a href="#symptom-vs-root-cause">
+                <span>05</span>Symptom vs. root cause</a>
+              <a href="#behavioral-temporal">
+                <span>06</span>Behavioral / temporal observation</a>
+              <a href="#classify-before-you-diagnose">
+                <span>07</span>Classify before you diagnose</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#half-splitting-binary-search">
+                <span>01</span>Half-splitting / binary search</a>
+              <a href="#substitution">
+                <span>02</span>Substitution</a>
+              <a href="#top-down-vs-bottom-up-traversal">
+                <span>03</span>Top-down vs. bottom-up traversal</a>
+              <a href="#what-changed">
+                <span>04</span>&quot;What changed&quot;</a>
+              <a href="#symptom-vs-root-cause">
+                <span>05</span>Symptom vs. root cause</a>
+              <a href="#behavioral-temporal">
+                <span>06</span>Behavioral / temporal observation</a>
+              <a href="#classify-before-you-diagnose">
+                <span>07</span>Classify before you diagnose</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Concepts activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <p class="lede">
+            Not protocol knowledge — these are the moves that decide what you check next, regardless of
+            which protocol you're in. Every Case on this platform is really testing which of these you
+            reach for.
+          </p>
+          <h2 id="half-splitting-binary-search">Half-splitting / binary search</h2>
+          <p>
+            Pick a midpoint in your hypothesis space, test it, discard whichever half it rules out.
+            Originates in electronics/radar fault isolation — voltage and continuity checks — and
+            transfers cleanly to computer systems with different test points: a command output or a log
+            line instead of a multimeter reading.
+          </p>
+          <h2 id="substitution">Substitution</h2>
+          <p>
+            Swap in a variable known to be good — a known-good account, a second machine, a different DC
+            or resolver — and see whether the failure follows the swap or stays put. Arguably the
+            most-used move in practice: it shows up independently across nearly every real field playbook,
+            from "test with an account that's signed into other systems today" to "try a second machine on
+            the same DC."
+          </p>
+          <h2 id="top-down-vs-bottom-up-traversal">Top-down vs. bottom-up traversal</h2>
+          <p>
+            Work from the application layer down, or the physical layer up — whichever is cheaper to check
+            first given what you already know about the symptom.
+          </p>
+          <h2 id="what-changed">"What changed"</h2>
+          <p>
+            Establish the last known-good state before touching anything; most real root causes are a
+            delta, not a mystery. <strong>Caveat:</strong> some failures — stale replication, a certificate
+            hitting its expiry date, a service race condition — have no proximate human "change" at all.
+            Treat this as the default first question, not a guaranteed answer.
+          </p>
+          <p>
+            There's a second, more common failure of this question, and it's a reporting problem rather than
+            a causal one: <strong>a change happened and nobody classified it as one.</strong> Rebooting a
+            single member of a redundant stack, clearing a cache, re-seating a cable, restarting a service
+            that came back fine — people who did all of these will answer "nothing changed" in complete good
+            faith, because in their mental model those aren't changes. Asking <em>what was done</em> rather
+            than <em>what changed</em> gets a different and better answer. Worked through in
+            <a href="../wielding-ai/case-stack-sync.html">the stack-sync Case</a>.
+          </p>
+          <h2 id="symptom-vs-root-cause">Symptom vs. root cause</h2>
+          <p>
+            A reboot or a reimage can "fix" something without anyone ever learning why. That's not always
+            wrong under time pressure, but it means the same failure can — and often does — recur later,
+            with nobody any closer to the actual cause the second time either.
+          </p>
+          <h2 id="behavioral-temporal">Behavioral / temporal observation</h2>
+          <p>
+            When a tool gives no explicit signal at all — no alert, no log line, nothing to half-split
+            against — the only remaining move is watching state change over time and inferring the fault
+            from the pattern of that change. There's nothing to <em>read</em> here, only something to
+            <em>watch</em> — a genuinely different move from everything else on this list, and the one
+            most easily forgotten because it doesn't feel like "checking" anything.
+          </p>
+          <h2 id="classify-before-you-diagnose">Classify before you diagnose</h2>
+          <p>
+            Sort an error into a category — authentication vs. authorization vs. account-state; signal vs.
+            silence vs. bad-value — before acting on it. This is deliberately its own exercise type
+            (Classification Drills) on this platform, separate from a full Case: the failure mode it
+            targets is pattern-matching on a keyword and jumping to a remembered fix instead of actually
+            parsing what's printed on the screen.
+          </p>
+          <p class="seen-in">
+            See <a href="../concepts/cross-cutting-concepts.html">Cross-Cutting Concepts</a> for the
+            failure-mode patterns these techniques get applied to, <a href="../dhcp/index.html">DHCP</a> /
+            <a href="../dns/index.html">DNS</a> for substitution and half-splitting in use, and
+            <a href="../prosumer-networking/index.html">Abstracted Networking Gear</a> for behavioral/temporal
+            observation as the only technique that actually finds a VLAN-scoped loop. See
+            <a href="../wielding-ai/index.html">Wielding AI</a> for several of these turned sideways: half-splitting
+            applied to a <em>conversation</em> rather than a wire, classify-before-you-diagnose applied to
+            browser console output and to what an AI is actually being allowed to do, and the ordering
+            question — recognizing that an accurate suggestion can still be
+            <a href="../wielding-ai/case-stack-sync.html">the wrong next step</a> for the symptom profile
+            you're holding. That module also
+            <a href="../wielding-ai/lab-choosing-the-instrument.html">maps the whole troubleshooting loop onto the six
+              steps of the scientific method</a>, which is worth reading even without the AI angle: this page
+            is a menu of techniques, and that's a spine to hang them on.
+          </p>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

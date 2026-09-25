@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: abstracted networking gear — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: abstracted networking gear — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 38rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
@@ -29,60 +29,110 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/prosumer-networking/">&larr; Abstracted Networking Gear</a>
-
-  <h1>Lab: abstracted networking gear (UniFi-class)</h1>
-
-  <p>
-    A genuinely different failure mode from everything else on this platform so far: not "the
-    system is confused about its own state," but "the system knows less than it could, on
-    purpose, because a product designer decided that's the right tradeoff for the target user."
-  </p>
-
-  <h2>The tradeoff, stated plainly</h2>
-  <p>
-    Consumer- and prosumer-oriented gear trades diagnostic depth for a simpler UI. A clean
-    dashboard with no alerts doesn't mean the device is healthy — it can just as easily mean the
-    vendor never built alerting logic for whatever's actually wrong. The gap isn't a bug; it's a
-    design decision made for a different audience than you.
-  </p>
-
-  <h2>A real case: a loop confined to specific VLANs</h2>
-  <p>
-    General loop detection is built to catch a network-wide broadcast storm. A loop that only
-    exists within a subset of VLANs never presents that way, so it never fires — not because the
-    detection is broken, but because it was never designed to catch this shape of problem.
-  </p>
-  <div class="callout">
-    The only route to actually finding a loop like this: watch the upstream switch's port/client
-    mapping <em>over time</em>. A device confirmed present on the downstream switch shows up on
-    port 5 — then a few minutes later on port 17 — then back on port 5 again, repeating. That
-    flapping between two ports in the forwarding table <em>is</em> the loop's fingerprint,
-    visible only through direct observation, never through any alert the switch raised.
-  </div>
-  <p>
-    This is <a href="/concepts/diagnostic-methodology.html#behavioral-temporal">behavioral/temporal
-    observation</a> in its clearest form: there's nothing to read here, only something to watch.
-    Worth naming explicitly, because it's easy to forget it's an option at all when every other
-    technique on this platform starts with "check the log" or "read the response."
-  </p>
-
-  <h2>Where AI genuinely helps here, and where it can't</h2>
-  <p>
-    Asked about symptoms like this, an AI tool can reasonably guess "probably a loop" fairly
-    quickly — general diagnosis is cheap and doesn't need much context. But <em>finding</em> the
-    loop requires visibility into live switch state that no outside tool has access to, AI
-    included. The guess is real help; it isn't the investigation.
-  </p>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/prosumer-networking/case-vlan-loop.html">Case: intermittent slowdowns on a couple of VLANs, no loop alert has fired</a>
-    <a href="/prosumer-networking/drill-switch-no-alerts.html">Drill: classify what a clean dashboard actually proves</a>
-  </div>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-blue">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Abstracted Networking Gear</a>
+        <div class="eyebrow">Behavior & observation <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: abstracted networking gear (UniFi-class)</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#the-tradeoff-stated-plainly">
+                <span>01</span>The tradeoff, stated plainly</a>
+              <a href="#a-real-case-a-loop-confined-to-specific-vlans">
+                <span>02</span>A real case: a loop confined to specific VLANs</a>
+              <a href="#where-ai-genuinely-helps-here-and-where-it-can-t">
+                <span>03</span>Where AI genuinely helps here, and where it can&#x27;t</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#the-tradeoff-stated-plainly">
+                <span>01</span>The tradeoff, stated plainly</a>
+              <a href="#a-real-case-a-loop-confined-to-specific-vlans">
+                <span>02</span>A real case: a loop confined to specific VLANs</a>
+              <a href="#where-ai-genuinely-helps-here-and-where-it-can-t">
+                <span>03</span>Where AI genuinely helps here, and where it can&#x27;t</a>
+              <a href="#what-this-sets-up">
+                <span>04</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Abstracted Networking Gear activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <p>
+            A genuinely different failure mode from everything else on this platform so far: not "the
+            system is confused about its own state," but "the system knows less than it could, on
+            purpose, because a product designer decided that's the right tradeoff for the target user."
+          </p>
+          <h2 id="the-tradeoff-stated-plainly">The tradeoff, stated plainly</h2>
+          <p>
+            Consumer- and prosumer-oriented gear trades diagnostic depth for a simpler UI. A clean
+            dashboard with no alerts doesn't mean the device is healthy — it can just as easily mean the
+            vendor never built alerting logic for whatever's actually wrong. The gap isn't a bug; it's a
+            design decision made for a different audience than you.
+          </p>
+          <h2 id="a-real-case-a-loop-confined-to-specific-vlans">A real case: a loop confined to specific VLANs</h2>
+          <p>
+            General loop detection is built to catch a network-wide broadcast storm. A loop that only
+            exists within a subset of VLANs never presents that way, so it never fires — not because the
+            detection is broken, but because it was never designed to catch this shape of problem.
+          </p>
+          <div class="callout">
+            The only route to actually finding a loop like this: watch the upstream switch's port/client
+            mapping <em>over time</em>. A device confirmed present on the downstream switch shows up on
+            port 5 — then a few minutes later on port 17 — then back on port 5 again, repeating. That
+            flapping between two ports in the forwarding table <em>is</em> the loop's fingerprint,
+            visible only through direct observation, never through any alert the switch raised.
+          </div>
+          <p>
+            This is <a href="../concepts/diagnostic-methodology.html#behavioral-temporal">behavioral/temporal
+              observation</a> in its clearest form: there's nothing to read here, only something to watch.
+            Worth naming explicitly, because it's easy to forget it's an option at all when every other
+            technique on this platform starts with "check the log" or "read the response."
+          </p>
+          <h2 id="where-ai-genuinely-helps-here-and-where-it-can-t">Where AI genuinely helps here, and where it can't</h2>
+          <p>
+            Asked about symptoms like this, an AI tool can reasonably guess "probably a loop" fairly
+            quickly — general diagnosis is cheap and doesn't need much context. But <em>finding</em> the
+            loop requires visibility into live switch state that no outside tool has access to, AI
+            included. The guess is real help; it isn't the investigation.
+          </p>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../prosumer-networking/case-vlan-loop.html">Case: intermittent slowdowns on a couple of VLANs, no loop alert has fired</a>
+            <a href="../prosumer-networking/drill-switch-no-alerts.html">Drill: classify what a clean dashboard actually proves</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>

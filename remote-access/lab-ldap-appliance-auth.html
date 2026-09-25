@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lab: LDAP-auth VPN appliances — Beyond the Diagram</title>
-<link rel="stylesheet" href="/assets/site.css">
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab: LDAP-auth VPN appliances — Beyond the Diagram</title>
+    <link rel="stylesheet" href="../assets/site.css">
+    <style>
   body { padding: 2rem 1.25rem 4rem; }
   main { max-width: 38rem; margin: 0 auto; }
   h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
@@ -29,70 +29,127 @@
   }
   .next-links a:hover { border-color: var(--accent); }
 </style>
-</head>
-<body>
-<main>
-  <a class="back-link" href="/remote-access/">&larr; Remote Access / VPN</a>
-
-  <h1>Lab: LDAP-auth VPN appliances</h1>
-
-  <p>
-    Not every VPN appliance uses RADIUS. Plenty authenticate straight against AD over LDAP
-    instead — a genuinely different wrinkle, with its own severe failure class that individual
-    password troubleshooting can't touch at all.
-  </p>
-
-  <h2>Simple bind vs. search-then-bind</h2>
-  <p>
-    A simple bind authenticates directly with the user's own credentials. Search-then-bind first
-    logs in as a dedicated <em>service account</em> to search the directory for the user's DN,
-    then binds as that user — which means the appliance's own service account is now a second,
-    independent point of failure that has nothing to do with any end user's password.
-  </p>
-
-  <h2>The severe failure class: the whole auth path is dead</h2>
-  <p>This is categorically different from any individual user's credentials being wrong:</p>
-  <ul>
-    <li>The appliance can't reach a domain controller <em>at all</em></li>
-    <li>A DC's LDAPS certificate quietly expired — a silent, calendar-driven failure with zero connection to any user's password activity</li>
-    <li>In search-then-bind setups, the appliance's own service account is expired, disabled, or locked</li>
-  </ul>
-  <div class="callout">
-    The tell is scope: if <em>every</em> user fails at once, in the same way, testing individual
-    passwords is a waste of time before you've even started. That's the signature of the whole
-    path being down, not any one credential.
-  </div>
-
-  <h2>The diagnostic sequence that actually works</h2>
-  <ol>
-    <li>Substitute a known-good account through the identical path first — if it also fails, the problem is upstream of any individual credential, full stop.</li>
-    <li>Check the appliance's <strong>dedicated auth/debug log</strong>, not its connection/session log — the session log only knows a connection happened and ended, not why.</li>
-    <li>Run <code>ldapsearch</code> from a neutral host using the same service account, to test directory health independent of whatever the appliance chooses to report.</li>
-  </ol>
-
-  <h2>A real vendor pattern worth knowing by name</h2>
-  <p>
-    Barracuda firewalls have a documented failure mode: an MSAD reboot can cause the firewall's
-    own auth service to time out — and not self-recover. It needs a manual service restart even
-    after AD comes back healthy. The general shape: a service holding persistent state to an
-    upstream dependency that doesn't detect the bounce and reconnect gracefully on its own — the
-    same shape as <a href="/ad-gpo/">DCLocator caching a dead DC</a> from the AD/GPO module,
-    just on the appliance side of the fence instead of the client side.
-  </p>
-
-  <h2>A forward-looking note</h2>
-  <p>
-    Windows Server 2025 defaults LDAP server signing requirements to <strong>Require Signing</strong>
-    (2019/2022/2016 defaulted to negotiable). That specifically breaks appliances doing a simple,
-    unsigned bind over plain LDAP:389 — it doesn't force full LDAPS, just signed LDAP or LDAPS with
-    channel binding. Worth confirming vendor support before any DC upgrade.
-  </p>
-
-  <h2>What this sets up</h2>
-  <div class="next-links">
-    <a href="/remote-access/case-ldap-appliance-dead.html">Case: every VPN login fails at once, all with a generic "invalid credentials"</a>
-    <a href="/remote-access/drill-ldap-invalid-credentials.html">Drill: classify what LDAP error 49 could actually be hiding</a>
-  </div>
-</main>
-</body>
+    <meta name="color-scheme" content="dark">
+    <link rel="stylesheet" href="../assets/editorial.css">
+  </head>
+  <body class="editorial reader-page tone-sage">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <nav aria-label="Site navigation">
+        <a href="../index.html#modules">Modules</a>
+        <a href="../concepts/index.html">Concepts</a>
+        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <header class="lesson-header">
+        <a class="back-link" href="index.html">← Remote Access / VPN</a>
+        <div class="eyebrow">Connections & trust <span aria-hidden="true">/</span> Lab</div>
+        <h1>Lab: LDAP-auth VPN appliances</h1>
+      </header>
+      <div class="reading-layout">
+        <aside class="reading-rail">
+          <span class="eyebrow">On this page</span>
+          <div class="desktop-toc">
+            <nav aria-label="On this page">
+              <a href="#simple-bind-vs-search-then-bind">
+                <span>01</span>Simple bind vs. search-then-bind</a>
+              <a href="#the-severe-failure-class-the-whole-auth-path-is-dead">
+                <span>02</span>The severe failure class: the whole auth path is dead</a>
+              <a href="#the-diagnostic-sequence-that-actually-works">
+                <span>03</span>The diagnostic sequence that actually works</a>
+              <a href="#a-real-vendor-pattern-worth-knowing-by-name">
+                <span>04</span>A real vendor pattern worth knowing by name</a>
+              <a href="#a-forward-looking-note">
+                <span>05</span>A forward-looking note</a>
+              <a href="#what-this-sets-up">
+                <span>06</span>What this sets up</a>
+            </nav>
+          </div>
+          <details class="mobile-toc">
+            <summary>In this lesson <span aria-hidden="true">+</span>
+            </summary>
+            <nav aria-label="Lesson sections">
+              <a href="#simple-bind-vs-search-then-bind">
+                <span>01</span>Simple bind vs. search-then-bind</a>
+              <a href="#the-severe-failure-class-the-whole-auth-path-is-dead">
+                <span>02</span>The severe failure class: the whole auth path is dead</a>
+              <a href="#the-diagnostic-sequence-that-actually-works">
+                <span>03</span>The diagnostic sequence that actually works</a>
+              <a href="#a-real-vendor-pattern-worth-knowing-by-name">
+                <span>04</span>A real vendor pattern worth knowing by name</a>
+              <a href="#a-forward-looking-note">
+                <span>05</span>A forward-looking note</a>
+              <a href="#what-this-sets-up">
+                <span>06</span>What this sets up</a>
+            </nav>
+          </details>
+          <a class="rail-back" href="index.html">All Remote Access / VPN activities ↗</a>
+        </aside>
+        <article class="reading-body">
+          <p>
+            Not every VPN appliance uses RADIUS. Plenty authenticate straight against AD over LDAP
+            instead — a genuinely different wrinkle, with its own severe failure class that individual
+            password troubleshooting can't touch at all.
+          </p>
+          <h2 id="simple-bind-vs-search-then-bind">Simple bind vs. search-then-bind</h2>
+          <p>
+            A simple bind authenticates directly with the user's own credentials. Search-then-bind first
+            logs in as a dedicated <em>service account</em> to search the directory for the user's DN,
+            then binds as that user — which means the appliance's own service account is now a second,
+            independent point of failure that has nothing to do with any end user's password.
+          </p>
+          <h2 id="the-severe-failure-class-the-whole-auth-path-is-dead">The severe failure class: the whole auth path is dead</h2>
+          <p>This is categorically different from any individual user's credentials being wrong:</p>
+          <ul>
+            <li>The appliance can't reach a domain controller <em>at all</em>
+            </li>
+            <li>A DC's LDAPS certificate quietly expired — a silent, calendar-driven failure with zero connection to any user's password activity</li>
+            <li>In search-then-bind setups, the appliance's own service account is expired, disabled, or locked</li>
+          </ul>
+          <div class="callout">
+            The tell is scope: if <em>every</em> user fails at once, in the same way, testing individual
+            passwords is a waste of time before you've even started. That's the signature of the whole
+            path being down, not any one credential.
+          </div>
+          <h2 id="the-diagnostic-sequence-that-actually-works">The diagnostic sequence that actually works</h2>
+          <ol>
+            <li>Substitute a known-good account through the identical path first — if it also fails, the problem is upstream of any individual credential, full stop.</li>
+            <li>Check the appliance's <strong>dedicated auth/debug log</strong>, not its connection/session log — the session log only knows a connection happened and ended, not why.</li>
+            <li>Run <code>ldapsearch</code> from a neutral host using the same service account, to test directory health independent of whatever the appliance chooses to report.</li>
+          </ol>
+          <h2 id="a-real-vendor-pattern-worth-knowing-by-name">A real vendor pattern worth knowing by name</h2>
+          <p>
+            Barracuda firewalls have a documented failure mode: an MSAD reboot can cause the firewall's
+            own auth service to time out — and not self-recover. It needs a manual service restart even
+            after AD comes back healthy. The general shape: a service holding persistent state to an
+            upstream dependency that doesn't detect the bounce and reconnect gracefully on its own — the
+            same shape as <a href="../ad-gpo/index.html">DCLocator caching a dead DC</a> from the AD/GPO module,
+            just on the appliance side of the fence instead of the client side.
+          </p>
+          <h2 id="a-forward-looking-note">A forward-looking note</h2>
+          <p>
+            Windows Server 2025 defaults LDAP server signing requirements to <strong>Require Signing</strong>
+            (2019/2022/2016 defaulted to negotiable). That specifically breaks appliances doing a simple,
+            unsigned bind over plain LDAP:389 — it doesn't force full LDAPS, just signed LDAP or LDAPS with
+            channel binding. Worth confirming vendor support before any DC upgrade.
+          </p>
+          <h2 id="what-this-sets-up">What this sets up</h2>
+          <div class="next-links">
+            <a href="../remote-access/case-ldap-appliance-dead.html">Case: every VPN login fails at once, all with a generic "invalid credentials"</a>
+            <a href="../remote-access/drill-ldap-invalid-credentials.html">Drill: classify what LDAP error 49 could actually be hiding</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="wordmark" href="../index.html">
+        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+      <span>Learn the mechanism. Practice the methodology.</span>
+      <a href="#main">Back to top ↑</a>
+    </footer>
+  </body>
 </html>
