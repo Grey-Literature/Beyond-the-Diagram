@@ -361,26 +361,56 @@
       An assistant's own installer hung on a test VM. The circumstance was a peculiar one: the
       hypervisor's processor-compatibility setting was enabled — the one that hides newer CPU
       features from a guest so it can migrate between hosts of different generations. Nothing about
-      "the install hangs" points there.
+      "the install hangs" points there. The tech found it anyway, with a chat assistant advising
+      along the way.
     </p>
     <p>
-      So a different vendor's coding agent was brought in to examine what was going on around the
-      install and launch: what was running, what it was waiting on, what the logs said. The
-      symptom-gathering a person would otherwise do one command at a time.
+      Only after that, close to a last resort, was a different vendor's coding agent brought onto
+      the box, for two reasons: to look for a way around the problem, and to gather more
+      diagnostics for a bug report to the vendor whose installer was hanging — while keeping the
+      report free of detail that would identify the system it came from.
     </p>
-    <p>That wouldn't have happened on a production machine. Not yet.</p>
+    <p>
+      Afterwards the agent's logon session was deauthorized. The VM is more likely to get a fresh
+      OS on its next boot than any further investigation. And none of it would have happened on a
+      production machine. Not yet.
+    </p>
   </div>
   <p>
-    That's the agent <strong>acting</strong> — it ran commands on a system — and it was the right
-    call, for reasons worth naming. The box was a test VM you could rebuild without a conversation,
-    which is the contain-it-regardless rung from
-    <a href="/wielding-ai/lab-checking-the-work.html">checking the work</a>. The mission was
-    mostly gathering evidence, which is the <a href="/wielding-ai/lab-pull-prompt.html">discovery
-    prompt</a> with hands. And the stack earned its keep: when the thing that's broken is an
-    assistant, a second one from a different vendor is what's left —
-    <a href="/wielding-ai/lab-choosing-the-instrument.html">a failover drill</a> you didn't get to
-    schedule.
+    Two kinds of help in one incident, and they're worth pulling apart. The chat assistant
+    <strong>advised</strong> while the tech did the finding. The agent <strong>acted</strong> — it
+    ran commands on a system — and it arrived <em>after</em> the cause was known, not to find it.
+    Its job was to bring what the tech didn't have: it works through a box faster than a person
+    typing one command at a time, and it may reach for diagnostics or tricks the tech would never
+    have thought of. That's the partnership at its clearest. Not handing over the thinking —
+    extending the repertoire.
   </p>
+  <p>
+    It was also the right call, for reasons worth naming:
+  </p>
+  <ul>
+    <li>
+      <strong>The box was expendable.</strong> A test VM you could rebuild without a conversation,
+      which is the contain-it-regardless rung from
+      <a href="/wielding-ai/lab-checking-the-work.html">checking the work</a>.
+    </li>
+    <li>
+      <strong>The bug report got the same scrutiny as a prompt.</strong> What goes to a vendor is a
+      sharing decision exactly like what goes into a session — the questions at the top of this
+      page apply to both.
+    </li>
+    <li>
+      <strong>The access was cleaned up when the job was done.</strong> Deauthorizing the session is
+      revoking a service account once its work is finished — the step most people skip, and the
+      reason old access piles up.
+    </li>
+    <li>
+      <strong>The stack earned its keep.</strong> When the thing that's broken is an assistant, a
+      second one from a different vendor is what's left —
+      <a href="/wielding-ai/lab-choosing-the-instrument.html">a failover drill</a> you didn't get
+      to schedule.
+    </li>
+  </ul>
   <div class="callout">
     <strong>"Not yet" is the important part.</strong> The line between a test box and production
     does move as trust is earned. It should move because you decided to move it, with the
