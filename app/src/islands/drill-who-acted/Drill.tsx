@@ -2,24 +2,24 @@ import { useState } from 'react'
 import { getLatestAttempt, recordAttempt } from '../../lib/progress'
 import styles from './Drill.css?raw'
 
-const CONTENT_ID = 'drill-interaction-mode'
+const CONTENT_ID = 'drill-who-acted'
 
 const OPTIONS = [
   {
-    id: 'automation',
-    label: 'Automation — it ran a defined task you specified, the same as a script would',
+    id: 'advised',
+    label: 'It advised — it analyzed the data and reported back; you are still the one making the change',
   },
   {
-    id: 'augmentation',
-    label: 'Augmentation — it analyzed the data and reported back; you are still the one in the loop',
+    id: 'executed',
+    label: 'It executed — it ran a defined task you specified, the same as a script would',
   },
   {
-    id: 'agency',
-    label: 'Agency — it acted on the system directly, and the change is already in',
+    id: 'acted',
+    label: 'It acted — it made the change on the system directly, and the change is already in',
   },
 ] as const
 
-const CORRECT_ID = 'agency'
+const CORRECT_ID = 'acted'
 
 export function Drill() {
   const [choice, setChoice] = useState<string | null>(null)
@@ -76,18 +76,18 @@ It replies: "Done — 6 endpoints moved."`}
           <div className="drill-tell">
             The tell is not how conversational it felt, and not whether you approved a plan first.
             It is this: <strong>did the state of a system change without a human executing the
-            change?</strong> If yes, that is Agency, however casual the interface was.
+            change?</strong> If yes, it acted, however casual the interface was.
           </div>
-          {choice === 'augmentation' && (
+          {choice === 'advised' && (
             <p>
-              Augmentation would have been the same request answered with{' '}
+              Advising would have been the same request answered with{' '}
               <em>&ldquo;here are the 6 endpoints that match&rdquo;</em> &mdash; the model touching
               your context, not the platform. The keyboard effort is identical and the blast radius
-              is not: Augmentation&apos;s worst case is contained to your own workflow, and this
+              is not: advice&apos;s worst case is contained to your own workflow, and this
               one&apos;s worst case is in the system already.
             </p>
           )}
-          {choice === 'automation' && (
+          {choice === 'executed' && (
             <p>
               A script you wrote encodes decisions you made in advance and does exactly the same
               thing every run. Here the assistant decided what &ldquo;hasn&apos;t checked in&rdquo;
@@ -101,7 +101,7 @@ It replies: "Done — 6 endpoints moved."`}
             suggested it&rdquo; &mdash; the rule is in and the outage is real. Disclosure follows
             blast radius, and AI touching a client&apos;s systems directly needs explicit consent
             before the session, not an explanation afterward. Full treatment in{' '}
-            <a href="/ai-fluency/lab-diligence-agentic-boundary.html">the Diligence Lab</a>.
+            <a href="/wielding-ai/lab-owning-the-result.html">the owning-the-result Lab</a>.
           </p>
           <button type="button" onClick={tryAgain}>
             Try again
