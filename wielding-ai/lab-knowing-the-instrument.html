@@ -219,12 +219,28 @@
     <span class="twin">Infrastructure twin: someone with your credentials and no change ticket</span>
     <p><span class="label">For:</span> multi-step work where it runs the commands, edits the
     files, and works through the steps itself — repetitive, well-bounded, and ideally on something
-    you own.</p>
+    you own. Also as a diagnostic instrument on a test box: gathering the symptoms around something
+    that isn't behaving, which you'd otherwise collect one command at a time.</p>
     <p><span class="label">Runs out:</span> this is the point where it stops advising and starts
     acting, and that changes what you owe. <a href="/wielding-ai/drill-who-acted.html">The Drill</a>
     exists because it can feel identical to a normal chat.</p>
     <p><span class="label">The tell:</span> it did a step you didn't list. Learn this mode in a home
     lab, where finding out what it does when it's wrong costs you an evening instead of a client.</p>
+  </div>
+
+  <div class="part">
+    <h3>The API — building it into your own tools</h3>
+    <span class="twin">Infrastructure twin: a library call inside your own script</span>
+    <p><span class="label">For:</span> a narrow piece of judgment inside a tool you run over and
+    over — summarizing a report, explaining what an unfamiliar service is for. The job is small and
+    you defined it, so a small, fast, cheap model is usually enough.
+    <a href="/wielding-ai/lab-owning-the-result.html#the-mix-moves">There's a worked example</a>.</p>
+    <p><span class="label">Runs out:</span> it only sees what the script sends it, and there's no
+    conversation — no follow-up, no "why did you say that." Every call costs something, and the key
+    that makes the call is a credential.</p>
+    <p><span class="label">The tell:</span> its paragraph in the report reads just as authoritative
+    as the lookups around it. Label it as model output, and leave the tech a way to dig further
+    rather than a verdict to accept.</p>
   </div>
 
   <div class="part">

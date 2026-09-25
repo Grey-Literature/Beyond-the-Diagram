@@ -34,6 +34,15 @@
   .modes th, .modes td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .modes th { color: var(--text-dim); font-weight: 600; }
   .table-scroll { overflow-x: auto; }
+  .specimen {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .specimen .tag { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .specimen p:last-child { margin-bottom: 0; }
   .ladder { list-style: none; padding: 0; margin: 1rem 0; }
   .ladder li {
     border-left: 3px solid var(--border);
@@ -250,10 +259,12 @@
     <strong>who acted</strong>.
   </p>
   <p>
-    Worth stating where the volume actually sits: ITOps work is overwhelmingly advisory, on the
-    order of 90–95% of it — research, discovery, remediation and documentation, with a human
-    executing every change. The other two are a small share of the sessions and most of the
-    exposure, which is the entire reason this distinction is worth being pedantic about.
+    Worth stating where the volume actually sits, at least to begin with: for a newer tech, ITOps
+    work is overwhelmingly advisory, on the order of 90–95% of it — research, discovery,
+    remediation and documentation, with a human executing every change. The other two are a small
+    share of the sessions and most of the exposure, which is the entire reason this distinction is
+    worth being pedantic about. That share moves as you get better;
+    <a href="#the-mix-moves">more on that below</a>.
   </p>
   <div class="table-scroll">
   <table class="modes">
@@ -281,6 +292,100 @@
     identical from the keyboard — same chat window, same amount of typing — and they are not the
     same category of risk. Classifying which one you're in, before you act, is
     <a href="/wielding-ai/drill-who-acted.html">its own drill</a>.
+  </div>
+
+  <h2 id="the-mix-moves">The mix moves as you get better</h2>
+  <p>
+    The 90–95% figure is where a tech starts, not where they stay. Grow with the instrument and the
+    share of executing and acting creeps up — not because the risk went away, but because you now
+    know enough about the instrument <em>and</em> the systems to take some of it on deliberately.
+    Two shapes that growth tends to take.
+  </p>
+
+  <div class="specimen">
+    <span class="tag">Specimen — a one-off script that turned into a tool</span>
+    <p>
+      The first scripts an assistant helps you write are one-offs: this box, this afternoon, then
+      gone. The shift comes when you start asking for scripts that aren't — cheap, reusable,
+      portable, and just as useful next month on a different machine.
+    </p>
+    <p>
+      One example: a PowerShell triage script for an unfamiliar service or process. Given the name,
+      it checks the system for duplicates of it, looks up its file hash against a multi-engine
+      reputation service and a malware sample repository, and pulls whatever a public
+      threat-intelligence knowledge base has on it. The short version of <em>"is this legitimate,
+      or should I be worried?"</em>
+    </p>
+    <p>
+      It comes in two flavors. One just writes the report, for the tech to research on their own.
+      The other hands the report to a small, fast model for a quick advisory: what in the findings
+      might read as malicious, and — if it turns out to be legitimate — what the thing actually
+      <em>does</em>. That second job matters as much as the first. Every run is a small lesson about
+      a piece of the system you didn't know, arriving at the moment you care about it.
+    </p>
+  </div>
+  <p>
+    Look at where that sits on the table above. The script <strong>executes</strong>: its
+    decisions were made once, in advance, and anyone can read them — exactly what the agent in
+    <a href="/wielding-ai/drill-who-acted.html">the Drill</a> lacked. The model inside it only ever
+    <strong>advises</strong>: its output is a paragraph in a report a person reads, not a change to
+    anything. Boxing the model's judgment inside a tool whose behavior you defined is how the
+    executing share grows without the risk growing with it. It's also a small model doing a narrow
+    job, which is the <a href="/wielding-ai/lab-choosing-the-instrument.html">choosing the
+    instrument</a> argument taken one step further: a job this well defined doesn't need a big one.
+  </p>
+  <p>
+    It also moves the owning-the-result questions into the tool itself, where they get answered
+    once instead of on every run:
+  </p>
+  <ul>
+    <li>
+      <strong>What the script sends out.</strong> Looking up a hash and uploading the file are not
+      the same act — an uploaded sample is generally shared with the service's other users. Default
+      to the hash. Give what goes to the model the same scrutiny: a service name is fine; a file path
+      with a client's name or a user's profile folder in it is environment detail.
+    </li>
+    <li>
+      <strong>The API key.</strong> It's a credential, and a script that gets copied between
+      machines is how credentials leak. Keep it out of the file.
+    </li>
+    <li>
+      <strong>The label.</strong> Model output in a report should say it's model output, so the
+      next tech can tell which lines are lookups and which are an opinion.
+    </li>
+  </ul>
+
+  <div class="specimen">
+    <span class="tag">Specimen — the agent as a diagnostic instrument</span>
+    <p>
+      An assistant's own installer hung on a test VM. The circumstance was a peculiar one: the
+      hypervisor's processor-compatibility setting was enabled — the one that hides newer CPU
+      features from a guest so it can migrate between hosts of different generations. Nothing about
+      "the install hangs" points there.
+    </p>
+    <p>
+      So a different vendor's coding agent was brought in to examine what was going on around the
+      install and launch: what was running, what it was waiting on, what the logs said. The
+      symptom-gathering a person would otherwise do one command at a time.
+    </p>
+    <p>That wouldn't have happened on a production machine. Not yet.</p>
+  </div>
+  <p>
+    That's the agent <strong>acting</strong> — it ran commands on a system — and it was the right
+    call, for reasons worth naming. The box was a test VM you could rebuild without a conversation,
+    which is the contain-it-regardless rung from
+    <a href="/wielding-ai/lab-checking-the-work.html">checking the work</a>. The mission was
+    mostly gathering evidence, which is the <a href="/wielding-ai/lab-pull-prompt.html">discovery
+    prompt</a> with hands. And the stack earned its keep: when the thing that's broken is an
+    assistant, a second one from a different vendor is what's left —
+    <a href="/wielding-ai/lab-choosing-the-instrument.html">a failover drill</a> you didn't get to
+    schedule.
+  </p>
+  <div class="callout">
+    <strong>"Not yet" is the important part.</strong> The line between a test box and production
+    does move as trust is earned. It should move because you decided to move it, with the
+    disclosure and accountability below in place — not because the last ten sessions went fine.
+    A pattern that works on a VM is a hypothesis about production, not a result.
   </div>
 
   <h2>Disclosure follows blast radius</h2>
