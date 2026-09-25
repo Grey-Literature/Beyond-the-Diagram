@@ -33,7 +33,17 @@
   .modes { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
   .modes th, .modes td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .modes th { color: var(--text-dim); font-weight: 600; }
+  .modes th[colspan] { color: var(--accent); padding-top: 0.9rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .table-scroll { overflow-x: auto; }
+  .specimen {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .specimen .tag { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .specimen p:last-child { margin-bottom: 0; }
   .ladder { list-style: none; padding: 0; margin: 1rem 0; }
   .ladder li {
     border-left: 3px solid var(--border);
@@ -244,16 +254,106 @@
     act, not after you're asked.
   </p>
 
+  <h2 id="explaining-it">Explaining it to someone who wasn't there</h2>
+  <p>
+    Vouching has an audience beyond you. At some point a coworker, a manager, a client or an
+    auditor will need to understand <em>why the assistant did what it did</em> — well enough to
+    trust it, question it, or repeat it without you in the room. Responsible-AI frameworks usually
+    call this <strong>explainability</strong>, and it's where accountability stops being private.
+  </p>
+  <p>
+    It's also two separate skills, and being good at the first can make the second harder.
+    Understanding why it did what it did is <a href="/wielding-ai/lab-checking-the-work.html">checking
+    the work</a>. Translating that for someone else is its own craft — and the further your
+    technical knowledge runs ahead of your audience's, the wider the gap you're translating across.
+    Blank stares after a correct explanation aren't evidence that you didn't understand it. They're
+    evidence that the explanation was pitched at your level instead of theirs.
+  </p>
+  <p>Three habits that help, and the instrument can carry part of each:</p>
+  <ul>
+    <li>
+      <strong>Keep the trail.</strong> What it was asked, what it was shown, what it did, what it
+      concluded. You can't explain what you can't reconstruct, and that matters most when it
+      <em>acted</em> — the agent in <a href="/wielding-ai/drill-who-acted.html">the Drill</a> left
+      one sentence in a chat window as its entire record.
+    </li>
+    <li>
+      <strong>Use it as a translator, and name the audience.</strong> "Explain this" gets you an
+      explanation at the model's default level. "Explain this to a service-desk colleague who
+      knows how to reset a password but has never looked at a DNS record" gets you one pitched
+      where it needs to land. You supply the level; it supplies the rephrasing you'd otherwise
+      spend an afternoon finding.
+    </li>
+    <li>
+      <strong>Rehearse the blank stare before you get it.</strong> Have it play that colleague:
+      <em>"You're the person I described. I'm going to explain this to you — ask me the questions
+      you'd actually have."</em> The questions it asks are the gaps in your explanation, found
+      before the meeting instead of during it.
+    </li>
+  </ul>
+  <div class="callout">
+    <strong>Check the translation like any other output.</strong> Simplifying is where accuracy
+    leaks — each plain-language sentence still has to be <em>true</em>, not just easier. A
+    well-pitched explanation that's quietly wrong is the
+    <a href="/wielding-ai/case-narrativized-ticket.html">narrativized ticket</a> in a friendlier
+    voice.
+  </div>
+  <p>
+    Different audiences also need different things from the same event, and the technical
+    mechanism is often the <em>least</em> of it. The direction you're explaining in changes it as
+    much as the level does: <strong>down</strong> to someone with less technical knowledge,
+    <strong>across</strong> to a peer, or <strong>up and out</strong> to an escalation point —
+    someone who knows more than you about <em>something</em>, whether that's the product, the
+    systems, or the relationship.
+  </p>
+  <div class="table-scroll">
+  <table class="modes">
+    <tr><th>Audience</th><th>What they actually need</th></tr>
+    <tr><th colspan="2">Down</th></tr>
+    <tr><td>No technical background — an end user, a coworker outside IT</td><td>An analogy that holds, what it changes for them, and what (if anything) they need to do</td></tr>
+    <tr><td>Somewhat less technical — service desk, a newer tech</td><td>The mechanism in plain terms, the one thing to check next time, and where the line is for handing it to you</td></tr>
+    <tr><th colspan="2">Across</th></tr>
+    <tr><td>A peer tech</td><td>The mechanism, the evidence, and how to reproduce it</td></tr>
+    <tr><th colspan="2">Up and out</th></tr>
+    <tr><td>A senior technician</td><td>The end goal, defined in detail — what "working" actually looks like. Then, short: the symptom, what you ruled out and how, your leading hypothesis, where you're stuck. They have the knowledge — they need your evidence, not a lesson</td></tr>
+    <tr><td>A vendor</td><td>Exact versions, reproduction steps, verbatim errors and logs, what you've already tried — and nothing that identifies the client or system beyond what the fix needs. They know the product, not your environment</td></tr>
+    <tr><td>Sales or account management</td><td>Customer impact, timeline, what's being done, and what to tell the client. No jargon — they carry the relationship, not the fix</td></tr>
+    <tr><td>A manager</td><td>What happened, the risk, and whether a decision is needed from them</td></tr>
+    <tr><td>A client</td><td>What went wrong, what was done, what changes — and that AI was part of the workflow, <a href="#disclosure">at the level the stakes call for</a></td></tr>
+  </table>
+  </div>
+  <p>
+    Escalation is where this bites hardest, because the explanation <em>is</em> the handoff. A
+    senior tech who has to re-ask what you ruled out, or a vendor who gets a paraphrased error,
+    starts from scratch — and the time you saved with the assistant goes straight back out.
+  </p>
+  <div class="callout">
+    <strong>Lead a senior tech with the goal, not the symptom.</strong> Some complaints are truly
+    ambiguous — <em>"slow," "intermittent"</em> — and in those it's common to find that a symptom
+    was ignored or misplaced somewhere along the way, so a good senior tech will restart from the
+    definitions: what does <em>good</em> look like here, and what exactly counts as <em>bad</em>?
+    Slow compared to what, when, for whom? Intermittent on what pattern? Hand them those
+    definitions up front — it's the same
+    <a href="/wielding-ai/lab-packet-capture-with-ai.html">baseline</a> an assistant needs before it
+    can spot an anomaly, and the same reason
+    <a href="/wielding-ai/lab-choosing-the-instrument.html">the complaint isn't automatically the
+    right question</a>. And sometimes the ask is for an application to do something it was never
+    designed to do. Then the goal is the whole handoff: "make it do X" has one answer, which is
+    often no; "we need to achieve Y" may have another route entirely.
+  </div>
+
   <h2>Who has hands on the keyboard — and why it's operational</h2>
   <p>
     Interactions come in three shapes. The difference isn't how conversational it felt — it's
     <strong>who acted</strong>.
   </p>
   <p>
-    Worth stating where the volume actually sits: ITOps work is overwhelmingly advisory, on the
-    order of 90–95% of it — research, discovery, remediation and documentation, with a human
-    executing every change. The other two are a small share of the sessions and most of the
-    exposure, which is the entire reason this distinction is worth being pedantic about.
+    Worth stating where the volume actually sits, at least to begin with: for a newer tech, ITOps
+    work is overwhelmingly advisory, on the order of 90–95% of it — research, discovery,
+    remediation and documentation, with a human executing every change. The other two are a small
+    share of the sessions and most of the exposure, which is the entire reason this distinction is
+    worth being pedantic about. That share moves as you get better;
+    <a href="#the-mix-moves">more on that below</a>.
   </p>
   <div class="table-scroll">
   <table class="modes">
@@ -283,7 +383,184 @@
     <a href="/wielding-ai/drill-who-acted.html">its own drill</a>.
   </div>
 
-  <h2>Disclosure follows blast radius</h2>
+  <h2 id="the-mix-moves">The mix moves as you get better</h2>
+  <p>
+    The 90–95% figure is where a tech starts, not where they stay. Grow with the instrument and the
+    share of executing and acting creeps up — not because the risk went away, but because you now
+    know enough about the instrument <em>and</em> the systems to take some of it on deliberately.
+    Two shapes that growth tends to take.
+  </p>
+
+  <div class="specimen">
+    <span class="tag">Specimen — a one-off script that turned into a tool</span>
+    <p>
+      The first scripts an assistant helps you write are one-offs: this box, this afternoon, then
+      gone. The shift comes when you start asking for scripts that aren't — cheap, reusable,
+      portable, and just as useful next month on a different machine.
+    </p>
+    <p>
+      One example: a PowerShell triage script for an unfamiliar service or process. Given the name,
+      it checks the system for duplicates of it, looks up its file hash against a multi-engine
+      reputation service and a malware sample repository, and pulls whatever a public
+      threat-intelligence knowledge base has on it. The short version of <em>"is this legitimate,
+      or should I be worried?"</em>
+    </p>
+    <p>
+      It comes in two flavors. One just writes the report, for the tech to research on their own.
+      The other hands the report to a small, fast model for a quick advisory: what in the findings
+      might read as malicious, and — if it turns out to be legitimate — what the thing actually
+      <em>does</em>. That second job matters as much as the first. Every run is a small lesson about
+      a piece of the system you didn't know, arriving at the moment you care about it.
+    </p>
+  </div>
+  <p>
+    Look at where that sits on the table above. The script <strong>executes</strong>: its
+    decisions were made once, in advance, and anyone can read them — exactly what the agent in
+    <a href="/wielding-ai/drill-who-acted.html">the Drill</a> lacked. The model inside it only ever
+    <strong>advises</strong>: its output is a paragraph in a report a person reads, not a change to
+    anything. Boxing the model's judgment inside a tool whose behavior you defined is how the
+    executing share grows without the risk growing with it. It's also a small model doing a narrow
+    job, which is the <a href="/wielding-ai/lab-choosing-the-instrument.html">choosing the
+    instrument</a> argument taken one step further: a job this well defined doesn't need a big one.
+  </p>
+  <p>
+    It also moves the owning-the-result questions into the tool itself, where they get answered
+    once instead of on every run:
+  </p>
+  <ul>
+    <li>
+      <strong>What the script sends out.</strong> Looking up a hash and uploading the file are not
+      the same act — an uploaded sample is generally shared with the service's other users. Default
+      to the hash. Give what goes to the model the same scrutiny: a service name is fine; a file path
+      with a client's name or a user's profile folder in it is environment detail.
+    </li>
+    <li>
+      <strong>The API key.</strong> It's a credential, and a script that gets copied between
+      machines is how credentials leak. Keep it out of the file.
+    </li>
+    <li>
+      <strong>The label.</strong> Model output in a report should say it's model output, so the
+      next tech can tell which lines are lookups and which are an opinion.
+    </li>
+  </ul>
+
+  <div class="specimen">
+    <span class="tag">Specimen — the agent as a diagnostic instrument</span>
+    <p>
+      An assistant's own installer hung on a test VM. The circumstance was a peculiar one: the
+      hypervisor's processor-compatibility setting was enabled — the one that hides newer CPU
+      features from a guest so it can migrate between hosts of different generations. Nothing about
+      "the install hangs" points there. The tech found it anyway, with a chat assistant advising
+      along the way.
+    </p>
+    <p>
+      Only after that, close to a last resort, was a different vendor's coding agent brought onto
+      the box, for two reasons: to look for a way around the problem, and to gather more
+      diagnostics for a bug report to the vendor whose installer was hanging — while keeping the
+      report free of detail that would identify the system it came from.
+    </p>
+    <p>
+      Afterwards the agent's logon session was deauthorized. The VM is more likely to get a fresh
+      OS on its next boot than any further investigation. And none of it would have happened on a
+      production machine. Not yet.
+    </p>
+  </div>
+  <p>
+    Two kinds of help in one incident, and they're worth pulling apart. The chat assistant
+    <strong>advised</strong> while the tech did the finding. The agent <strong>acted</strong> — it
+    ran commands on a system — and it arrived <em>after</em> the cause was known, not to find it.
+    Its job was to bring what the tech didn't have: it works through a box faster than a person
+    typing one command at a time, and it may reach for diagnostics or tricks the tech would never
+    have thought of. That's the partnership at its clearest. Not handing over the thinking —
+    extending the repertoire.
+  </p>
+  <p>
+    It was also the right call, for reasons worth naming:
+  </p>
+  <ul>
+    <li>
+      <strong>The box was expendable.</strong> A test VM you could rebuild without a conversation,
+      which is the contain-it-regardless rung from
+      <a href="/wielding-ai/lab-checking-the-work.html">checking the work</a>.
+    </li>
+    <li>
+      <strong>The bug report got the same scrutiny as a prompt.</strong> What goes to a vendor is a
+      sharing decision exactly like what goes into a session — the questions at the top of this
+      page apply to both.
+    </li>
+    <li>
+      <strong>The access was cleaned up when the job was done.</strong> Deauthorizing the session is
+      revoking a service account once its work is finished — the step most people skip, and the
+      reason old access piles up.
+    </li>
+    <li>
+      <strong>The stack earned its keep.</strong> When the thing that's broken is an assistant, a
+      second one from a different vendor is what's left —
+      <a href="/wielding-ai/lab-choosing-the-instrument.html">a failover drill</a> you didn't get
+      to schedule.
+    </li>
+  </ul>
+  <div class="callout">
+    <strong>"Not yet" is the important part.</strong> The line between a test box and production
+    does move as trust is earned. It should move because you decided to move it, with the
+    disclosure and accountability below in place — not because the last ten sessions went fine.
+    A pattern that works on a VM is a hypothesis about production, not a result.
+  </div>
+
+  <h3>Checks and balances on the way up</h3>
+  <p>
+    Growing the executing and acting share needs a brake that's as deliberate as the growth. The
+    trigger is noticing that you're about to do one of two things: something you've
+    <strong>previously decided not to</strong>, or something you've <strong>simply never thought
+    about</strong>. The second is the sneakier one — there's no earlier "no" to remind you, just a
+    first time that doesn't feel like one. Either way, stop long enough for four questions:
+  </p>
+  <ol class="checks">
+    <li>
+      <span class="q">Why this, why now?</span>
+      What changed — the task, the tool, your confidence, or just the deadline? A reversal driven
+      by time pressure deserves more suspicion than one driven by evidence.
+    </li>
+    <li>
+      <span class="q">What are the risks?</span>
+      What breaks if it's wrong, who notices, and how fast can it be undone? That's the blast-radius
+      column from the table above, asked about <em>this</em> action rather than the mode in general.
+    </li>
+    <li>
+      <span class="q">Where's the boundary?</span>
+      Which box, which data, read or write, and where it stops. If you can't say where the line is,
+      you won't notice when it's crossed.
+    </li>
+    <li>
+      <span class="q">How do I keep it there?</span>
+      Scoped access, a test box first, a defined stopping point, a check-in before anything
+      irreversible — whatever keeps the interaction where you intend it, rather than where it
+      drifts.
+    </li>
+  </ol>
+  <div class="specimen">
+    <span class="tag">Specimen — a workspace that argues back</span>
+    <p>
+      One long-running workspace, kept for learning exactly this material, holds a record of the
+      lines already drawn. When a request heads toward something previously ruled out, the
+      assistant says so — and asks whether the reasons have actually changed.
+    </p>
+    <p>
+      It doesn't forbid anything. It just makes you stop and question yourself for a moment, which
+      is the whole point: the pause is where the four questions above actually get asked.
+    </p>
+  </div>
+  <p>
+    Worth noticing which direction that runs. Most of this module is about you checking the
+    assistant; here the assistant is checking you — the partnership working both ways. It's
+    built from parts covered in <a href="/wielding-ai/lab-knowing-the-instrument.html">knowing the
+    instrument</a>: a workspace that keeps your past decisions in view, and standing instructions
+    that tell it to challenge you when you're about to reverse one. Be clear about its limits too.
+    It only knows the lines you told it about, it can be talked round, and it can't see a first
+    time it was never told to watch for. It's a speed bump, not a gate — the decision stays yours.
+  </p>
+
+  <h2 id="disclosure">Disclosure follows blast radius</h2>
   <ul class="ladder">
     <li><strong>Your own systems.</strong> Your call, your risk, your lesson.</li>
     <li><strong>Client systems you manage, AI advising you.</strong> Relationship-level awareness that AI tooling is part of how you work.</li>
