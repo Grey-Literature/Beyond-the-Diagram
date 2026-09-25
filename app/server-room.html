@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server room — dev sandbox</title>
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <!--
+      Dev-only page for the server-room island, which takes over the whole
+      viewport and so can't share index.html with the others. Like
+      index.html, it's not a build input and never deploys — the real page
+      is ../server-room/index.html.
+    -->
+    <div id="server-room-root"></div>
+    <script type="module" src="/src/islands/server-room/main.tsx"></script>
+  </body>
+</html>

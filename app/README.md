@@ -52,12 +52,36 @@ rationale.
    the rendered page text back, so do that rather than eyeballing the
    component.
 
+## The server-room simulator is the exception
+
+`src/islands/server-room/` is a full-viewport 3D island (three.js via React
+Three Fiber), so it has its own dev page, `server-room.html`, instead of a
+slot in `index.html`. Its simulation lives outside the island, in
+`src/sim/`: plain TypeScript with no React and no three.js.
+
+- `catalog.ts` holds the hardware as data. Ports exist because the data says so.
+- `engine.ts` has `derive(state)`, which works out power, links, VLAN segments, iSCSI paths, cluster and services.
+- `actions.ts` has `apply(state, action)`, which carries every rule a learner can bump into.
+- `baseline.ts` holds the default room and the scenarios.
+
+The island's zustand store is a thin wrapper around `apply()`. Keep new rules
+in `src/sim/`, never inside a 3D component, because that's what the tests can
+reach.
+
+`src/sim/scenarios.test.ts` is the scenario harness. For every scenario it
+checks that loading it breaks exactly the expected health checks, and that a
+scripted fix made of real learner actions returns everything to green.
+Changing the engine or the topology means updating the expectations there on
+purpose, not by accident. `src/sim/rules.test.ts` covers the physical and
+procedural rules.
+
 ## Commands
 
 ```bash
 npm run dev      # sandbox at index.html, all registered islands mounted
 npm run build     # builds each island to dist/islands/<name>.js
 npm run preview   # serves the dist/ build
+npm test          # vitest: the server-room engine's scenario harness + rules
 ```
 
 ## Deploy

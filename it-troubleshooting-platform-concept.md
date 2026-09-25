@@ -103,6 +103,28 @@ The conceptual point is the harder one, and the one worth naming directly: an AI
 
 Same "classify before you diagnose" move from the authn/authz section, applied to a domain ITOps traditionally never gets taught at all: sort console output into "mine to fix," "escalate to the dev team," or "actually my infrastructure wearing a web-shaped disguise" — before reflexively shrugging it off or trying to fix something that was never a network problem. Both of these (packet captures and console logs) are also legitimate Lab and Classification Drill content in their own right, independent of AI — the AI-assisted angle is an accelerant once the underlying literacy exists, not a substitute for building it.
 
+## Physical Layer & the Server-Room Simulator
+
+Every module on this platform assumes a physical layer it never teaches: power reaching the gear, a cable seated in the right port, an optic that matches the fiber, a PSU that's actually fed. The comparison landscape below already names the gap. Packet Tracer and GNS3 are excellent above layer 1 and treat it as solved. In a real SMB server room, the first twenty minutes of an incident are often spent standing at the rack.
+
+**What it is.** An interactive 3D model of one compact SMB rack: hosts, a small storage array, a switch stack, a storage switch, a firewall, ISP handoff gear, a UPS and PDUs, patch panels, and the realistic mess around them. It's built on persistent physical and logical state rather than animations. A server keeps whether it's powered, racked or extended, opened, what's installed, and which faults it carries. Cables connect only between compatible, visible ports, and every cable has consequences. Link state, VLAN segments, storage paths, cluster quorum and user-facing services are all *derived* from that state. None of them are scripted.
+
+**A substrate, not a fourth content type.** The three pillars all run on it:
+- **Lab mode.** Free exploration. The system tells you what actually happened every time, as the Labs pillar requires.
+- **Case mode.** A fault is injected and the diagnosis withheld. The learner sees only what a tech on site could see: user symptoms, monitoring alerts, LEDs, and device-reported state. They commit to a root cause before the reveal. The simulator's action log is the "score process separately from outcome" record, captured as a side effect instead of reconstructed.
+- **Build mode.** An incomplete starting state (racked but uncabled, a host missing its memory) that the learner brings to working order. The honest version of this eventually means racking hardware too. That depends on topology becoming data rather than code, and it's tracked in ROADMAP Phase 7.
+
+**Why it matters beyond layer 1.** One world model spanning power, cabling, L2, storage, clustering and services is where *cross-domain traversal* happens without being staged. A "phones are dead" ticket can resolve at a stacking cable. A "file shares are down" ticket can resolve at a firewall policy. This answers the structural gap ROADMAP flags, where every Case lives inside exactly one domain folder. The simulator can't help modeling faults that cross domains. It's also the simulated counterpart of the home-lab track's fault-injection sandbox: the fault arrives blind, but nothing real is at risk and no AI is needed to inject it.
+
+**Principles.**
+- **Physical honesty.** Nothing is modeled that doesn't correspond to real hardware. No decorative ports, no floating equipment. Ports exist because the data says they do, so this is structural, not a style rule.
+- **State over animation.** Every visible change is a consequence of state, and every state change can be observed somewhere a real tech would look.
+- **Deep over wide.** One rack with deep interaction beats a datacenter of props.
+- **Hardware vendor-neutral.** Plausible enterprise gear, imitating no specific vendor. This matches the platform's standing anonymization convention.
+- **Realistic for the audience.** The rack reflects what SMB clients actually run, not a textbook datacenter. It's a half-height rack, often single-PSU network gear, iSCSI when there's a SAN at all, hosted VoIP, a backup NAS, and some mess.
+
+**Provenance.** The first working version was generated in an AI model-comparison arena from Tasha's own written brief. It was then ported into this repo and personalized (pedagogy, look and voice, environment realism) with a second correctness pass. The arena output is kept outside the repo as a source artifact. Same spirit as the Wielding AI module's provenance note: say where it started.
+
 ## Design Principles / Mechanics
 
 - **Anti-easter-egging**: some cases should include a plausible-but-wrong top search result or KB article — right symptom, wrong root cause, or right for a different version — so the "win" condition is verifying against the live system rather than trusting the first write-up that matches.
@@ -209,3 +231,4 @@ Worth naming these explicitly rather than dismissing them — most are genuinely
 - Version/vendor pinning strategy for cases — teach mechanism as timeless with drift as a named side-topic, vs. pinning specific versions per case.
 - Scope — internal tool for a specific team/organization vs. broader public release.
 - Placement-quiz content itself — the tier mechanism is decided; the actual set of behavioral placement scenarios still needs to be written.
+- Server-room simulator environment profiles — real SMB rooms vary (single host on local storage, iSCSI through a storage switch or not, direct-attach SAS, thin cloud-heavy wall-mount). One default environment first, or several profiles once topology is data rather than code?
