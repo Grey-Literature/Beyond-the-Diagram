@@ -253,6 +253,64 @@
     act, not after you're asked.
   </p>
 
+  <h2 id="explaining-it">Explaining it to someone who wasn't there</h2>
+  <p>
+    Vouching has an audience beyond you. At some point a coworker, a manager, a client or an
+    auditor will need to understand <em>why the assistant did what it did</em> — well enough to
+    trust it, question it, or repeat it without you in the room. Responsible-AI frameworks usually
+    call this <strong>explainability</strong>, and it's where accountability stops being private.
+  </p>
+  <p>
+    It's also two separate skills, and being good at the first can make the second harder.
+    Understanding why it did what it did is <a href="/wielding-ai/lab-checking-the-work.html">checking
+    the work</a>. Translating that for someone else is its own craft — and the further your
+    technical knowledge runs ahead of your audience's, the wider the gap you're translating across.
+    Blank stares after a correct explanation aren't evidence that you didn't understand it. They're
+    evidence that the explanation was pitched at your level instead of theirs.
+  </p>
+  <p>Three habits that help, and the instrument can carry part of each:</p>
+  <ul>
+    <li>
+      <strong>Keep the trail.</strong> What it was asked, what it was shown, what it did, what it
+      concluded. You can't explain what you can't reconstruct, and that matters most when it
+      <em>acted</em> — the agent in <a href="/wielding-ai/drill-who-acted.html">the Drill</a> left
+      one sentence in a chat window as its entire record.
+    </li>
+    <li>
+      <strong>Use it as a translator, and name the audience.</strong> "Explain this" gets you an
+      explanation at the model's default level. "Explain this to a service-desk colleague who
+      knows how to reset a password but has never looked at a DNS record" gets you one pitched
+      where it needs to land. You supply the level; it supplies the rephrasing you'd otherwise
+      spend an afternoon finding.
+    </li>
+    <li>
+      <strong>Rehearse the blank stare before you get it.</strong> Have it play that colleague:
+      <em>"You're the person I described. I'm going to explain this to you — ask me the questions
+      you'd actually have."</em> The questions it asks are the gaps in your explanation, found
+      before the meeting instead of during it.
+    </li>
+  </ul>
+  <div class="callout">
+    <strong>Check the translation like any other output.</strong> Simplifying is where accuracy
+    leaks — each plain-language sentence still has to be <em>true</em>, not just easier. A
+    well-pitched explanation that's quietly wrong is the
+    <a href="/wielding-ai/case-narrativized-ticket.html">narrativized ticket</a> in a friendlier
+    voice.
+  </div>
+  <p>
+    Different audiences also need different things from the same event, and the technical
+    mechanism is often the <em>least</em> of it:
+  </p>
+  <div class="table-scroll">
+  <table class="modes">
+    <tr><th>Audience</th><th>What they actually need</th></tr>
+    <tr><td>Another tech</td><td>The mechanism, the evidence, and how to reproduce it</td></tr>
+    <tr><td>A non-technical coworker</td><td>An analogy that holds, and what it changes for them</td></tr>
+    <tr><td>A manager</td><td>What happened, the risk, and whether a decision is needed from them</td></tr>
+    <tr><td>A client</td><td>What went wrong, what was done, what changes — and that AI was part of the workflow, <a href="#disclosure">at the level the stakes call for</a></td></tr>
+  </table>
+  </div>
+
   <h2>Who has hands on the keyboard — and why it's operational</h2>
   <p>
     Interactions come in three shapes. The difference isn't how conversational it felt — it's
@@ -418,7 +476,60 @@
     A pattern that works on a VM is a hypothesis about production, not a result.
   </div>
 
-  <h2>Disclosure follows blast radius</h2>
+  <h3>Checks and balances on the way up</h3>
+  <p>
+    Growing the executing and acting share needs a brake that's as deliberate as the growth. The
+    trigger is noticing that you're about to do one of two things: something you've
+    <strong>previously decided not to</strong>, or something you've <strong>simply never thought
+    about</strong>. The second is the sneakier one — there's no earlier "no" to remind you, just a
+    first time that doesn't feel like one. Either way, stop long enough for four questions:
+  </p>
+  <ol class="checks">
+    <li>
+      <span class="q">Why this, why now?</span>
+      What changed — the task, the tool, your confidence, or just the deadline? A reversal driven
+      by time pressure deserves more suspicion than one driven by evidence.
+    </li>
+    <li>
+      <span class="q">What are the risks?</span>
+      What breaks if it's wrong, who notices, and how fast can it be undone? That's the blast-radius
+      column from the table above, asked about <em>this</em> action rather than the mode in general.
+    </li>
+    <li>
+      <span class="q">Where's the boundary?</span>
+      Which box, which data, read or write, and where it stops. If you can't say where the line is,
+      you won't notice when it's crossed.
+    </li>
+    <li>
+      <span class="q">How do I keep it there?</span>
+      Scoped access, a test box first, a defined stopping point, a check-in before anything
+      irreversible — whatever keeps the interaction where you intend it, rather than where it
+      drifts.
+    </li>
+  </ol>
+  <div class="specimen">
+    <span class="tag">Specimen — a workspace that argues back</span>
+    <p>
+      One long-running workspace, kept for learning exactly this material, holds a record of the
+      lines already drawn. When a request heads toward something previously ruled out, the
+      assistant says so — and asks whether the reasons have actually changed.
+    </p>
+    <p>
+      It doesn't forbid anything. It just makes you stop and question yourself for a moment, which
+      is the whole point: the pause is where the four questions above actually get asked.
+    </p>
+  </div>
+  <p>
+    Worth noticing which direction that runs. Most of this module is about you checking the
+    assistant; here the assistant is checking you — the partnership working both ways. It's
+    built from parts covered in <a href="/wielding-ai/lab-knowing-the-instrument.html">knowing the
+    instrument</a>: a workspace that keeps your past decisions in view, and standing instructions
+    that tell it to challenge you when you're about to reverse one. Be clear about its limits too.
+    It only knows the lines you told it about, it can be talked round, and it can't see a first
+    time it was never told to watch for. It's a speed bump, not a gate — the decision stays yours.
+  </p>
+
+  <h2 id="disclosure">Disclosure follows blast radius</h2>
   <ul class="ladder">
     <li><strong>Your own systems.</strong> Your call, your risk, your lesson.</li>
     <li><strong>Client systems you manage, AI advising you.</strong> Relationship-level awareness that AI tooling is part of how you work.</li>
