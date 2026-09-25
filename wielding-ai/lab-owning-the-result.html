@@ -33,6 +33,7 @@
   .modes { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
   .modes th, .modes td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .modes th { color: var(--text-dim); font-weight: 600; }
+  .modes th[colspan] { color: var(--accent); padding-top: 0.9rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .table-scroll { overflow-x: auto; }
   .specimen {
     border: 1px solid var(--border);
@@ -299,17 +300,33 @@
   </div>
   <p>
     Different audiences also need different things from the same event, and the technical
-    mechanism is often the <em>least</em> of it:
+    mechanism is often the <em>least</em> of it. The direction you're explaining in changes it as
+    much as the level does: <strong>down</strong> to someone with less technical knowledge,
+    <strong>across</strong> to a peer, or <strong>up and out</strong> to an escalation point —
+    someone who knows more than you about <em>something</em>, whether that's the product, the
+    systems, or the relationship.
   </p>
   <div class="table-scroll">
   <table class="modes">
     <tr><th>Audience</th><th>What they actually need</th></tr>
-    <tr><td>Another tech</td><td>The mechanism, the evidence, and how to reproduce it</td></tr>
-    <tr><td>A non-technical coworker</td><td>An analogy that holds, and what it changes for them</td></tr>
+    <tr><th colspan="2">Down</th></tr>
+    <tr><td>No technical background — an end user, a coworker outside IT</td><td>An analogy that holds, what it changes for them, and what (if anything) they need to do</td></tr>
+    <tr><td>Somewhat less technical — service desk, a newer tech</td><td>The mechanism in plain terms, the one thing to check next time, and where the line is for handing it to you</td></tr>
+    <tr><th colspan="2">Across</th></tr>
+    <tr><td>A peer tech</td><td>The mechanism, the evidence, and how to reproduce it</td></tr>
+    <tr><th colspan="2">Up and out</th></tr>
+    <tr><td>A senior technician</td><td>Short: the symptom, what you ruled out and how, your leading hypothesis, where you're stuck. They have the knowledge — they need your evidence, not a lesson</td></tr>
+    <tr><td>A vendor</td><td>Exact versions, reproduction steps, verbatim errors and logs, what you've already tried — and nothing that identifies the client or system beyond what the fix needs. They know the product, not your environment</td></tr>
+    <tr><td>Sales or account management</td><td>Customer impact, timeline, what's being done, and what to tell the client. No jargon — they carry the relationship, not the fix</td></tr>
     <tr><td>A manager</td><td>What happened, the risk, and whether a decision is needed from them</td></tr>
     <tr><td>A client</td><td>What went wrong, what was done, what changes — and that AI was part of the workflow, <a href="#disclosure">at the level the stakes call for</a></td></tr>
   </table>
   </div>
+  <p>
+    Escalation is where this bites hardest, because the explanation <em>is</em> the handoff. A
+    senior tech who has to re-ask what you ruled out, or a vendor who gets a paraphrased error,
+    starts from scratch — and the time you saved with the assistant goes straight back out.
+  </p>
 
   <h2>Who has hands on the keyboard — and why it's operational</h2>
   <p>
