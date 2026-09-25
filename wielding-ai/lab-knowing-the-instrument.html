@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Knowing the instrument — Beyond the Diagram</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  body { padding: 2rem 1.25rem 4rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .d-tag { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
+  h3 { font-size: 0.95rem; margin: 1.5rem 0 0.5rem; }
+  p, li { line-height: 1.65; }
+  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+  }
+  .part {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+  }
+  .part h3 { margin: 0 0 0.2rem; }
+  .part .twin { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.6rem; }
+  .part p { margin: 0.45rem 0 0; }
+  .part .label { color: var(--accent); font-weight: 600; }
+  .split { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  .split th, .split td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .split th { color: var(--text-dim); font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+  .exercise {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    margin: 1.25rem 0;
+  }
+  .exercise h3 { margin-top: 0; }
+  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .next-links a {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .next-links a:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link" href="/wielding-ai/">&larr; Wielding AI</a>
+
+  <div class="d-tag">Knowing the instrument</div>
+  <h1>Lab: Every part of it, and where each runs out</h1>
+
+  <p>
+    Most people play three notes of their assistant: type into the box, read the reply, type again.
+    Everything else the product ships — the attach button, the settings page, the toggles under the
+    model name, the integrations list — is range they're paying for and never touch. That's the
+    difference between owning an instrument and playing one.
+  </p>
+  <p>
+    Playing one means knowing each part well enough to answer three questions about it: what it's
+    <em>for</em>, where it <em>runs out</em>, and what the <em>tell</em> is when you've hit that
+    edge. The last one is the one nobody writes down, and it's the one that matters mid-incident.
+  </p>
+  <div class="callout">
+    The good news for anyone in ITOps: almost every part of a modern assistant has an
+    infrastructure twin you already understand. A context window behaves like a buffer. Memory
+    behaves like a cache. A connector is a service account. An agent is a change with no change
+    ticket. <strong>You already know how those fail</strong> — which means you already know most
+    of what to watch for, once you see the mapping.
+  </div>
+  <p>
+    Names differ between products and move between releases, so the parts below are described by
+    what they do rather than what any one vendor calls them. Find your product's equivalent — and
+    if it doesn't have one, that's worth knowing too.
+  </p>
+
+  <h2>The parts</h2>
+
+  <div class="part">
+    <h3>The context window</h3>
+    <span class="twin">Infrastructure twin: a buffer</span>
+    <p><span class="label">For:</span> everything the assistant can see right now — your messages,
+    its replies, anything you pasted or attached. This is why verbatim error text beats a
+    paraphrase: it's all it has to work with.</p>
+    <p><span class="label">Runs out:</span> quietly, and before any hard limit. Long threads
+    degrade — early material gets less weight, and a constraint you set in the first message stops
+    being honored somewhere around turn fifteen without anything announcing it.</p>
+    <p><span class="label">The tell:</span> it proposes something you ruled out at the start. Don't
+    argue it back into line inside the same thread. Ask it for a handoff summary, check the summary
+    against what you know actually happened, and start a fresh session with it.</p>
+  </div>
+
+  <div class="part">
+    <h3>Files and documents</h3>
+    <span class="twin">Infrastructure twin: handing someone the manual instead of quizzing their memory</span>
+    <p><span class="label">For:</span> vendor admin guides, config exports, CSVs out of your RMM,
+    a runbook you want sanity-checked. Treated as a reasoning layer over documents you supply, the
+    model's knowledge cutoff mostly stops mattering.</p>
+    <p><span class="label">Runs out:</span> large files may be only partly read, and many binary
+    formats — packet captures, event log files — can't be read at all. That's its own problem with
+    its own <a href="/wielding-ai/lab-packet-capture-with-ai.html">Lab</a>.</p>
+    <p><span class="label">The tell:</span> it answers a question about page 80 of the guide
+    fluently and generically. Ask it to <em>quote the passage</em> it's relying on. If it can't, it
+    didn't read it.</p>
+  </div>
+
+  <div class="part">
+    <h3>Standing instructions</h3>
+    <span class="twin">Infrastructure twin: a baseline policy applied to every session</span>
+    <p><span class="label">For:</span> saying once what you'd otherwise type every time — your
+    role, your access, your estate, how you want answers shaped. <em>"I'm tier-2 on a mostly
+    Windows estate with RMM and read-only firewall access. Attach a way to check every step you
+    suggest. Ask before assuming I have access to something."</em> That's the pull-prompt's scope
+    declaration, made the default.</p>
+    <p><span class="label">Runs out:</span> it applies everywhere, including the sessions it
+    doesn't fit. A standing instruction you wrote three months ago and forgot is exactly as
+    confusing as a policy nobody remembers linking.</p>
+    <p><span class="label">The tell:</span> behavior you can't explain from anything in the current
+    conversation. Review these on a schedule, the same way you'd review group policy.</p>
+  </div>
+
+  <div class="part">
+    <h3>Workspaces and projects</h3>
+    <span class="twin">Infrastructure twin: a per-engagement share with its own documentation</span>
+    <p><span class="label">For:</span> the long job — a migration, a multi-week rollout — where the
+    network diagram, the runbook and the decisions log should be in front of every conversation
+    without re-uploading them.</p>
+    <p><span class="label">Runs out:</span> everything in the workspace is evidence for every
+    conversation in it. A stale diagram is stale evidence, trusted by default. And the workspace
+    boundary is a data boundary: client A's documents do not belong anywhere near client B's
+    questions.</p>
+    <p><span class="label">The tell:</span> it cites a decision you've since reversed. Retire old
+    documents from the workspace the way you'd retire them from the share — the version that's
+    still sitting there is the one that gets read.</p>
+  </div>
+
+  <div class="part">
+    <h3>Memory across sessions</h3>
+    <span class="twin">Infrastructure twin: a cache</span>
+    <p><span class="label">For:</span> preferences and recurring facts you'd rather not restate —
+    where it's offered at all, which isn't everywhere.</p>
+    <p><span class="label">Runs out:</span> like every cache: it goes stale, and you often can't see
+    everything that's in it. It can also carry forward a detail from one client's session into
+    another's, which is a <a href="/wielding-ai/lab-owning-the-result.html">what-goes-in</a>
+    problem you didn't know you had.</p>
+    <p><span class="label">The tell:</span> it "remembers" something that stopped being true. Find
+    out whether your product lets you view and prune what's stored, and turn it off for work where
+    carry-over would be a problem rather than a convenience.</p>
+  </div>
+
+  <div class="part">
+    <h3>Model choice and reasoning depth</h3>
+    <span class="twin">Infrastructure twin: sizing the box for the workload</span>
+    <p><span class="label">For:</span> spending more thinking on the jobs that need it — several
+    competing hypotheses, an unfamiliar protocol — and less on reformatting a ticket. Which model,
+    and why a mid-range one covers most of the work, is in
+    <a href="/wielding-ai/lab-choosing-the-instrument.html">choosing the instrument</a>.</p>
+    <p><span class="label">Runs out:</span> more reasoning doesn't add evidence it doesn't have.
+    Deep thinking on thin data is still guessing — it's guessing with more steps and more
+    confidence.</p>
+    <p><span class="label">The tell:</span> a long, careful-looking chain of reasoning built on the
+    three sentences you gave it. Feed it evidence, not a bigger setting.</p>
+  </div>
+
+  <div class="part">
+    <h3>Web search and retrieval</h3>
+    <span class="twin">Infrastructure twin: checking the vendor KB instead of trusting recall</span>
+    <p><span class="label">For:</span> anything newer than the model — a fresh advisory, a known bug
+    in last month's firmware, a changed default in a cloud admin console.</p>
+    <p><span class="label">Runs out:</span> it's exactly as good as what it found, and what it finds
+    is often a forum post that matches your symptom rather than your cause. It can also blend what
+    it retrieved with what it recalled and not say which is which.</p>
+    <p><span class="label">The tell:</span> a claim with no source, or a source that doesn't say
+    what the claim says. Ask for the links and open them. That's the whole check.</p>
+  </div>
+
+  <div class="part">
+    <h3>Code execution and data analysis</h3>
+    <span class="twin">Infrastructure twin: a scratch box</span>
+    <p><span class="label">For:</span> real arithmetic on real data instead of a plausible-looking
+    estimate — de-duplicating a three-thousand-row export, finding which endpoints share a pattern,
+    charting when the failures started.</p>
+    <p><span class="label">Runs out:</span> it runs in <em>its</em> sandbox, against the file you
+    gave it — not your environment. A script that ran cleanly there can still fail on your box: a
+    different shell version, a missing module, an account without the right rights.</p>
+    <p><span class="label">The tell:</span> "I ran it and it works." It works <em>there</em>. That's
+    a test result from a different environment, and it transfers about as well as one.</p>
+  </div>
+
+  <div class="part">
+    <h3>Connectors and integrations</h3>
+    <span class="twin">Infrastructure twin: a service account</span>
+    <p><span class="label">For:</span> letting it read the ticket, the wiki page or the monitoring
+    data directly instead of you copying it across — fewer transcription errors, less of your time
+    spent as a clipboard.</p>
+    <p><span class="label">Runs out:</span> every connector is access, and access accumulates.
+    Read scope and write scope are completely different grants that can sit behind the same
+    friendly toggle.</p>
+    <p><span class="label">The tell:</span> you can't list, from memory, everything your assistant
+    can currently reach. Least privilege applies exactly as it would to any other service account —
+    read-only first, and the rest of the reasoning is in
+    <a href="/wielding-ai/lab-owning-the-result.html">owning the result</a>.</p>
+  </div>
+
+  <div class="part">
+    <h3>Agentic modes</h3>
+    <span class="twin">Infrastructure twin: someone with your credentials and no change ticket</span>
+    <p><span class="label">For:</span> multi-step work where it runs the commands, edits the
+    files, and works through the steps itself — repetitive, well-bounded, and ideally on something
+    you own.</p>
+    <p><span class="label">Runs out:</span> this is the point where it stops advising and starts
+    acting, and that changes what you owe. <a href="/wielding-ai/drill-who-acted.html">The Drill</a>
+    exists because it can feel identical to a normal chat.</p>
+    <p><span class="label">The tell:</span> it did a step you didn't list. Learn this mode in a home
+    lab, where finding out what it does when it's wrong costs you an evening instead of a client.</p>
+  </div>
+
+  <div class="part">
+    <h3>Edit, branch and regenerate</h3>
+    <span class="twin">Infrastructure twin: changing one variable and re-running the test</span>
+    <p><span class="label">For:</span> fixing a bad brief at the source. Editing the earlier message
+    that went wrong beats piling corrections on top of it, because every correction you append
+    leaves the original mistake in context for it to anchor to. Regenerating shows you how stable
+    an answer is — two runs that disagree mean neither was solid.</p>
+    <p><span class="label">Runs out:</span> a regenerate is the same model reading the same
+    context. Agreement between runs is not independent confirmation; for that you need an
+    <a href="/wielding-ai/lab-checking-the-work.html">unrelated model</a>.</p>
+    <p><span class="label">The tell:</span> you're on your fourth "no, I meant…" in one thread.
+    Scroll up, edit the message where it went wrong, and let the thread re-run from there.</p>
+  </div>
+
+  <h2>Don't ask the instrument for its own manual</h2>
+  <p>
+    The obvious shortcut — "what can you do?" — is the least reliable source on the list. A model
+    is often wrong about its own product: which features exist, what they're called this month,
+    what the limits are. It was trained before the interface you're looking at shipped. The
+    product's own documentation and release notes beat the model's description of itself, every
+    time, and the settings page beats both.
+  </p>
+  <p>
+    Worth knowing, too, that the instrument changes under you. Products ship features and move
+    defaults on a monthly cadence. The habit from
+    <a href="/wielding-ai/lab-choosing-the-instrument.html">keeping your stack warm</a> — periodically
+    checking what's new — is the same habit here, pointed at one product instead of across several.
+  </p>
+
+  <h2>What the partnership actually divides</h2>
+  <p>
+    Knowing every part of the instrument is ultimately in service of one thing: being clear about
+    which half of the work is whose. Neither half is lesser, and confusing them in either direction
+    is where sessions go wrong.
+  </p>
+  <div class="table-scroll">
+  <table class="split">
+    <tr><th>You bring</th><th>It brings</th></tr>
+    <tr><td>The environment — what's unusual about <em>this</em> site, <em>this</em> box</td><td>Breadth — every vendor, protocol and error string it's seen</td></tr>
+    <tr><td>Access — the ability to go and check</td><td>Speed — drafting, parsing, summarizing at a rate you can't</td></tr>
+    <tr><td>Judgment — which hypothesis to test first, and when to stop</td><td>Patience — the tenth rephrasing of the same explanation, without the sigh</td></tr>
+    <tr><td>Accountability — your name on what ships</td><td>Structure — turning a messy session into a clean ticket, runbook or wiki page</td></tr>
+  </table>
+  </div>
+  <p>
+    Every part covered above either widens what it can bring or feeds it more of what you bring.
+    None of them moves anything from your column to its column. That's the line
+    <a href="/wielding-ai/lab-choosing-the-instrument.html">that doesn't move</a>.
+  </p>
+
+  <div class="exercise">
+    <h3>Try it — scales, not songs</h3>
+    <p>
+      Musicians don't find the edge of their instrument during a performance; they find it
+      practicing. Same here — the time to learn where the context window gives out is not
+      mid-outage.
+    </p>
+    <ol>
+      <li>
+        <strong>Take the inventory.</strong> Open every menu, settings page and toggle in the
+        assistant you actually use. List every part you find. For each one: have you used it on
+        real work, and could you answer <em>for, runs out, tell</em> about it? Mark the ones you
+        can't.
+      </li>
+      <li>
+        <strong>Pick one unmarked part a week</strong> and use it on a real but low-stakes job.
+        Not a demo — something you'd have done anyway.
+      </li>
+      <li>
+        <strong>Then push it until it breaks, on purpose.</strong> Keep a thread running until it
+        drops a constraint from the first message, and note roughly when. Upload a long document
+        and ask about the last page. Ask for sources and open every one. Run the same problem at
+        low and high reasoning depth and compare what actually changed.
+      </li>
+      <li>
+        <strong>Write the tell down.</strong> One line per part: where it ran out for you, and what
+        it looked like when it did. That list is the part of the craft nobody can hand you, because
+        it's specific to your instrument and your hands.
+      </li>
+    </ol>
+    <p>
+      If you're testing somewhere unfamiliar — a trial of a different product, a blind comparison
+      site — invent the environment you describe to it. The
+      <a href="/wielding-ai/lab-owning-the-result.html">sharing rules</a> still apply to practice.
+    </p>
+  </div>
+
+  <h2>What this sets up</h2>
+  <div class="next-links">
+    <a href="/wielding-ai/lab-pull-prompt.html">Lab: The pull-prompt — working the partnership once it's in your hands</a>
+    <a href="/wielding-ai/lab-checking-the-work.html">Lab: Checking the work — judging what comes back</a>
+    <a href="/wielding-ai/drill-who-acted.html">Drill: did it advise, execute, or act?</a>
+  </div>
+</main>
+</body>
+</html>

@@ -87,7 +87,7 @@ on the requested resource.`}
             This is the same{' '}
             <a href="/concepts/diagnostic-methodology.html">classify-before-you-diagnose</a> move
             as sorting an authn error from an authz one — see the{' '}
-            <a href="/ai-fluency/lab-browser-console-literacy.html">console literacy Lab</a> for the
+            <a href="/wielding-ai/lab-browser-console-literacy.html">console literacy Lab</a> for the
             other three errors worth recognizing on sight.
           </p>
           <button type="button" onClick={tryAgain}>

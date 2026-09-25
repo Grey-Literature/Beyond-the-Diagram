@@ -1,13 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Drill } from './Drill'
+import { Quiz } from './Quiz'
 
-const rootEl = document.getElementById('drill-interaction-mode-root')
+const rootEl = document.getElementById('placement-quiz-wielding-ai-root')
 
 if (rootEl) {
   createRoot(rootEl).render(
     <StrictMode>
-      <Drill />
+      <Quiz />
     </StrictMode>,
   )
 }

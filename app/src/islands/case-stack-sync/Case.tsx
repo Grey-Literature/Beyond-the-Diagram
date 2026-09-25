@@ -156,7 +156,7 @@ export function Case() {
             <strong>clean interface counters on a stack with a sync problem look identical to clean
             interface counters on a healthy stack.</strong> A correct answer that cannot distinguish
             between your hypotheses has not helped you. That is{' '}
-            <a href="/ai-fluency/lab-discernment.html">product versus process discernment</a> coming
+            <a href="/wielding-ai/lab-checking-the-work.html">checking the answer versus checking the path</a> coming
             apart: right information, wrong position in the half-split. Second, this is a variant of{' '}
             <a href="/concepts/diagnostic-methodology.html">&ldquo;what changed&rdquo;</a> worth
             naming on its own &mdash; not a failure with no proximate change, but a change that

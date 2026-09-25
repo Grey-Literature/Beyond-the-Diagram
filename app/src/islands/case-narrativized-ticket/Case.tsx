@@ -147,9 +147,9 @@ export function Case() {
             mechanism, not deceit, which is exactly why it is so easy to wave through. The output
             sounded more thorough than the work that was done, and noticing that specific gap is
             the single most useful{' '}
-            <a href="/ai-fluency/lab-discernment.html">discernment</a> reflex there is. Nobody made
+            <a href="/wielding-ai/lab-checking-the-work.html">checking</a> reflex there is. Nobody made
             you post it. &ldquo;The AI wrote it&rdquo; is not available as a defense &mdash; see{' '}
-            <a href="/ai-fluency/lab-diligence-agentic-boundary.html">Diligence</a>.
+            <a href="/wielding-ai/lab-owning-the-result.html">owning the result</a>.
           </p>
           <button type="button" onClick={reset}>
             Try again

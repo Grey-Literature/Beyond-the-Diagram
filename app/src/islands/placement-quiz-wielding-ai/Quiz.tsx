@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { getPlacement, setPlacement, type Tier } from '../../lib/progress'
 import styles from './Quiz.css?raw'
 
-// Per-module placement — this instance is for "AI Fluency".
-const MODULE_ID = 'ai-fluency'
+// Per-module placement — this instance is for "Wielding AI".
+const MODULE_ID = 'wielding-ai'
 
 interface Option {
   id: string
@@ -38,6 +38,18 @@ const QUESTIONS: Question[] = [
       {
         id: 'b',
         label: 'Treat it as one hypothesis and find the cheapest way to disprove it against the live system first',
+        signal: 'veteran',
+      },
+    ],
+  },
+  {
+    id: 'long-thread',
+    symptom: 'An hour into a troubleshooting thread, the assistant suggests the exact check you ruled out in your first message.',
+    options: [
+      { id: 'a', label: 'Remind it that you already ruled that out, and carry on in the same thread', signal: 'less-seasoned' },
+      {
+        id: 'b',
+        label: 'Ask it for a summary of what has been established, check that summary yourself, and carry it into a fresh session',
         signal: 'veteran',
       },
     ],
@@ -85,13 +97,13 @@ export function Quiz() {
       <div className="quiz">
         <style>{styles}</style>
         <p className="quiz-result">
-          Recommended tier for <strong>AI Fluency</strong>:{' '}
+          Recommended tier for <strong>Wielding AI</strong>:{' '}
           <span data-tier={result}>{result === 'veteran' ? 'Veteran' : 'Less-seasoned'}</span>
         </p>
         <p className="quiz-explain">
           {result === 'veteran'
-            ? 'You reached for context and verification more than once — Veteran tier starts you at the harder half: baseline articulation, spotting an unpaired question mid-interview, and disproving a plausible answer cheaply.'
-            : 'You reached for the direct ask first — Less-seasoned tier starts with the pull-prompt itself, building the habit of demanding a check with every question before worrying about baselines or near-misses.'}
+            ? 'You reached for context and verification more than once — Veteran tier starts you at the harder half: baseline articulation, spotting an unpaired question mid-interview, disproving a plausible answer cheaply, and finding where each part of your own assistant runs out.'
+            : 'You reached for the direct ask first — Less-seasoned tier starts with knowing the instrument and the pull-prompt itself, building the habit of demanding a check with every question before worrying about baselines or near-misses.'}
         </p>
         <button type="button" onClick={retake}>
           Retake
