@@ -1,0 +1,116 @@
+/* Reading pages in the trail theme (Labs first). Loaded after trail.css, which holds the tokens,
+   header, footer and blazes. Page bodies keep their original markup: h2 sections, lists, pre,
+   .callout, .table-overflow and .next-links. */
+
+/* ---------- Where you are ---------- */
+.reading-head { padding: 34px 0 40px; border-bottom: 2px solid var(--ink); }
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 26px; padding: 0; list-style: none; font: italic 500 18px/1.3 var(--serif); color: var(--ink-soft); }
+.crumbs li + li::before { content: "/"; margin-right: 10px; font-style: normal; color: var(--rule); }
+.crumbs a { color: var(--ink-soft) !important; }
+.crumbs a:hover { color: var(--ink) !important; }
+.reading-kind { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font: 800 17px/1.2 var(--display); }
+.reading-kind .blaze { width: 14px; height: 14px; }
+.reading-head h1 { max-width: 22em; margin: 0; font: 800 clamp(34px, 4.4vw, 58px)/1.08 var(--display); letter-spacing: -.01em; }
+
+/* The method as a staircase, with this page's step marked. */
+.you-are-here { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 28px; margin-top: 30px; }
+.here-steps { display: flex; align-items: flex-end; gap: 3px; margin: 0; padding: 0; list-style: none; }
+.here-steps li { display: grid; place-items: center; width: 40px; height: calc(18px + var(--h) * 9px); padding-bottom: 2px; align-content: end; font: 800 12px/1 var(--display); color: var(--ink); border-bottom: 4px solid var(--wall); border-radius: 2px 2px 0 0; background: var(--t1); }
+.here-steps li[data-level="0"] { background: var(--t0); border-color: var(--board-edge); }
+.here-steps li[data-level="2"] { background: var(--t2); }
+.here-steps li[data-level="3"] { background: var(--t3); }
+.here-steps li[data-level="4"] { background: var(--t4); }
+.here-steps li[data-level="5"] { background: var(--t5); }
+.here-steps li[aria-current] { background: var(--trail); border-color: var(--wall-foot); color: #fff; }
+.here-note { max-width: 32em; margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
+.here-note strong { color: var(--ink); font-weight: 700; }
+
+/* ---------- Layout ---------- */
+.reading-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 72px; padding: 46px 0 80px; align-items: start; }
+.reading-rail { position: sticky; top: 24px; }
+.rail-title { margin: 0 0 14px; font: 800 16px/1.2 var(--display); }
+.waypoints { display: grid; gap: 4px; margin: 0 0 26px; padding: 0; list-style: none; }
+.waypoints a { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 6px 0; font-size: 16px; line-height: 1.35; text-decoration: none; color: var(--ink-soft) !important; }
+.waypoints a:hover { color: var(--ink) !important; }
+.waypoints .wp { display: grid; place-items: center; width: 22px; height: 22px; margin-top: 1px; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper); font: 800 11px/1 var(--display); color: var(--ink); }
+.rail-back { display: block; padding-top: 16px; border-top: 1px solid var(--rule); font: 600 15px/1.3 var(--display); }
+.rail-toc { display: none; }
+
+/* ---------- Prose ---------- */
+.reading-body { max-width: 42em; min-width: 0; }
+.reading-body > p:first-child { font-size: 21px; line-height: 1.55; }
+.reading-body p, .reading-body li { line-height: 1.65; }
+.reading-body p { margin: 0 0 20px; }
+.reading-body h2 { margin: 54px 0 16px; font: 800 27px/1.2 var(--display); letter-spacing: -.005em; scroll-margin-top: 24px; }
+.reading-body h3 { margin: 32px 0 10px; font: 800 20px/1.25 var(--display); }
+.reading-body ul, .reading-body ol { margin: 0 0 24px; padding-left: 24px; }
+.reading-body li { margin-bottom: 10px; }
+.reading-body li::marker { color: var(--wall); }
+.reading-body strong { font-weight: 700; }
+.reading-body a { color: var(--ink); text-decoration-color: var(--trail); text-decoration-thickness: 2px; }
+.reading-body a:hover { color: var(--trail); }
+
+.trail-page code, .trail-page pre { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+.reading-body code { font-size: .8em; padding: .12em .38em; background: var(--paper-deep); border-radius: 3px; overflow-wrap: anywhere; }
+.reading-body pre { margin: 24px 0 28px; padding: 18px 22px; overflow-x: auto; background: var(--paper-deep); border-left: 4px solid var(--wall); border-radius: 0 3px 3px 0; font-size: 14.5px; line-height: 1.7; tab-size: 2; }
+.reading-body pre code { padding: 0; background: none; font-size: inherit; overflow-wrap: normal; }
+
+/* A ranger's field note: the aside that saves you later. */
+.reading-body .callout { margin: 28px 0; padding: 18px 22px 18px 20px; background: var(--paper-deep); border-left: 4px solid var(--ink); font-size: 17px; line-height: 1.6; }
+.reading-body .callout p:last-child { margin-bottom: 0; }
+
+.reading-body .table-overflow { margin: 24px 0 28px; overflow-x: auto; }
+.reading-body table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.45; }
+.reading-body th, .reading-body td { padding: 10px 12px; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.reading-body th { font: 800 14.5px/1.3 var(--display); background: var(--paper-deep); }
+
+/* "What this sets up": directional trail signs pointing onward. */
+.reading-body .next-links { display: grid; gap: 14px; margin: 22px 0 0; }
+.reading-body .next-links a {
+  display: grid; grid-template-columns: 16px 1fr; gap: 12px; align-items: center;
+  padding: 14px 46px 14px 18px; background: var(--sign); color: var(--sign-ink) !important; text-decoration: none;
+  font-size: 17px; line-height: 1.4;
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 50%, calc(100% - 26px) 100%, 0 100%);
+}
+.reading-body .next-links a:hover { background: #6c4930; }
+.reading-body .next-links a:focus-visible { outline-offset: 2px; }
+.reading-body .next-links .blaze { width: 12px; height: 12px; box-shadow: 0 0 0 1.5px var(--sign-ink); }
+.reading-body .next-links .sign-kind { display: block; font: 800 15px/1.2 var(--display); }
+
+/* ---------- Case and Drill pages ---------- */
+/* A Case walks the whole profile, so the route runs across every tread instead of one step. */
+.here-steps.here-loop li { box-shadow: inset 0 3px 0 var(--trail); }
+.here-steps.here-loop li[data-level="0"] { box-shadow: inset 0 3px 0 var(--trail), inset 0 -2px 0 var(--trail); }
+
+.rail-heading { margin: 0 0 10px; font: 800 22px/1.2 var(--display); }
+.rail-copy { margin: 0 0 22px; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
+
+/* The islands read --island-* tokens and fall back to their original dark look anywhere else. */
+.trail-exercise {
+  --island-font: var(--serif);
+  --island-text: var(--ink);
+  --island-dim: var(--ink-soft);
+  --island-panel: var(--paper-deep);
+  --island-code-bg: color-mix(in srgb, var(--ink) 9%, transparent);
+  --island-border: color-mix(in srgb, var(--ink) 32%, transparent);
+  --island-hover: var(--trail);
+  --island-evidence: var(--wall);
+  --island-evidence-wash: color-mix(in srgb, var(--wall) 11%, transparent);
+  --island-good: var(--blaze-lab);
+  --island-bad: var(--trail);
+  --island-link: var(--trail);
+}
+.trail-exercise .exercise-stage { max-width: 40em; }
+/* Verbatim evidence stays in a fixed-width face; the islands don't set a font on these. */
+.trail-exercise :is(.case, .drill) :is(code, .drill-string) { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .86em; }
+.trail-exercise .reading-body .callout { font-size: 17px; }
+
+@media (max-width: 900px) {
+  .reading-grid { grid-template-columns: 1fr; gap: 20px; padding-top: 24px; }
+  .reading-rail { position: static; }
+  .rail-desktop { display: none; }
+  .rail-toc { display: block; border-block: 1px solid var(--rule); }
+  .rail-toc summary { padding: 12px 0; cursor: pointer; font: 800 16px/1.2 var(--display); }
+  .rail-toc .waypoints { margin-bottom: 12px; }
+  .rail-back { border-top: 0; padding-top: 12px; }
+}

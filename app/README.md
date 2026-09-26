@@ -32,6 +32,17 @@ rationale.
    `<script>` tag, never a matching `<link rel="stylesheet">` to remember
    and keep in sync. Still: never write element-level selectors (`body`,
    `button`, ...) in that CSS — it mounts into someone else's page.
+
+   **Colours and the base font come from the host page.** The domain Case and
+   Drill islands read `--island-*` custom properties (`--island-font`,
+   `--island-text`, `--island-dim`, `--island-panel`, `--island-code-bg`,
+   `--island-border`, `--island-hover`, `--island-evidence`,
+   `--island-evidence-wash`, `--island-good`, `--island-bad`,
+   `--island-link`), each with the original dark value as its fallback. A
+   page that sets nothing (the dev sandbox, the Wielding AI pages) gets the
+   old look. The trail-theme pages set them in `assets/trail-reading.css`
+   under `.trail-exercise`. Write any new island's colours the same way:
+   `color: var(--island-text, #e6e9ef)`, never a bare hex.
 3. Register the entry in `vite.config.ts`'s `islands` object.
 4. Add a mount div + `<script type="module">` tag to `index.html` so you can
    preview it locally with `npm run dev`. That file is a dev-only sandbox —

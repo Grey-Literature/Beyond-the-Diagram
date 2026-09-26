@@ -4,90 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab: Authentication vs. Authorization — Beyond the Diagram</title>
-    <link rel="stylesheet" href="../assets/site.css">
-    <style>
-  body { padding: 2rem 1.25rem 4rem; }
-  main { max-width: 38rem; margin: 0 auto; }
-  h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
-  h2 { font-size: 1.05rem; color: var(--accent); margin: 2rem 0 0.75rem; }
-  p, li { line-height: 1.65; }
-  code { background: var(--panel); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
-  .callout {
-    border-left: 3px solid var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    padding: 0.75rem 1rem;
-    margin: 1.25rem 0;
-    font-size: 0.92rem;
-  }
-  .next-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
-  .next-links a {
-    padding: 0.7rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 0.375rem;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .next-links a:hover { border-color: var(--accent); }
-</style>
-    <meta name="color-scheme" content="dark">
-    <link rel="stylesheet" href="../assets/editorial.css">
+    <meta name="color-scheme" content="light dark">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=National+Park:wght@400;600;800&display=swap">
+    <link rel="stylesheet" href="../assets/trail.css">
+    <link rel="stylesheet" href="../assets/trail-reading.css">
   </head>
-  <body class="editorial reader-page tone-copper">
+  <body class="trail-page trail-reading">
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <a class="wordmark" href="../index.html">
-        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
+    <header class="trail-header">
+      <a class="trail-wordmark" href="../index.html">
+        <svg class="blaze-mark" viewBox="0 0 14 22" aria-hidden="true" focusable="false"><rect x="1" y="1" width="12" height="8"/><rect x="1" y="13" width="12" height="8"/></svg>
+        Beyond the Diagram</a>
       <nav aria-label="Site navigation">
-        <a href="../index.html#modules">Modules</a>
-        <a href="../concepts/index.html">Concepts</a>
-        <a href="../wielding-ai/index.html">Wielding AI <span aria-hidden="true">↗</span>
-        </a>
+        <a href="../index.html#trailheads">Trailheads</a>
+        <a href="../concepts/index.html">Trail guide</a>
+        <a href="../wielding-ai/index.html">The instrument</a>
       </nav>
     </header>
+
     <main id="main">
-      <header class="lesson-header">
-        <a class="back-link" href="index.html">← Authentication vs. Authorization</a>
-        <div class="eyebrow">Identity & access <span aria-hidden="true">/</span> Lab</div>
-        <h1>Lab: authentication, authorization, and the third category nobody names</h1>
+      <header class="reading-head">
+        <ol class="crumbs" aria-label="Where this is">
+          <li><a href="../index.html#trailheads">Identity range</a></li>
+          <li><a href="index.html">Authentication vs. Authorization trailhead</a></li>
+        </ol>
+        <p class="reading-kind"><i class="blaze blaze-lab" aria-hidden="true"></i>Lab</p>
+        <h1>Authentication, authorization, and the third category nobody names</h1>
+        <div class="you-are-here">
+          <ol class="here-steps" aria-label="Steps of the method">
+            <li data-level="1" style="--h: 1">1</li>
+            <li data-level="2" style="--h: 2" aria-current="step">2</li>
+            <li data-level="3" style="--h: 3">3</li>
+            <li data-level="4" style="--h: 4">4</li>
+            <li data-level="5" style="--h: 5">5</li>
+            <li data-level="0" style="--h: 0">H</li>
+          </ol>
+          <p class="here-note"><strong>You’re at 2, Research.</strong> A Lab is the mechanism you learn before the symptom arrives, so it means something when it does.</p>
+        </div>
       </header>
-      <div class="reading-layout">
+
+      <div class="reading-grid">
         <aside class="reading-rail">
-          <span class="eyebrow">On this page</span>
-          <div class="desktop-toc">
-            <nav aria-label="On this page">
-              <a href="#windows-has-a-third-category-account-state">
-                <span>01</span>Windows has a third category: account state</a>
-              <a href="#radius-the-client-learns-nothing">
-                <span>02</span>RADIUS: the client learns nothing</a>
-              <a href="#http-s-numbers-actively-mislead-you">
-                <span>03</span>HTTP&#x27;s numbers actively mislead you</a>
-              <a href="#file-shares-stack-two-authorization-layers">
-                <span>04</span>File shares stack two authorization layers</a>
-              <a href="#the-real-bottleneck-teaching-a-tech-to-read">
-                <span>05</span>The real bottleneck: teaching a tech to read</a>
-              <a href="#what-this-sets-up">
-                <span>06</span>What this sets up</a>
-            </nav>
+          <div class="rail-desktop">
+            <h2 class="rail-title">Waypoints</h2>
+            <ol class="waypoints">
+              <li><a href="#windows-has-a-third-category-account-state"><span class="wp">1</span>Windows has a third category: account state</a></li>
+              <li><a href="#radius-the-client-learns-nothing"><span class="wp">2</span>RADIUS: the client learns nothing</a></li>
+              <li><a href="#http-s-numbers-actively-mislead-you"><span class="wp">3</span>HTTP&#x27;s numbers actively mislead you</a></li>
+              <li><a href="#file-shares-stack-two-authorization-layers"><span class="wp">4</span>File shares stack two authorization layers</a></li>
+              <li><a href="#the-real-bottleneck-teaching-a-tech-to-read"><span class="wp">5</span>The real bottleneck: teaching a tech to read</a></li>
+              <li><a href="#what-this-sets-up"><span class="wp">6</span>What this sets up</a></li>
+            </ol>
           </div>
-          <details class="mobile-toc">
-            <summary>In this lesson <span aria-hidden="true">+</span>
-            </summary>
-            <nav aria-label="Lesson sections">
-              <a href="#windows-has-a-third-category-account-state">
-                <span>01</span>Windows has a third category: account state</a>
-              <a href="#radius-the-client-learns-nothing">
-                <span>02</span>RADIUS: the client learns nothing</a>
-              <a href="#http-s-numbers-actively-mislead-you">
-                <span>03</span>HTTP&#x27;s numbers actively mislead you</a>
-              <a href="#file-shares-stack-two-authorization-layers">
-                <span>04</span>File shares stack two authorization layers</a>
-              <a href="#the-real-bottleneck-teaching-a-tech-to-read">
-                <span>05</span>The real bottleneck: teaching a tech to read</a>
-              <a href="#what-this-sets-up">
-                <span>06</span>What this sets up</a>
-            </nav>
+          <details class="rail-toc">
+            <summary>Waypoints in this Lab</summary>
+            <ol class="waypoints">
+              <li><a href="#windows-has-a-third-category-account-state"><span class="wp">1</span>Windows has a third category: account state</a></li>
+              <li><a href="#radius-the-client-learns-nothing"><span class="wp">2</span>RADIUS: the client learns nothing</a></li>
+              <li><a href="#http-s-numbers-actively-mislead-you"><span class="wp">3</span>HTTP&#x27;s numbers actively mislead you</a></li>
+              <li><a href="#file-shares-stack-two-authorization-layers"><span class="wp">4</span>File shares stack two authorization layers</a></li>
+              <li><a href="#the-real-bottleneck-teaching-a-tech-to-read"><span class="wp">5</span>The real bottleneck: teaching a tech to read</a></li>
+              <li><a href="#what-this-sets-up"><span class="wp">6</span>What this sets up</a></li>
+            </ol>
           </details>
-          <a class="rail-back" href="index.html">All Authentication vs. Authorization activities ↗</a>
+          <a class="rail-back" href="index.html">Back to the Authentication vs. Authorization trailhead</a>
         </aside>
         <article class="reading-body">
           <p>
@@ -138,17 +120,19 @@
           </p>
           <h2 id="what-this-sets-up">What this sets up</h2>
           <div class="next-links">
-            <a href="../authn-authz/case-radius-reason-code.html">Case: a VPN login denied, RADIUS says only "Access-Reject"</a>
-            <a href="../authn-authz/drill-http-401-403.html">Drill: classify what HTTP 401 actually means (built in Phase 1, reused here)</a>
+            <a href="../authn-authz/case-radius-reason-code.html"><i class="blaze blaze-case" aria-hidden="true"></i><span><span class="sign-kind">Case</span>A VPN login denied, RADIUS says only "Access-Reject"</span></a>
+            <a href="../authn-authz/drill-http-401-403.html"><i class="blaze blaze-drill" aria-hidden="true"></i><span><span class="sign-kind">Drill</span>Classify what HTTP 401 actually means (built in Phase 1, reused here)</span></a>
           </div>
         </article>
       </div>
     </main>
-    <footer class="site-footer">
-      <a class="wordmark" href="../index.html">
-        <span class="brand-mark" aria-hidden="true">[↗]</span> Beyond the Diagram</a>
-      <span>Learn the mechanism. Practice the methodology.</span>
-      <a href="#main">Back to top ↑</a>
+
+    <footer class="trail-footer">
+      <a class="trail-wordmark" href="../index.html">
+        <svg class="blaze-mark" viewBox="0 0 14 22" aria-hidden="true" focusable="false"><rect x="1" y="1" width="12" height="8"/><rect x="1" y="13" width="12" height="8"/></svg>
+        Beyond the Diagram</a>
+      <p>Learn the mechanism. Practice the method. Bring the cause home.</p>
+      <a href="#main">Back to the top of the trail</a>
     </footer>
   </body>
 </html>
